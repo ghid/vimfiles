@@ -1,0 +1,6 @@
+snippet modify "Modify LDAP entries" b
+dn: CN=${1},OU=Mitarbeiter,DC=Viessmann,DC=Net
+changetype: modify
+replace: ${2:userpassword}
+$2: ${3}
+endsnippet

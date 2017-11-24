@@ -1,0 +1,5 @@
+dn: CN=@userid@,OU=Mitarbeiter,DC=Viessmann,DC=Net
+changetype: modify
+replace: userPassword
+userPassword: @userpassword@
+

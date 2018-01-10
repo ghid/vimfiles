@@ -9,7 +9,10 @@ call minpac#init()
 
 " Add plugins
 call minpac#add("dracula/vim")
+call minpac#add("notpratheek/vim-luna")
 call minpac#add("vim-airline/vim-airline")
+call minpac#add("sickill/vim-monokai")
+call minpac#add("kudabux/vim-srcery-drk")
 " call minpac#add("vim-airline/vim-airline-themes")
 call minpac#add("SirVer/ultisnips")
 call minpac#add("majutsushi/tagbar")
@@ -34,7 +37,10 @@ set path+=**
 set visualbell
 " source $VIMRUNTIME/delmenu.vim
 " source $VIMRUNTIME/menu.vim
-colorscheme dracula
+" colorscheme dracula
+" colorscheme luna
+" colorscheme monokai
+colorscheme srcery-drk
 
 set listchars=tab:↦\ ,eol:↲
 set showbreak=…

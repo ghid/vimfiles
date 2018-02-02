@@ -2,22 +2,23 @@ source $VIMRUNTIME/vimrc_example.vim
 " source $VIMRUNTIME/mswin.vim
 " behave mswin
 
+source $VIM/vimfiles/packages.vim
 " Setup minpac
-set packpath^=$VIM\vimfiles
-packadd minpac
-call minpac#init()
-
-" Add plugins
-call minpac#add("dracula/vim")
-call minpac#add("notpratheek/vim-luna")
-call minpac#add("vim-airline/vim-airline")
-call minpac#add("sickill/vim-monokai")
-call minpac#add("kudabux/vim-srcery-drk")
-" call minpac#add("vim-airline/vim-airline-themes")
-call minpac#add("SirVer/ultisnips")
-call minpac#add("majutsushi/tagbar")
-call minpac#add("tpope/vim-fugitive", {"type": "opt"})
-call minpac#add("k-takata/minpac", {"type": "opt"})
+" " set packpath^=$VIM\vimfiles
+" packadd minpac
+" call minpac#init()
+" 
+" " Add plugins
+" " call minpac#add("dracula/vim")
+" " call minpac#add("notpratheek/vim-luna")
+" call minpac#add("vim-airline/vim-airline")
+" " call minpac#add("sickill/vim-monokai")
+" call minpac#add("kudabux/vim-srcery-drk", {"verbose": "3"})
+" " " call minpac#add("vim-airline/vim-airline-themes")
+" call minpac#add("SirVer/ultisnips")
+" call minpac#add("majutsushi/tagbar")
+" call minpac#add("tpope/vim-fugitive", {"type": "opt"})
+" call minpac#add("k-takata/minpac", {"type": "opt"})
 
 " Customize VIM
 language messages en
@@ -54,41 +55,44 @@ let g:netrw_scp_cmd='C:\"Program Files (x86)"\PuTTY\pscp.exe -q'
 let g:netrw_silent=1
 
 " Mappings
+let mapleader=","
 nmap <leader>l :set list!<CR>
 nmap <leader>h :set hlsearch!<CR>
 nmap <leader>r :set relativenumber<CR>
 nmap <F8> :TagbarToggle<CR>
 map  <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      if empty(&shellxquote)
-        let l:shxq_sav = ''
-        set shellxquote&
+if !exists("*MyDiff")
+  set diffexpr=MyDiff()
+  function MyDiff()
+    let opt = '-a --binary '
+    if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+    if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+    let arg1 = v:fname_in
+    if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+    let arg2 = v:fname_new
+    if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+    let arg3 = v:fname_out
+    if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+    if $VIMRUNTIME =~ ' '
+      if &sh =~ '\<cmd'
+        if empty(&shellxquote)
+          let l:shxq_sav = ''
+          set shellxquote&
+        endif
+        let cmd = '"' . $VIMRUNTIME . '\diff"'
+      else
+        let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
       endif
-      let cmd = '"' . $VIMRUNTIME . '\diff"'
     else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+      let cmd = $VIMRUNTIME . '\diff'
     endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-  if exists('l:shxq_sav')
-    let &shellxquote=l:shxq_sav
-  endif
-endfunction
+    silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+    if exists('l:shxq_sav')
+      let &shellxquote=l:shxq_sav
+    endif
+  endfunction
+endif
 
 " Customize airline plugin
 if !exists('g:airline_symbols')

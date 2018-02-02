@@ -1,7 +1,0 @@
-_log := new Logger("@logger@" A_ThisFunc)
-
-if (_log.Logs(Logger.INPUT)) {
-	_log.Input("@var@", @var@)
-}
-
-return _log.Exit(@value@)

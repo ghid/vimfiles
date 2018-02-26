@@ -12,8 +12,9 @@ call minpac#add("k-takata/minpac", {"type": "opt"})
 
 " Add plugins
 call minpac#add("vim-airline/vim-airline")
-call minpac#add("kudabux/vim-srcery-drk")
+call minpac#add("roosta/vim-srcery")
 call minpac#add("SirVer/ultisnips")
 call minpac#add("majutsushi/tagbar")
 call minpac#add("tpope/vim-fugitive", {"type": "opt"})
+call minpac#add("vim-scripts/Align", {"type": "opt"})
 call minpac#add("davidoc/taskpaper.vim")

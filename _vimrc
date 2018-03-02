@@ -49,7 +49,7 @@ vnoremap <leader>c "+y
 vnoremap <leader>x "+x
 noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
-noremap <leader>es :source $MYVIMRC<CR>
+noremap <leader>sv :source $MYVIMRC<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap  <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 

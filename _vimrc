@@ -87,6 +87,17 @@ if !exists("*MyDiff")
   endfunction
 endif
 
+" Customize Lightline
+let g:lightline = {
+	\ 'active': {
+	\	'left': [['mode', 'paste'],
+	\		 ['gitbranch', 'readonly', 'filename', 'modified']]
+	\ },
+	\ 'component_function': {
+	\	'gitbranch': 'gitbranch#name'
+	\ },
+	\ }
+
 " Customize Tagbar
 let g:tagbar_iconchars = ['▸', '▾']
 let g:tagbar_autofocus = 1

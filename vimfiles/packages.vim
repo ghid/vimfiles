@@ -16,6 +16,7 @@ call minpac#add("fenetikm/falcon")
 " Add plugins
 " call minpac#add("vim-airline/vim-airline")
 call minpac#add("itchyny/lightline.vim")
+call minpac#add("itchyny/vim-gitbranch")
 call minpac#add("SirVer/ultisnips")
 call minpac#add("majutsushi/tagbar")
 call minpac#add("tpope/vim-fugitive", {"type": "opt"})

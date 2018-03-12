@@ -6,4 +6,4 @@
 .*.swn
 **/tags
 /vimfiles/pack/**
-!/vimfiles/pack/minpac/opt/minpac/**
+!/vimfiles/pack/minpac/opt/minpac

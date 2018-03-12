@@ -10,9 +10,12 @@ endif
 call minpac#init()
 call minpac#add("k-takata/minpac", {"type": "opt"})
 
-" Add plugins
-call minpac#add("vim-airline/vim-airline")
+" Add colorschemes
 call minpac#add("roosta/vim-srcery")
+call minpac#add("fenetikm/falcon")
+" Add plugins
+" call minpac#add("vim-airline/vim-airline")
+call minpac#add("itchyny/lightline.vim")
 call minpac#add("SirVer/ultisnips")
 call minpac#add("majutsushi/tagbar")
 call minpac#add("tpope/vim-fugitive", {"type": "opt"})

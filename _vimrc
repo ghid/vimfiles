@@ -10,7 +10,8 @@ language messages en
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-set guifont=DejaVu_Sans_Mono_for_Powerline:h11.5
+" set guifont=DejaVu_Sans_Mono_for_Powerline:h11.5
+set guifont=Hack:h10.5
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M

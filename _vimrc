@@ -47,12 +47,13 @@ let mapleader=","
 nnoremap <leader>l :set list!<CR>
 nnoremap <leader>h :set hlsearch!<CR>
 nnoremap <leader>ch :let @/=''<CR>
-nnoremap <leader>r :set relativenumber<CR>
+nnoremap <leader>r :set relativenumber!<CR>
 vnoremap <leader>c "+y
 vnoremap <leader>x "+x
 noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
-noremap <leader>sv :source $MYVIMRC<CR>
+noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
+noremap <leader>ep :tabnew<CR>:edit $VIM/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
@@ -104,6 +105,7 @@ let g:tagbar_iconchars = ['▸', '▾']
 let g:tagbar_autofocus = 1
 
 if has("autocmd")
+	autocmd GUIEnter * simalt ~x
 	filetype on
 	autocmd FileType autohotkey	setlocal ts=4 sts=4 sw=4 noexpandtab autoindent number
 	autocmd FileType autohotkey	let b:comment_leader=";"

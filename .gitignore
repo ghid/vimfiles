@@ -6,4 +6,6 @@
 .*.swn
 **/tags
 /vimfiles/pack/**
+/vimfiles/undodir/**
 !/vimfiles/pack/minpac/opt/minpac
+

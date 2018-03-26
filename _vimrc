@@ -34,6 +34,10 @@ colorscheme falcon
 set listchars=tab:→\ ,eol:↲
 set showbreak=…
 
+" Maintain undo history between sessions
+set undofile
+set undodir=$VIM/vimfiles/undodir
+
 " Setup grep program
 set grepprg=mack\ --nogroup\ --column\ -k\ --nocolor\ $*
 set grepformat=%f:%l:%c:%m

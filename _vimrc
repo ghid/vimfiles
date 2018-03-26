@@ -89,6 +89,8 @@ if !exists("*MyDiff")
   endfunction
 endif
 
+source $VIM\vimfiles\functions.vim
+
 " Customize Lightline
 let g:lightline = {
 	\ 'active': {
@@ -101,7 +103,7 @@ let g:lightline = {
 	\ }
 
 " Customize Tagbar
-let g:tagbar_iconchars = ['▸', '▾']
+let g:tagbar_iconchars = ['▶', '▼']
 let g:tagbar_autofocus = 1
 
 if has("autocmd")

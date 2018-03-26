@@ -1,6 +1,6 @@
 set packpath=$VIM\vimfiles,$VIMRUNTIME,$VIM\vimfiles\after
 
-command! PackUpdate packadd minpac | source $MYVIMRC | simalt ~x | redraw | call minpac#update()
+command! PackUpdate packadd minpac | source $MYVIMRC | redraw | call minpac#update()
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 
 if !exists("*minpac#init")

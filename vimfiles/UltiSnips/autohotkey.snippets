@@ -1,0 +1,25 @@
+snippet _log "Add logging block for function/method" b
+${1:_log} := new Logger("${2:class.}" A_ThisFunc)
+if ($1.Logs(Logger.INPUT)) {
+	$1.INPUT("${3}", $3}
+}
+
+return $1.Exit(${4})
+endsnippet
+
+snippet dump "Log content of a variable" b
+${1:_log}.${2:FINEST}("$3", $3)
+endsnippet
+
+snippet logif "Conditional log block" b
+if (${1:_log}.Logs(Logger.${2:FINEST})) {
+	$1.$2("$3", $3)
+}
+endsnippet
+
+snippet /* "Comment block" b
+/*
+ * ${0}
+ */
+endsnippet
+

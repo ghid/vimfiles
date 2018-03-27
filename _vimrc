@@ -30,6 +30,7 @@ set visualbell
 " colorscheme srcery-drk
 " colorscheme srcery
 colorscheme falcon
+highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 
 set listchars=tab:→\ ,eol:↲
 set showbreak=…

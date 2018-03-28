@@ -61,6 +61,7 @@ noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
 noremap <leader>ep :tabnew<CR>:edit $VIM/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+noremap <leader>; :call ToggleComment()<CR>
 
 if !exists("*MyDiff")
   set diffexpr=MyDiff()

@@ -1,6 +1,4 @@
 source $VIMRUNTIME/vimrc_example.vim
-" source $VIMRUNTIME/mswin.vim
-" behave mswin
 
 " Setup minpac
 source $VIM/vimfiles/packages.vim
@@ -10,7 +8,6 @@ language messages en
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-" set guifont=DejaVu_Sans_Mono_for_Powerline:h11.5
 set guifont=Hack:h10.5
 set guioptions=-TMrL
 set guioptions=c
@@ -22,13 +19,6 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
-" source $VIMRUNTIME/delmenu.vim
-" source $VIMRUNTIME/menu.vim
-" colorscheme dracula
-" colorscheme luna
-" colorscheme monokai
-" colorscheme srcery-drk
-" colorscheme srcery
 colorscheme falcon
 highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 
@@ -62,6 +52,7 @@ noremap <leader>ep :tabnew<CR>:edit $VIM/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 noremap <leader>; :call ToggleComment()<CR>
+nnoremap <leader>R :!ahk %<CR><CR>
 
 source $VIM\vimfiles\functions.vim
 
@@ -83,8 +74,12 @@ let g:tagbar_autofocus = 1
 if has("autocmd")
 	autocmd GUIEnter * simalt ~x
 	filetype on
-	autocmd FileType autohotkey	setlocal ts=4 sts=4 sw=4 noexpandtab autoindent number
-	autocmd FileType autohotkey	let b:comment_leader=";"
+	augroup AHK
+		autocmd!
+		autocmd FileType autohotkey	setlocal ts=4 sts=4 sw=4 noexpandtab autoindent number
+		autocmd FileType autohotkey	let b:comment_leader=";"
+	augroup END
+
 endif
 
 " Customize UltiSnips

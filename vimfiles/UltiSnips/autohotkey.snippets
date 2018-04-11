@@ -1,7 +1,7 @@
 snippet _log "Add logging block for function/method" b
 ${1:_log} := new Logger("${2:class.}" A_ThisFunc)
 if ($1.Logs(Logger.INPUT)) {
-	$1.INPUT("${3}", $3}
+	$1.INPUT("${3}", $3)
 }
 
 return $1.Exit(${4})
@@ -23,3 +23,40 @@ snippet /* "Comment block" b
  */
 endsnippet
 
+snippet testcase "Testcase template" b
+; ahk: con
+#NoEnv
+SetBatchLines -1
+#Warn All, OutputDebug
+
+#Include <logging>
+#Include <testcase>
+#Include %A_ScriptDir%\..\\${1:filename}.ahk
+
+class ${2:Class}Test extends TestCase {
+	
+	; @BeforeClass_...
+	; @AfterClass_...
+	; @Test_...
+	; @Depend_@Test_...
+
+	@Test_${3:Name}() {
+		this.Assert${4:Equals}(${0})
+	}
+
+}
+	
+exitapp $2Test.RunTests()
+endsnippet
+
+snippet test "@Test template" b
+@Test_${1}() {
+	this.Assert${2:Equals}(${0})
+}
+endsnippet
+
+snippet depend "@Depend template" b
+@Depend_@Test_${1}() {
+	return "@Test_${2}"
+}
+endsnippet

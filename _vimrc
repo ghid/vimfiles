@@ -22,8 +22,8 @@ set visualbell
 colorscheme falcon
 highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 
-set listchars=tab:→\ ,eol:↲
-set showbreak=…
+set listchars=tab:➔\ ,eol:↩
+set showbreak=…\ 
 
 " Maintain undo history between sessions
 set undofile
@@ -51,25 +51,9 @@ noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
 noremap <leader>ep :tabnew<CR>:edit $VIM/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-noremap <leader>; :call ToggleComment()<CR>
+noremap <leader>/ :call ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
-
-source $VIM\vimfiles\functions.vim
-
-" Customize Lightline
-let g:lightline = {
-	\ 'active': {
-	\	'left': [['mode', 'paste'],
-	\		 ['gitbranch', 'readonly', 'filename', 'modified']]
-	\ },
-	\ 'component_function': {
-	\	'gitbranch': 'gitbranch#name'
-	\ },
-	\ }
-
-" Customize Tagbar
-let g:tagbar_iconchars = ['▶', '▼']
-let g:tagbar_autofocus = 1
+nnoremap <leader>Q :qa!<CR>
 
 if has("autocmd")
 	autocmd GUIEnter * simalt ~x
@@ -79,8 +63,40 @@ if has("autocmd")
 		autocmd FileType autohotkey	setlocal ts=4 sts=4 sw=4 noexpandtab autoindent number
 		autocmd FileType autohotkey	let b:comment_leader=";"
 	augroup END
-
+	augroup BAT
+		autocmd!
+		autocmd FileType dosbatch	let b:comment_leader="rem "
+	augroup END
+	augroup VIMFILE
+		autocmd!
+		autocmd FileType vim 		let b:comment_leader="\" "
+	augroup END
+	augroup LUA
+		autocmd!
+		autocmd Filetype lua		let b:comment_leader="-- "
+	augroup END
 endif
+
+source $VIM\vimfiles\functions.vim
+
+" Customize Lightline
+let g:lightline = {
+	\ 'colorscheme': 'falcon',
+	\ 'active': {
+	\	'left': [['mode', 'paste'],
+	\		 ['gitbranch', 'readonly', 'filename', 'modified']]
+	\ },
+	\ 'component_expand': {
+	\	'gitbranch': 'fugitive#head',
+	\ },
+	\ 'component_type': {
+	\	'gitbranch': 'branch',
+	\ }
+	\ }
+
+" Customize Tagbar
+let g:tagbar_iconchars = ['▶', '◢']
+let g:tagbar_autofocus = 1
 
 " Customize UltiSnips
 let g:UltiSnipsSnippetsDir = $VIM . "/vimfiles/UltiSnips"

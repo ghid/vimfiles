@@ -52,7 +52,7 @@ function! ToggleComment()
 	if line[2] == b:comment_leader
 		call setline(line("."), line[1] . line[3])
 	else
-		call setline(line("."), line[1] . "; " . line[3])
+		call setline(line("."), line[1] . b:comment_leader . line[3])
 	endif
 endfunction
 

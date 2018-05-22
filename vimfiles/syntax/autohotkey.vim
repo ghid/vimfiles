@@ -124,7 +124,7 @@ syn keyword autohotkeyFunction
       \ DllCall VarSetCapacity WinActive WinExist IsLabel OnMessage 
       \ Abs Ceil Exp Floor Log Ln Mod Round Sqrt Sin Cos Tan ASin ACos ATan
       \ FileExist GetKeyState NumGet NumPut StrGet StrPut RegisterCallback
-      \ IsFunc Trim LTrim RTrim IsObject Object Array FileOpen
+      \ IsFunc Trim LTrim RTrim RTrim0 IsObject Object Array FileOpen
       \ ComObjActive ComObjArray ComObjConnect ComObjCreate ComObjGet
       \ ComObjError ComObjFlags ComObjQuery ComObjType ComObjValue ComObject
       \ Format Exception

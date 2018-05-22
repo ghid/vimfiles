@@ -19,8 +19,14 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
+" colorscheme srcery
 colorscheme falcon
-highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+" Put in a background colour for gui with use of falcon theme
+if has("gui_running") && colors_name == "falcon"
+  highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
+  highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
+  highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+endif
 
 set listchars=tab:➔\ ,eol:↩
 set showbreak=…\ 
@@ -53,7 +59,8 @@ noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 noremap <leader>/ :call ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
-nnoremap <leader>Q :qa!<CR>
+nnoremap <leader>D :!ahkd c v %<CR><CR>
+nnoremap <leader>QQ :qa!<CR>
 
 if has("autocmd")
 	autocmd GUIEnter * simalt ~x
@@ -61,7 +68,7 @@ if has("autocmd")
 	augroup AHK
 		autocmd!
 		autocmd FileType autohotkey	setlocal ts=4 sts=4 sw=4 noexpandtab autoindent number
-		autocmd FileType autohotkey	let b:comment_leader=";"
+		autocmd FileType autohotkey	let b:comment_leader="; "
 	augroup END
 	augroup BAT
 		autocmd!

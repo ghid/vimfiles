@@ -56,3 +56,13 @@ function! ToggleComment()
 	endif
 endfunction
 
+" Edit snippts description for current filetype
+function! EditSimpleSnippetsDescription()
+	let ft = getbufvar(bufname("%"), "&filetype")
+	if exists("g:SimpleSnippets_search_path")
+		let path = g:SimpleSnippets_search_path
+	else
+		let path = $HOME."/.vim/snippets/"
+	endif
+	:exec ":split ".path.ft."/".ft.".snippets.descriptions.txt"
+endfunction

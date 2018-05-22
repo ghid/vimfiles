@@ -109,3 +109,6 @@ let g:tagbar_autofocus = 1
 let g:UltiSnipsSnippetsDir = $VIM . "/vimfiles/UltiSnips"
 let g:UltiSnipsEditSplit = "vertical"
 
+" Customize SimpleSnippets
+let g:SimpleSnippets_search_path = $VIM."/vimfiles/snippets/"
+

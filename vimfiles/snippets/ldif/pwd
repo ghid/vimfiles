@@ -1,0 +1,4 @@
+dn: CN=${1:Kurzzeichen},OU=Mitarbeiter,DC=Viessmann,DC=Net
+changetype: modify
+replace: userPassword
+userPassword: ${2!pwgen}

@@ -111,5 +111,5 @@ let g:UltiSnipsEditSplit = "vertical"
 
 " Customize SimpleSnippets
 let g:SimpleSnippets_search_path = $VIM."/vimfiles/snippets/"
-nnoremap <leader>esd :call EditSimpleSnippetsDescription()<CR>
+nnoremap <leader>esd :call SimpleSnippetsEditDescription()<CR>
 

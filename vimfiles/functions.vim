@@ -57,7 +57,7 @@ function! ToggleComment()
 endfunction
 
 " Edit snippts description for current filetype
-function! EditSimpleSnippetsDescription()
+function! SimpleSnippetsEditDescription()
 	let ft = getbufvar(bufname("%"), "&filetype")
 	if exists("g:SimpleSnippets_search_path")
 		let path = g:SimpleSnippets_search_path

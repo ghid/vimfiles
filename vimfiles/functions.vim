@@ -66,3 +66,4 @@ function! SimpleSnippetsEditDescription()
 	endif
 	:exec ":split ".path.ft."/".ft.".snippets.descriptions.txt"
 endfunction
+command! -register SimpleSnippetsEditDescription call SimpleSnippetsEditDescription()

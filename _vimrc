@@ -54,6 +54,7 @@ vnoremap <leader>x "+x
 noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
+noremap <leader>ef :tabnew<CR>:edit $VIM\vimfiles\functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $VIM/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
@@ -67,8 +68,9 @@ if has("autocmd")
 	filetype on
 	augroup AHK
 		autocmd!
-		autocmd FileType autohotkey	setlocal ts=4 sts=4 sw=4 noexpandtab autoindent number
+		autocmd FileType autohotkey	setlocal tabstop=4 shiftwidth=4 expandtab autoindent number
 		autocmd FileType autohotkey	let b:comment_leader="; "
+		autocmd FileType autohotkey	set commentstring=;%s
 	augroup END
 	augroup BAT
 		autocmd!

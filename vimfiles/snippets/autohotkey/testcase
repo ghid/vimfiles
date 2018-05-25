@@ -1,0 +1,12 @@
+; ahk: console
+#include <logging>
+#include <testcase>
+#include %A_ScriptDir%\..\${1:MyFile}.ahk
+
+class ${2:MyClassTest} extends TestCase {
+
+	${0:; TODO: Implement}
+
+}
+
+exitapp $2.RunTests()

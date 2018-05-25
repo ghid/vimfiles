@@ -67,3 +67,14 @@ function! SimpleSnippetsEditDescription()
 	:exec ":split ".path.ft."/".ft.".snippets.descriptions.txt"
 endfunction
 command! -register SimpleSnippetsEditDescription call SimpleSnippetsEditDescription()
+
+" Append modeline after last line in buffer.
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" files.
+function! AppendModeline()
+  let l:modeline = printf(" vim:tw=%d:ts=%d:sw=%d:%set:ft=%s:%sbomb",
+  	\ &textwidth, &tabstop, &shiftwidth, &expandtab ? '' : 'no', &filetype, &bomb ? '' : 'no')
+  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+  call append(line("$"), l:modeline)
+endfunction
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>

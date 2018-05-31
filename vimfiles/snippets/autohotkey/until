@@ -1,0 +1,5 @@
+loop
+{
+	${0:; TODO: Add code}
+}
+until (${1:true})

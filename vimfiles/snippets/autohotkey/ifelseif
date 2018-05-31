@@ -1,0 +1,12 @@
+if (${1:true})
+{
+	${2:; TODO: Add code}
+}
+else if (${3:true})
+{
+	${4:; TODO: Add code}
+}
+else
+{
+	${0:; TODO: Add code}
+}

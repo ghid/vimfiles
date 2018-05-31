@@ -1,0 +1,4 @@
+for ${1:key}, ${2:value} in {3:object}
+{
+	${0:; TODO: Add code}
+}

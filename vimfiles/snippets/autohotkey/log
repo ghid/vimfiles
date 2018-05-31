@@ -1,9 +1,10 @@
 ${1:_log} := new Logger("${2:class.}" A_ThisFunc)
 
-if ($1.Logs(Logger.${3:Input})) {
+if ($1.Logs(Logger.${3:Input}))
+{
     $1.$3("${4:var}", $4)
 }
 
-${0:; TODO: Implment...}
+${0:; TODO: Add code}
 
-return $1.Exit()
+return $1.Exit(${5:result})

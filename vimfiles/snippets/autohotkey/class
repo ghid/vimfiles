@@ -1,0 +1,4 @@
+class ${1:Classname}${2: extends }${3:Parentclass}
+{
+	${0:; TODO: Add code}
+}

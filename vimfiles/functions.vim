@@ -56,25 +56,25 @@ function! ToggleComment()
 	endif
 endfunction
 
-" Edit snippts description for current filetype
-function! SimpleSnippetsEditDescription()
-	let ft = getbufvar(bufname("%"), "&filetype")
-	if exists("g:SimpleSnippets_search_path")
+" Edit snippet descriptions for current filetype
+function! SimpleSnippetsEditDescriptions()
+	let ft = getbufvar(bufname('%'), '&filetype')
+	if exists('g:SimpleSnippets_search_path')
 		let path = g:SimpleSnippets_search_path
 	else
-		let path = $HOME."/.vim/snippets/"
+		let path = $HOME.'/.vim/snippets/'
 	endif
-	:exec ":split ".path.ft."/".ft.".snippets.descriptions.txt"
+	:exec ':split '.path.ft.'/'.ft.'.snippets.descriptions.txt'
 endfunction
-command! -register SimpleSnippetsEditDescription call SimpleSnippetsEditDescription()
+command! -register SimpleSnippetsEditDescriptions call SimpleSnippetsEditDescriptions()
 
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
 function! AppendModeline()
-  let l:modeline = printf(" vim:tw=%d:ts=%d:sw=%d:%set:ft=%s:%sbomb",
-  	\ &textwidth, &tabstop, &shiftwidth, &expandtab ? '' : 'no', &filetype, &bomb ? '' : 'no')
-  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
+	let l:modeline = printf(" vim:tw=%d:ts=%d:sts=%d:sw=%d:%set:ft=%s:%sbomb",
+	\ &textwidth, &tabstop, &softtabstop, &shiftwidth, &expandtab ? '' : 'no', &filetype, &bomb ? '' : 'no')
+	let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+	call append(line("$"), l:modeline)
 endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>

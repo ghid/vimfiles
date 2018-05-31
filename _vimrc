@@ -54,7 +54,7 @@ vnoremap <leader>x "+x
 noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
-noremap <leader>ef :tabnew<CR>:edit $VIM\vimfiles\functions.vim<CR>
+noremap <leader>ef :tabnew<CR>:edit $VIM/vimfiles/functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $VIM/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
@@ -66,12 +66,13 @@ nnoremap <leader>QQ :qa!<CR>
 if has("autocmd")
 	autocmd GUIEnter * simalt ~x
 	filetype on
-	augroup AHK
-		autocmd!
-		autocmd FileType autohotkey	setlocal tabstop=4 shiftwidth=4 expandtab autoindent number
-		autocmd FileType autohotkey	let b:comment_leader="; "
-		autocmd FileType autohotkey	set commentstring=;%s
-	augroup END
+	filetype plugin indent on
+	" augroup AHK
+	" 	autocmd!
+	" 	autocmd FileType autohotkey	setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab number
+	" 	autocmd FileType autohotkey	let b:comment_leader="; "
+	" 	autocmd FileType autohotkey	set commentstring=;%s
+	" augroup END
 	augroup BAT
 		autocmd!
 		autocmd FileType dosbatch	let b:comment_leader="rem "
@@ -108,10 +109,10 @@ let g:tagbar_iconchars = ['▶', '◢']
 let g:tagbar_autofocus = 1
 
 " Customize UltiSnips
-let g:UltiSnipsSnippetsDir = $VIM . "/vimfiles/UltiSnips"
-let g:UltiSnipsEditSplit = "vertical"
+" let g:UltiSnipsSnippetsDir = $VIM . "/vimfiles/UltiSnips"
+" let g:UltiSnipsEditSplit = "vertical"
 
 " Customize SimpleSnippets
 let g:SimpleSnippets_search_path = $VIM."/vimfiles/snippets/"
-nnoremap <leader>esd :call SimpleSnippetsEditDescription()<CR>
+nnoremap <leader>esd :call SimpleSnippetsEditDescriptions()<CR>
 

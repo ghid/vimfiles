@@ -114,5 +114,4 @@ let g:tagbar_autofocus = 1
 
 " Customize SimpleSnippets
 let g:SimpleSnippets_search_path = $VIM."/vimfiles/snippets/"
-nnoremap <leader>esd :call SimpleSnippetsEditDescriptions()<CR>
 

@@ -56,18 +56,6 @@ function! ToggleComment()
 	endif
 endfunction
 
-" Edit snippet descriptions for current filetype
-function! SimpleSnippetsEditDescriptions()
-	let ft = getbufvar(bufname('%'), '&filetype')
-	if exists('g:SimpleSnippets_search_path')
-		let path = g:SimpleSnippets_search_path
-	else
-		let path = $HOME.'/.vim/snippets/'
-	endif
-	:exec ':split '.path.ft.'/'.ft.'.snippets.descriptions.txt'
-endfunction
-command! -register SimpleSnippetsEditDescriptions call SimpleSnippetsEditDescriptions()
-
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.

@@ -54,14 +54,18 @@ vnoremap <leader>x "+x
 noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
-noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/functions.vim<CR>
+noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/autoload/functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-noremap <leader>/ :call ToggleComment()<CR>
+noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
 nnoremap <leader>QQ :qa!<CR>
+nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
+
+" Commands
+command! -register CopyMatches call functions#CopyMatches(<q-reg>)
 
 if has("autocmd")
 	autocmd GUIEnter * simalt ~x
@@ -87,7 +91,7 @@ if has("autocmd")
 	augroup END
 endif
 
-source $HOME\vimfiles\functions.vim
+" source $HOME\vimfiles\functions.vim
 
 " Customize Lightline
 let g:lightline = {

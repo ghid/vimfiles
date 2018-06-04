@@ -1,7 +1,7 @@
 " Out-of-the-box MyDiff function
 if !exists("*MyDiff")
-  set diffexpr=MyDiff()
-  function MyDiff()
+  set diffexpr=functions#MyDiff()
+  function functions#MyDiff()
     let opt = '-a --binary '
     if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
     if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
@@ -34,16 +34,25 @@ endif
 " Copy only the text that matches search hits into a given register.
 " @example: :CopyMatches +	" Copy currently selected text to the +
 " register
-function! CopyMatches(reg)
+function! functions#CopyMatches(reg)
 	let hits = []
 	%s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
 	let reg = empty(a:reg) ? '+' : a:reg
 	execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
-command! -register CopyMatches call CopyMatches(<q-reg>)
+
+" Append modeline after last line in buffer.
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" files.
+function! functions#AppendModeline()
+	let l:modeline = printf(' vim:tw=%d:ts=%d:sts=%d:sw=%d:%set:ft=%s:%sbomb',
+	\ &textwidth, &tabstop, &softtabstop, &shiftwidth, &expandtab ? '' : 'no', &filetype, &bomb ? '' : 'no')
+	let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+	call append(line("$"), l:modeline)
+endfunction
 
 " Toggles a line comment if b:comment_leader is set for the current filetype
-function! ToggleComment()
+function! functions#ToggleComment()
 	if exists("b:comment_leader") == 0
 		return
 	endif
@@ -56,13 +65,3 @@ function! ToggleComment()
 	endif
 endfunction
 
-" Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" files.
-function! AppendModeline()
-	let l:modeline = printf(" vim:tw=%d:ts=%d:sts=%d:sw=%d:%set:ft=%s:%sbomb",
-	\ &textwidth, &tabstop, &softtabstop, &shiftwidth, &expandtab ? '' : 'no', &filetype, &bomb ? '' : 'no')
-	let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-	call append(line("$"), l:modeline)
-endfunction
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>

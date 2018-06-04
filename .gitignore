@@ -5,7 +5,5 @@
 .*.swo
 .*.swn
 **/tags
-/vimfiles/pack/**
-/vimfiles/undodir/**
-!/vimfiles/pack/minpac/opt/minpac
-
+vimfiles/pack/minpac/**
+vimfiles/undodir/**

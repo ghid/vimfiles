@@ -1,4 +1,4 @@
-set packpath=$VIM\vimfiles,$VIMRUNTIME,$VIM\vimfiles\after
+set packpath=$HOME\vimfiles,$VIMRUNTIME,$HOME\vimfiles\after
 
 command! PackUpdate packadd minpac | source $MYVIMRC | redraw | call minpac#update()
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()

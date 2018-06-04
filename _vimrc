@@ -1,7 +1,7 @@
 source $VIMRUNTIME/vimrc_example.vim
 
 " Setup minpac
-source $VIM/vimfiles/packages.vim
+source $HOME/vimfiles/packages.vim
 
 " Customize VIM
 language messages en
@@ -33,7 +33,7 @@ set showbreak=…\
 
 " Maintain undo history between sessions
 set undofile
-set undodir=$VIM/vimfiles/undodir
+set undodir=$HOME/vimfiles/undodir
 
 " Setup grep program
 set grepprg=mack\ --nogroup\ --column\ -k\ --nocolor\ $*
@@ -54,8 +54,8 @@ vnoremap <leader>x "+x
 noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
-noremap <leader>ef :tabnew<CR>:edit $VIM/vimfiles/functions.vim<CR>
-noremap <leader>ep :tabnew<CR>:edit $VIM/vimfiles/packages.vim<CR>
+noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/functions.vim<CR>
+noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/packages.vim<CR>
 noremap <F8> :TagbarToggle<CR>
 noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 noremap <leader>/ :call ToggleComment()<CR>
@@ -87,7 +87,7 @@ if has("autocmd")
 	augroup END
 endif
 
-source $VIM\vimfiles\functions.vim
+source $HOME\vimfiles\functions.vim
 
 " Customize Lightline
 let g:lightline = {
@@ -109,9 +109,9 @@ let g:tagbar_iconchars = ['▶', '◢']
 let g:tagbar_autofocus = 1
 
 " Customize UltiSnips
-" let g:UltiSnipsSnippetsDir = $VIM . "/vimfiles/UltiSnips"
+" let g:UltiSnipsSnippetsDir = $HOME . "/vimfiles/UltiSnips"
 " let g:UltiSnipsEditSplit = "vertical"
 
 " Customize SimpleSnippets
-let g:SimpleSnippets_search_path = $VIM."/vimfiles/snippets/"
+let g:SimpleSnippets_search_path = $HOME."/vimfiles/snippets/"
 

@@ -4,6 +4,7 @@
 .*.swp
 .*.swo
 .*.swn
+.netrwhist
 **/tags
 vimfiles/pack/minpac/**
 vimfiles/undodir/**

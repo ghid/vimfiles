@@ -5,6 +5,7 @@ source $HOME/vimfiles/packages.vim
 
 " Customize VIM
 language messages en
+set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8

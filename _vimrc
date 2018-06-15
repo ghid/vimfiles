@@ -64,6 +64,7 @@ nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
 nnoremap <leader>QQ :qa!<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
+inoremap <C-Space> <C-x><C-o>
 
 " Commands
 command! -register CopyMatches call functions#CopyMatches(<q-reg>)

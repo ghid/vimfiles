@@ -3,7 +3,7 @@
 " Author:	Klaus-Peter Schreiner ( kpschreiner13 AT gmail DOT com )
 
 function! ldifcomplete#CompleteLDIF(findstart, base)
-	let s:words = split("changetype modify modrdn add delete replace newrdn deleteoldrdn version")
+	let s:words = split("add changetype control delete deleteoldrdn dn increment newrdn newsuperior moddn modify modrdn replace version")
 	if a:findstart
 		let line = getline('.')
 		let start = col('.') - 1

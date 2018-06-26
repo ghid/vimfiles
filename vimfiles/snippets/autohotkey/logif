@@ -1,4 +1,3 @@
-if (${1:_log}.Logs(Logger.${2:Finest})
-{
+if (${1:_log}.Logs(Logger.${2:Finest}) {
 	$1.$2("${0:var}", $0)
 }

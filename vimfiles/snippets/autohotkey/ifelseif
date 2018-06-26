@@ -1,12 +1,7 @@
-if (${1:true})
-{
+if (${1:true}) {
 	${2:; TODO: Add code}
-}
-else if (${3:true})
-{
+} else if (${3:true}) {
 	${4:; TODO: Add code}
-}
-else
-{
+} else {
 	${0:; TODO: Add code}
 }

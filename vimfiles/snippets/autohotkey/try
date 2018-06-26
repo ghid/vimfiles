@@ -1,8 +1,5 @@
-try
-{
+try {
 	${0:; TODO Add code}
-}
-catch ${1:e}
-{
+} catch ${1:e} {
 	${2:; TODO: Add code}
 }

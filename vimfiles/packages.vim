@@ -1,6 +1,6 @@
 set packpath=$HOME\vimfiles,$VIMRUNTIME,$HOME\vimfiles\after
 
-command! PackUpdate packadd minpac | source $MYVIMRC | redraw | call minpac#update()
+command! PackUpdate packadd minpac | source $MYVIMRC | redraw | call minpac#update() | simalt ~x
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 
 if !exists("*minpac#init")
@@ -23,7 +23,5 @@ call minpac#add("vim-scripts/Align", {"type": "opt"})
 call minpac#add("davidoc/taskpaper.vim", {"type": "opt"})
 call minpac#add("junegunn/goyo.vim", {"type": "opt"})
 " call minpac#add("vim-vdebug/vdebug")
-" call minpac#add("brookhong/DBGPavim")
-" call minpac#add("taxilian/VimDebugger")
 call minpac#add("andreyorst/SimpleSnippets.vim")
 call minpac#add("hnamikaw/vim-autohotkey")

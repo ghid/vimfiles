@@ -1,1 +1,1 @@
-${1:_log}.${2:Finest}("${0:var}", $0)
+${1:_log}.${2|Fatal,Servere,Warning,Audit,Info,Config,Detail,Fine,Finer,Finest,All|}("${0:var}", $0)

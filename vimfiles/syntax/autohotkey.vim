@@ -17,7 +17,7 @@ syn case ignore
 
 syn keyword autohotkeyTodo
       \ contained
-      \ BUG DONE MILESTONE TODO FIXME XXX NOTE QUESTION IDEA REQ REQUIREMENT STORY
+      \ BUG NOBUG DONE MILESTONE TODO FIXME XXX NOTE QUESTION IDEA REQ REQUIREMENT STORY ??? !!! NOTEST CAVEAT
 
 " only these chars are valid as escape sequences:   ,%`;nrbtvaf
 " https://autohotkey.com/docs/commands/_EscapeChar.htm

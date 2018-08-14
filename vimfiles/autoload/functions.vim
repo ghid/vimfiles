@@ -57,11 +57,11 @@ function! functions#ToggleComment()
 		return
 	endif
 	let currentline = getline(line("."))
-	let line = matchlist(currentline, '^\(\s*\)\(' . b:comment_leader . '\)\?\s*\(.*\)$')
+	let line = matchlist(currentline, '^\(\s*\)\(' . b:comment_leader . '\)\?\(\s*\)\(.*\)$')
 	if line[2] == b:comment_leader
-		call setline(line("."), line[1] . line[3])
+		call setline(line("."), line[1] . line[3] . line[4])
 	else
-		call setline(line("."), line[1] . b:comment_leader . line[3])
+		call setline(line("."), line[1] . b:comment_leader . line[3] . line[4])
 	endif
 endfunction
 

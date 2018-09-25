@@ -1,4 +1,6 @@
-dn: CN=${1:Kurzzeichen},OU=Mitarbeiter,DC=Viessmann,DC=Net
+dn: CN=${1:${VISUAL}},OU=Mitarbeiter,DC=Viessmann,DC=Net
 changetype: modify
 replace: userPassword
 userPassword: ${2!pwgen}
+${0:}
+

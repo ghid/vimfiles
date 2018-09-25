@@ -20,8 +20,11 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
+set cursorline
 " colorscheme srcery
 colorscheme falcon
+set termguicolors
+let g:falcon_lightline = 1
 " Put in a background colour for gui with use of falcon theme
 if has("gui_running") && colors_name == "falcon"
   highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
@@ -36,8 +39,15 @@ set showbreak=…\
 set undofile
 set undodir=$HOME/vimfiles/undodir
 
+" Setup netrw
+" let g:netrw_banner = 0
+" let g:netrw_liststyle = 3
+" let g:netrw_browse_split = 4
+" let g_netrw_altv = 1
+" let g:netrw_winsize = 25
+
 " Setup grep program
-set grepprg=mack\ --nogroup\ --column\ -k\ --nocolor\ $*
+set grepprg=mack\ --nogroup\ --column\ -k\ --nocolor\ --filename\ $*
 set grepformat=%f:%l:%c:%m
 
 " Setup scp
@@ -57,14 +67,32 @@ noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
 noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/autoload/functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/packages.vim<CR>
-noremap <F8> :TagbarToggle<CR>
-noremap <F3> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
 nnoremap <leader>QQ :qa!<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-Space> <C-x><C-o>
+inoremap {	{}<Left>
+inoremap {<CR>	{<CR>}<Esc>O
+inoremap {{	{
+inoremap {}	{}
+inoremap [	[]<Left>
+inoremap [<CR>	[<CR>]<Esc>O
+inoremap [[	[
+inoremap []	[]
+inoremap (	()<Left>
+inoremap (<CR>	(<CR>)<Esc>O
+inoremap ((	(
+inoremap ()	()
+inoremap <	<><Left>
+inoremap <>	<>
+inoremap <<	<
+inoremap '	''<Left>
+inoremap ''	'
+inoremap "	""<Left>
+inoremap ""	"
+
 
 " Commands
 command! -register CopyMatches call functions#CopyMatches(<q-reg>)
@@ -91,6 +119,10 @@ if has("autocmd")
 		autocmd!
 		autocmd Filetype lua		let b:comment_leader="-- "
 	augroup END
+	" augroup ProjectDrawer
+		" autocmd!
+		" autocmd VimEnter * :Vexplore
+	" augroup END
 endif
 
 " source $HOME\vimfiles\functions.vim
@@ -120,4 +152,3 @@ let g:tagbar_autofocus = 1
 
 " Customize SimpleSnippets
 let g:SimpleSnippets_search_path = $HOME."/vimfiles/snippets/"
-

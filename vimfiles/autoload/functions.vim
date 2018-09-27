@@ -65,3 +65,12 @@ function! functions#ToggleComment()
 	endif
 endfunction
 
+" Place the cursor one char to the right and enter insert mode. 
+function! functions#OneToTheRight()
+	let l = strlen(getline("."))
+	let p = getpos(".")
+	if l == p[2]
+		call setline(".", getline(".") . "")
+	endif
+	call setpos(".", [bufnr(bufname("")), line("."), p[2]+1, 0])
+endfunction

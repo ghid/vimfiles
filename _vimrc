@@ -92,7 +92,9 @@ inoremap '	''<Left>
 inoremap ''	'
 inoremap "	""<Left>
 inoremap ""	"
-
+inoremap <C-l>	<C-o>:call functions#OneToTheRight()<CR>
+inoremap <C-a>	<C-o>A
+inoremap <C-Enter> <Esc>o
 
 " Commands
 command! -register CopyMatches call functions#CopyMatches(<q-reg>)
@@ -119,6 +121,10 @@ if has("autocmd")
 		autocmd!
 		autocmd Filetype lua		let b:comment_leader="-- "
 	augroup END
+	augroup SCSS
+		autocmd!
+		autocmd FileType scss		setlocal tabstop=2 shiftwidth=2 softtabstop=2 noexpandtab number autoindent
+	augroup END
 	" augroup ProjectDrawer
 		" autocmd!
 		" autocmd VimEnter * :Vexplore
@@ -132,13 +138,11 @@ let g:lightline = {
 	\ 'colorscheme': 'falcon',
 	\ 'active': {
 	\	'left': [['mode', 'paste'],
-	\		 ['gitbranch', 'readonly', 'filename', 'modified']]
+	\		 ['gitbranch'],
+	\		 ['readonly', 'filename', 'modified']]
 	\ },
 	\ 'component_expand': {
-	\	'gitbranch': 'fugitive#head',
-	\ },
-	\ 'component_type': {
-	\	'gitbranch': 'branch',
+	\	'gitbranch': 'fugitive#head'
 	\ }
 	\ }
 
@@ -152,3 +156,6 @@ let g:tagbar_autofocus = 1
 
 " Customize SimpleSnippets
 let g:SimpleSnippets_search_path = $HOME."/vimfiles/snippets/"
+
+" Configure Emmet
+let g:user_emmet_leader_key = '<c-z>'

@@ -33,3 +33,7 @@ call minpac#add("vim-scripts/AutoComplPop")
 call minpac#add("leafgarland/typescript-vim")
 call minpac#add("Quramy/tsuquyomi")
 
+" HTML support
+call minpac#add("mattn/emmet-vim")
+call minpac#add("cakebaker/scss-syntax.vim")
+call minpac#add("chrisbra/Colorizer")

@@ -11,7 +11,7 @@ set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-set guifont=FantasqueSansMono_NF:h12.5:cANSI:qDRAFT
+set guifont=FantasqueSansMono_NF:h13:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M

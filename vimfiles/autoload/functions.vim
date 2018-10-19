@@ -1,7 +1,7 @@
 " Out-of-the-box MyDiff function
 if !exists("*MyDiff")
 	set diffexpr=functions#MyDiff()
-	function functions#MyDiff()
+	function! functions#MyDiff()
 		let opt = '-a --binary '
 		if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
 		if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
@@ -46,7 +46,8 @@ endfunction
 " files.
 function! functions#AppendModeline()
 	let l:modeline = printf(' vim:tw=%d:ts=%d:sts=%d:sw=%d:%set:ft=%s:%sbomb',
-	\ &textwidth, &tabstop, &softtabstop, &shiftwidth, &expandtab ? '' : 'no', &filetype, &bomb ? '' : 'no')
+				\ &textwidth, &tabstop, &softtabstop, &shiftwidth,
+				\ &expandtab ? '' : 'no', &filetype, &bomb ? '' : 'no')
 	let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
 	call append(line("$"), l:modeline)
 endfunction
@@ -57,7 +58,8 @@ function! functions#ToggleComment()
 		return
 	endif
 	let currentline = getline(line("."))
-	let line = matchlist(currentline, '^\(\s*\)\(' . b:comment_leader . '\)\?\(\s*\)\(.*\)$')
+	let line = matchlist(currentline, '^\(\s*\)\('
+		\ . b:comment_leader . '\)\?\(\s*\)\(.*\)$')
 	if line[2] == b:comment_leader
 		call setline(line("."), line[1] . line[3] . line[4])
 	else
@@ -65,12 +67,29 @@ function! functions#ToggleComment()
 	endif
 endfunction
 
-" Place the cursor one char to the right and enter insert mode. 
-function! functions#OneToTheRight()
-	let l = strlen(getline("."))
-	let p = getpos(".")
-	if l == p[2]
-		call setline(".", getline(".") . "")
-	endif
-	call setpos(".", [bufnr(bufname("")), line("."), p[2]+1, 0])
+function! functions#DevIconFiletype()
+	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
+
+function! functions#DevIconFileformat()
+	return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+function! functions#LightlineReadonly()
+	return &readonly ? '' : ''
+endfunction
+
+function! functions#LightlineFilename()
+	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+	let modified = &modified ? ' ●' : ''
+	return filename . modified
+endfunction
+
+function! functions#LightlineFugitive()
+	if exists('*fugitive#head')
+		let branch = fugitive#head()
+		return branch !=# '' ? ' '.branch : ''
+	endif
+	return ''
+endfunction
+" vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

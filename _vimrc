@@ -1,15 +1,17 @@
 source $VIMRUNTIME/vimrc_example.vim
 
-" Setup minpac
+"{{{1 General Customization
+"{{{2 Setup minpac
 source $HOME/vimfiles/packages.vim
+"}}}
 
-" Customize VIM
+"{{{2 Customize VIM 
 language messages en
 set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-set guifont=Hack:h10.5
+set guifont=FantasqueSansMono_NF:h12.5:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M
@@ -21,7 +23,12 @@ set noshowmode
 set path+=**
 set visualbell
 set cursorline
-" colorscheme srcery
+set formatoptions-=t
+set listchars=tab:┆\ ,eol:¬
+set showbreak=…\ 
+"}}}2
+
+"{{{2 Customize Colorscheme
 colorscheme falcon
 set termguicolors
 let g:falcon_lightline = 1
@@ -31,30 +38,33 @@ if has("gui_running") && colors_name == "falcon"
   highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
   highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 endif
+highlight ColorColumn ctermbg=red ctermfg=white guibg=#151521
+"}}}2
 
-set listchars=tab:➔\ ,eol:↩
-set showbreak=…\ 
-
-" Maintain undo history between sessions
+"{{{2 Maintain undo history between sessions
 set undofile
 set undodir=$HOME/vimfiles/undodir
+"}}}
 
-" Setup netrw
+"{{{2 Setup netrw 
 " let g:netrw_banner = 0
 " let g:netrw_liststyle = 3
 " let g:netrw_browse_split = 4
 " let g_netrw_altv = 1
 " let g:netrw_winsize = 25
+"}}}
 
-" Setup grep program
+"{{{2 Setup grep program 
 set grepprg=mack\ --nogroup\ --column\ -k\ --nocolor\ --filename\ $*
 set grepformat=%f:%l:%c:%m
+"}}}2
 
-" Setup scp
+"{{{2 Setup scp
 let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
 let g:netrw_silent=1
+"}}}2
 
-" Mappings
+"{{{2 Mappings
 let mapleader=","
 nnoremap <leader>l :set list!<CR>
 nnoremap <leader>h :set hlsearch!<CR>
@@ -67,95 +77,119 @@ noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
 noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/autoload/functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/packages.vim<CR>
+noremap <expr> <leader>es ":vsplit $HOME/vimfiles/snippets/" . &filetype . "<CR>"
 noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
 nnoremap <leader>QQ :qa!<CR>
+nnoremap <leader>y :YcmCompleter 
+nnoremap <leader>C :ColorToggle<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
-inoremap <C-Space> <C-x><C-o>
-inoremap {	{}<Left>
-inoremap {<CR>	{<CR>}<Esc>O
-inoremap {{	{
-inoremap {}	{}
-inoremap [	[]<Left>
-inoremap [<CR>	[<CR>]<Esc>O
-inoremap [[	[
-inoremap []	[]
-inoremap (	()<Left>
-inoremap (<CR>	(<CR>)<Esc>O
-inoremap ((	(
-inoremap ()	()
-inoremap <	<><Left>
-inoremap <>	<>
-inoremap <<	<
-inoremap '	''<Left>
-inoremap ''	'
-inoremap "	""<Left>
-inoremap ""	"
-inoremap <C-l>	<C-o>:call functions#OneToTheRight()<CR>
-inoremap <C-a>	<C-o>A
-inoremap <C-Enter> <Esc>o
+inoremap '	''<left>
+inoremap `	``<left>
+inoremap "	""<left>
+inoremap (	()<left>
+inoremap {	{}<left>
+inoremap [	[]<left>
+inoremap <C-l>	<right>
+inoremap <C-Bs>	<left>
+inoremap <C-x>	<C-o>x
+inoremap <C-Return>	<C-o>A
+inoremap <S-Return>	<CR><C-o>==<C-o>O
+imap <C-Tab> <Plug>snipMateShow
+"}}}2
 
-" Commands
+"{{{2 Commands
 command! -register CopyMatches call functions#CopyMatches(<q-reg>)
+"}}}2
 
+"{{{2 Auto Commands
 if has("autocmd")
 	autocmd GUIEnter * simalt ~x
 	filetype on
 	filetype plugin indent on
-	" augroup AHK
-	" 	autocmd!
-	" 	autocmd FileType autohotkey	setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab number
-	" 	autocmd FileType autohotkey	let b:comment_leader="; "
-	" 	autocmd FileType autohotkey	set commentstring=;%s
-	" augroup END
+	augroup VIM
+		autocmd!
+		autocmd FileType vim 
+					\ setlocal tabstop=4 shiftwidth=2 softtabstop=2
+					\ number noexpandtab autoindent
+		autocmd FileType vim let b:comment_leader="\" "
+	augroup END
 	augroup BAT
 		autocmd!
-		autocmd FileType dosbatch	let b:comment_leader="rem "
-	augroup END
-	augroup VIMFILE
-		autocmd!
-		autocmd FileType vim 		let b:comment_leader="\" "
+		autocmd FileType dosbatch let b:comment_leader="rem "
 	augroup END
 	augroup LUA
 		autocmd!
-		autocmd Filetype lua		let b:comment_leader="-- "
+		autocmd FileType lua let b:comment_leader="-- "
 	augroup END
-	augroup SCSS
+	augroup WEB
 		autocmd!
-		autocmd FileType scss		setlocal tabstop=2 shiftwidth=2 softtabstop=2 noexpandtab number autoindent
+		autocmd FileType css,scss,sass,html
+					\ setlocal tabstop=2 shiftwidth=2 softtabstop=2
+					\ noexpandtab number autoindent
+					\ textwidth=80
 	augroup END
+	autocmd FileType * let &colorcolumn=&textwidth+1
 	" augroup ProjectDrawer
 		" autocmd!
 		" autocmd VimEnter * :Vexplore
 	" augroup END
 endif
+"}}}2
+"}}}1
 
-" source $HOME\vimfiles\functions.vim
-
-" Customize Lightline
+"{{{1 Plugin Customization
+"{{{2 Lightline
 let g:lightline = {
-	\ 'colorscheme': 'falcon',
-	\ 'active': {
-	\	'left': [['mode', 'paste'],
-	\		 ['gitbranch'],
-	\		 ['readonly', 'filename', 'modified']]
-	\ },
-	\ 'component_expand': {
-	\	'gitbranch': 'fugitive#head'
-	\ }
-	\ }
+			\	'colorscheme': 'falcon',
+			\	'active': {
+			\		'left': [['mode', 'paste'],
+			\			['gitbranch'],
+			\			['readonly', 'filename']]
+			\	},
+			\	'component': {
+			\		'percent': '%3p%%',
+			\		'lineinfo': ' %3l:%-2v'
+			\	},
+			\	'component_expand': {
+			\		'gitbranch': 'functions#LightlineFugitive',
+			\		'readonly': 'functions#LightlineReadonly'
+			\	},
+			\	'component_function': {
+			\		'filename': 'functions#LightlineFilename',
+			\		'filetype': 'functions#DevIconFiletype',
+			\		'fileformat': 'functions#DevIconFileformat'
+			\	}
+			\ }
+"}}}2
 
-" Customize Tagbar
-let g:tagbar_iconchars = ['▶', '◢']
-let g:tagbar_autofocus = 1
+"{{{2 Tagbar
+" let g:tagbar_iconchars = ['▶', '◢']
+" let g:tagbar_autofocus = 1
+"}}}2
 
-" Customize UltiSnips
-" let g:UltiSnipsSnippetsDir = $HOME . "/vimfiles/UltiSnips"
-" let g:UltiSnipsEditSplit = "vertical"
-
-" Customize SimpleSnippets
-let g:SimpleSnippets_search_path = $HOME."/vimfiles/snippets/"
-
-" Configure Emmet
+"{{{2 Emmet
 let g:user_emmet_leader_key = '<c-z>'
+"}}}2
+
+"{{{2 YouCompleteMe
+let g:ycm_seed_identifiers_with_syntax = 1
+" let g:ycm_key_list_previous_completion = []
+" let g:ycm_key_list_select_completion = []
+let g:ycm_use_ultisnips_completer = 0 
+let g:ycm_enable_diagnostic_signs = 0
+"}}}2
+
+"{{{2 SnipMate
+let g:snipMate = {}
+let g:snipMate.description_in_completion = 1
+"}}}2
+
+"{{{2 CtrlP 
+let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
+"}}}2
+"}}}1
+
+" vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb
+" vim:fdm=marker:fdl=1

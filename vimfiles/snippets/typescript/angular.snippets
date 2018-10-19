@@ -1,0 +1,350 @@
+snippet a-component Angular component
+	import { Component, OnInit } from '@angular/core';
+
+	@Component({
+		selector: '${1:selector-name}',
+		templateUrl: '${2:component-name}.component.html'
+	})
+
+	export class ${3:ClassName}Component implements OnInit {
+		constructor() { }
+
+		ngOnInit() { }$0
+	}
+
+snippet a-component-inline Angular component with an inline template
+	import { Component, OnInit } from '@angular/core';
+
+	@Component({
+		selector: '${1:selector-name}',
+		template: \`$0\`
+	})
+
+	export class ${3:ClassName}Component implements OnInit {
+		constructor() { }
+
+		ngOnInit() { }
+	}
+
+snippet a-service Angular service
+	import { Injectable } from '@angular/core';
+
+	@Injectable()
+	export class ${1:Name}Service {
+		constructor() { }$0
+	}
+
+snippet a-pipe Angular pipe
+	import { Pipe, PipeTransform } from '@angular/core';
+
+	@Pipe({
+		name: '${1:selector-name}'
+	})
+
+	export class ${2:Name}Pipe implements PipeTransform {
+		transform(value: any, ...args: any[]): any {
+			$0
+		}
+	}
+
+snippet a-injectable-providedin Angular Injectable providedin
+	@Injectable({ providedIn: ${1:'root'} })$0
+
+snippet a-route-with-path Angular default route path
+	{ path: '', pathMatch: 'full', redirectTo: '${1:path}' }$0
+
+
+snippet a-route-path-with-children Angular route path with children
+	{
+		path: '${1:path}',
+		component: ${2:Component},
+		children: [
+			{ path: '${3:childpath}', component: ${4:ChildComponent} }
+		]
+	}
+	$0
+
+snippet a-route-path-404 Angular 404 route path
+	{ path: '**', component: ${1:PathNotFoundComponent} }$0
+
+snippet a-route-path-eager Angular eager route path
+	{ path: '${1:path}', component: ${2:Name}Component }$0
+
+snippet a-route-path-lazy Angular lazy route path
+	{ path: '${1:path}', loadChildren: '${2:lazy-path}#${3:lazy-module}' },$0
+
+snippet a-route-params-subscribe Angular subscribe to routing parameters
+	this.route.params
+		.pipe(map(params => params['id']), tap(id => (this.id = +id)))
+		.subscribe(id => ${1:function()}());
+	$0
+
+snippet a-httpclient-get Angular HttpClient.get
+	return this.httpClient.get('${1:url}');$0
+
+snippet a-service-httpclient Angular service with httpclient
+	import { Injectable } from '@angular/core';
+	import { HttpClient } from '@angular/common/http';
+
+	@Injectable({ providedIn: ${1:'root'} })
+	export class ${2:Name}Service {
+		constructor(private httpClient: HttpClient) { }$0
+	}
+
+snippet a-http-interceptor-logging Angular HttpInterceptor for logging HttpClient
+	import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse } from '@angular/common/http';
+	import { Observable, tap } from 'rxjs';
+
+	@Injectable({ providedIn: ${1:'root'} })
+	export class LogInterceptor implements HttpInterceptor {
+		constructor() { }
+
+		intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+			const started = Date.now();
+			return next.handle(req).pipe(
+				tap(event => {
+					if (event instanceof HttpResponse) {
+						const elapsed = Date.now() - started;
+						console.log(`Request for \\${req.urlWithParams} took \\${elapsed} ms.`);
+					}
+				})
+			)
+		}
+	}
+	$0
+
+snippet a-http-interceptor-headers Angular HttpInterceptor for headers httpclient
+	import { Injectable } from '@angular/core';
+	import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest) from '@angular/common/http';
+	import { Observable } from 'rxjs';
+
+	@Injectable({ providedIn: ${1:'root'} })
+	export class HeaderInterceptor implements HttpInterceptor {
+		constructor() { }
+
+		intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+			const headers = req.headers
+				.set('Content-Type', 'application/json');
+			const authReq = req.clone({ headers });
+			return next.handle(authReq);
+		}
+	}
+	$0
+
+snippet a-http-interceptor Angular Empty HttpInterceptor for HttpClient
+	import { Injectable } from '@angular/core';
+	import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+	import { Observable } from 'rxjs';
+
+	@Injectable({ providedIn: ${1:'root'} })
+	export class HeaderInterceptor implements HttpInterceptor {
+		intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+			return next.handle(req);
+		}
+	}
+	$0
+
+snippet a-output-event Angular @Output event and emitter
+	@Output() ${1:eventName} = new EventEmitter<${2:eventType}>();$0
+
+snippet a-subscribe Angular observable subscribe
+	this.${1:service}.${2:function}
+		.subscribe(${3:arg} => this.${4:property} = $3);$0
+
+snippet a-component-root Angular App root component
+	import { Component } from '@angular/core';
+
+	@Component({
+		selector: '${1:prefix-app}',
+		template: `
+			<router-outlet></router-outlet>
+			`
+		})
+	export class ${2:App}Component { }$0
+
+snippet a-module-root Angular Root module
+	import { NgModule } from '@angular/core';
+	import { BrowserModule } from '@angular/platform-browser';
+	import { HttpModule } from '@angular/http';
+
+	import { ${1:App}Component } from './${2:name}.component';
+	import { AppRoutingModule } from './$2.routing'; // TODO: Create $2.routing
+
+	@NgModule({
+		imports: [
+			BrowserModule,
+			HttpModule,
+		
+			AppRoutingModule,
+		],
+		declarations: [$1Component],
+		providers: [/* TODO: providers go here */],
+		bootstrap: [$1Component],
+		})
+	export class $1Module { }$0
+
+snippet a-module-routing Angular routing module file (forChild)
+	import { NgModule } from '@angular/core';
+	import { Routes, RouterModule } from '@angular/router';
+
+	import { ${1:Name}Component } from './${2:name}.component';
+
+	const routes: Routes = [
+		{ path: '${3:path}', component: $1Component },
+	];
+
+	@NgModule({
+		imports: [RouterModule.forChild(routes)],
+		exports: [RouterModule],
+	})
+	export class $1RoutingModule { } $0
+
+snippet a-module-with-routing Angular module with routing combinded into one file
+	import { NgModule } from '@angular/core';
+	import { Routes, RouterModule } from '@angular/router';
+
+	const routes: Routes [$0],
+
+	@NgModule({
+		imports: [RouterModule.forChild(routes)],
+		exports: [],
+		declarations: [],
+	})
+	export class ${1:Name}Module { }
+
+snippet a-module Angular module
+	import { NgModule } from '@angular/core';
+	
+	import { ${1:Name}Component } from './${2:name}.component';
+
+	@NgModule({
+		imports: [],
+		exports: [],
+		declarations: [$1Component],
+		providers: [],
+	})
+	export class $1Component { } $0
+
+snippet a-directive Angular directive
+	import { Directive } from '@angular/core';
+
+	@Directive({ selector: '[${1:selector-name}]' })
+	export class ${2:Name}Directive {
+		constructor() { } $0
+	}
+
+snippet a-guard-can-activate Angular CanActivate guard
+	import { Injectable } from '@angular/core';
+	import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+
+	@Injectable({ providedIn: ${2:'root'} })
+	export class ${1:Name}Guard implements CanActivate {
+		constructor() { }
+
+		canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+			return true;$0
+		}
+	}
+
+snippet a-guard-can-activate-child Angular CanActivateChild guard
+	import { Injectable } from '@angular/core';
+	import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+
+	@Injectable({ providedIn: ${2:'root'} })
+	export class ${1:Name}Guard implements CanActivateChild {
+		constructor() { }
+
+		canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+			return true;$0
+		}
+	}
+
+snippet a-guard-can-load Angular CanLoad guard
+	import { Injectable } from '@angular/core';
+	import { CanLoad, Route } from '@angular/route';
+
+	@Injectable({ providedIn: ${2:'root'} })
+	export class ${1:Name}Guard implements CanLoad {
+		constructor() { }
+
+		canLoad(route: Route) {
+			return true;$0
+		}
+	}
+
+snippet a-guard-can-deactivate Angular CanDeactivate guard
+	import { Injectable } from '@angular/core';
+	import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
+
+	import { Observable } from 'rxjs';
+
+	import { ${2:Name}Component } from './${3:name}.component';
+
+	// Consider using this interface for all CanDeactivate guards
+	// and have your own components implement this interface, too.
+	//
+	// e.g. export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
+	//
+	// export interface CanComponentDeactivate {
+	// canDeactivate: () => any;
+	// }
+
+	@Injectable({ providedIn: ${4:'root'} })
+	export class ${1:Name}Guard implements CanDeactivate<${2:Name}Component> {
+		canDeactivate(
+			component: $2Component,
+			currentRoute: ActivatedRouteSnapshot,
+			currentStage: RouterStateSnapshot,
+		): Observable<boolean>|Promise<boolean>|boolean {
+			return false;$0
+		}
+	}
+
+snippet a-preload-strategy Angular custom preload strategy
+	import { PreloadingStrategy, Route } from '@angular/router';
+	
+	import { Observable } from 'rxjs';
+
+	export class PreloadSelectedModulesList implements PreloadingStrategy {
+		preload(route: Route, load: Function): Observable<any> {
+			return route.data && route.data['${1:preload}'] ? load() : of(null);
+		}
+	}
+	$0
+
+snippet a-router-events Angular router events
+	checkEvents() {
+		this.router.events.subscribe(event => {
+			switch (true) {
+				case event instanceof ${1:eventName}:
+					$0
+					break;
+
+				default:
+					break;
+			}
+		})
+	}
+
+snippet a-ctor-skip-self Angular Module SkipSelf constructor
+	constructor( @Optional() @SkipSelf() parentModule: ${1:ModuleName}) {
+		if (parentModule) {
+			const msg = \`$1 has already been loaded. 
+				Import $1 once, only, in the root AppModule.\`;
+			throw new Error(msg);
+		}
+	}
+	$0
+
+snippet a-import Angular import
+	import { ${1:Module} } from '${2:@angular}/${3:path}';
+	$0
+
+snippet a-rxjs-import Angular RxJs import
+	import { ${1:Observable} } from 'rxjs';
+	$0
+
+snippet a-rxjs-operator-import Angular RxJs operator import
+	import { ${1:map} } from 'rxjs/operators';
+	$0
+

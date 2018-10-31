@@ -14,7 +14,11 @@ call minpac#add("k-takata/minpac", {"type": "opt"})
 " call minpac#add("roosta/vim-srcery")
 " call minpac#add("rdavison/kimbie-vim")
 " call minpac#add("morhetz/gruvbox")
-call minpac#add("fenetikm/falcon")
+" call minpac#add("vim-scripts/greenvision")
+" call minpac#add("whatyouhide/vim-gotham")
+" call minpac#add("mhinz/vim-janah")
+call minpac#add("jacoborus/tender.vim")
+" call minpac#add("fenetikm/falcon")
 
 " Add plugins
 " call minpac#add("vim-airline/vim-airline")

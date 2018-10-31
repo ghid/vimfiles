@@ -67,12 +67,14 @@ function! functions#ToggleComment()
 	endif
 endfunction
 
-function! functions#DevIconFiletype()
-	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+function! functions#LightlineDevIconFiletype()
+	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype 
+				\ . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
-function! functions#DevIconFileformat()
-	return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+function! functions#LightlineDevIconFileformat()
+	return winwidth(0) > 70 ? (&fileformat
+				\. ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
 function! functions#LightlineReadonly()

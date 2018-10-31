@@ -11,7 +11,8 @@ set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-set guifont=FantasqueSansMono_NF:h13:cANSI:qDRAFT
+" set guifont=FantasqueSansMono_NF:h13:cANSI:qDEFAULT
+set guifont=Iosevka_NF:h13:cANSI:qDEFAULT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M
@@ -29,8 +30,10 @@ set showbreak=…\
 "}}}2
 
 "{{{2 Customize Colorscheme
-colorscheme falcon
-set termguicolors
+colorscheme tender
+if (has("termguicolors"))
+	set termguicolors
+endif
 let g:falcon_lightline = 1
 " Put in a background colour for gui with use of falcon theme
 if has("gui_running") && colors_name == "falcon"
@@ -38,7 +41,7 @@ if has("gui_running") && colors_name == "falcon"
   highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
   highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 endif
-highlight ColorColumn ctermbg=red ctermfg=white guibg=#151521
+" highlight ColorColumn ctermbg=red ctermfg=white guibg=#151521
 "}}}2
 
 "{{{2 Maintain undo history between sessions
@@ -62,6 +65,10 @@ set grepformat=%f:%l:%c:%m
 "{{{2 Setup scp
 let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
 let g:netrw_silent=1
+"}}}2
+
+"{{{2 Setup shell
+set shell=c:\Windows\System32\cmd.exe\ /k\ c:\opt\cmder\vendor\init.bat
 "}}}2
 
 "{{{2 Mappings
@@ -142,7 +149,7 @@ endif
 "{{{1 Plugin Customization
 "{{{2 Lightline
 let g:lightline = {
-			\	'colorscheme': 'falcon',
+			\	'colorscheme': 'tenderplus',
 			\	'active': {
 			\		'left': [['mode', 'paste'],
 			\			['gitbranch'],
@@ -158,8 +165,8 @@ let g:lightline = {
 			\	},
 			\	'component_function': {
 			\		'filename': 'functions#LightlineFilename',
-			\		'filetype': 'functions#DevIconFiletype',
-			\		'fileformat': 'functions#DevIconFileformat'
+			\		'filetype': 'functions#LightlineDevIconFiletype',
+			\		'fileformat': 'functions#LightlineDevIconFileformat'
 			\	}
 			\ }
 "}}}2
@@ -175,8 +182,9 @@ let g:user_emmet_leader_key = '<c-z>'
 
 "{{{2 YouCompleteMe
 let g:ycm_seed_identifiers_with_syntax = 1
-" let g:ycm_key_list_previous_completion = []
-" let g:ycm_key_list_select_completion = []
+let g:ycm_key_list_previous_completion = ['<c-k>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<c-j>', '<Down>']
+let g:ycm_key_list_select_completion = ['<c-u>', '<Right>']
 let g:ycm_use_ultisnips_completer = 0 
 let g:ycm_enable_diagnostic_signs = 0
 "}}}2

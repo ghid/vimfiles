@@ -1,0 +1,11 @@
+snippet pwd Generate password modification LDIF
+	dn: CN=${1:UserId},OU=Mitarbeiter,DC=Viessmann,DC=Net
+	changetype: modify
+	replace: userPassword
+	userPassword: `system("pwgen")` 
+	${0}
+
+snippet delval Modify/Delete attribute
+	changetype: modify
+	delete: ${1:attribute-name}
+	$1: ${2:attribute-value}

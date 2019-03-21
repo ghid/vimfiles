@@ -42,7 +42,7 @@ function! functions#CopyMatches(reg)
 endfunction
 
 " Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX 
 " files.
 function! functions#AppendModeline()
 	let l:modeline = printf(' vim:tw=%d:ts=%d:sts=%d:sw=%d:%set:ft=%s:%sbomb',
@@ -61,37 +61,70 @@ function! functions#ToggleComment()
 	let line = matchlist(currentline, '^\(\s*\)\('
 		\ . b:comment_leader . '\)\?\(\s*\)\(.*\)$')
 	if line[2] == b:comment_leader
-		call setline(line("."), line[1] . line[3] . line[4])
+		call setline(line(".")
+					\ , line[1] . line[3] . line[4])
 	else
-		call setline(line("."), line[1] . b:comment_leader . line[3] . line[4])
+		call setline(line(".")
+					\ , line[1] . b:comment_leader . line[3] . line[4])
 	endif
 endfunction
 
 function! functions#LightlineDevIconFiletype()
+	if exists("*WebDevIconsGetFileTypeSymbol")
+		let ft_symbol = WebDevIconsGetFileTypeSymbol()
+	else
+		let ft_symbol = ''
+	endif
 	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype 
-				\ . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+				\ . ' ' . ft_symbol : 'no ft') : ''
 endfunction
 
 function! functions#LightlineDevIconFileformat()
+	if exists("*WebDevIconsGetFileFormatSymbol")
+		let ff_symbol = WebDevIconsGetFileFormatSymbol()
+	else
+		let ff_symbol = ''
+	endif
 	return winwidth(0) > 70 ? (&fileformat
-				\. ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+				\. ' ' . ff_symbol) : ''
 endfunction
 
 function! functions#LightlineReadonly()
-	return &readonly ? '' : ''
+	return &readonly ? '' : ''
 endfunction
 
 function! functions#LightlineFilename()
 	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-	let modified = &modified ? ' ●' : ''
+	let modified = &modified ? '  ' : '   '
 	return filename . modified
 endfunction
 
 function! functions#LightlineFugitive()
 	if exists('*fugitive#head')
 		let branch = fugitive#head()
-		return branch !=# '' ? ' '.branch : ''
+		return branch !=# '' ? ' '.branch : ''
 	endif
 	return ''
 endfunction
+
+function! functions#LightlineSyntasticFirstLine()
+	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
+	return ' ' . syntastic_flag[0]
+endfunction
+
+function! functions#LightlineSyntasticErrors()
+	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
+	return ' ' . syntastic_flag[1]
+endfunction
+
+function! functions#LightlineSyntasticWarnings()
+	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
+	return ' ' . syntastic_flag[2]
+endfunction
+
+function! functions#Syntastic()
+	SyntasticCheck
+	call lightline#update()
+endfunction
+
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

@@ -12,7 +12,9 @@ set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
 " set guifont=FantasqueSansMono_NF:h13:cANSI:qDEFAULT
-set guifont=Iosevka_NF:h13:cANSI:qDEFAULT
+set guifont=Monoid_NF:h11:cANSI:qDRAFT
+" set guifont=Mplus_NF:h12.5:cDEFAULT:qDEFAULT
+" set guifont=Iosevka_NF:h13:cDEFAULT:qDEFAULT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M
@@ -23,25 +25,42 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
-set cursorline
+set nocursorline
 set formatoptions-=t
-set listchars=tab:┆\ ,eol:¬
+set listchars=tab:\|\ ,eol:¬
 set showbreak=…\ 
+set wildignore+=NTUSER.DAT*,.git/*
+" set scrolloff=999
 "}}}2
 
 "{{{2 Customize Colorscheme
-colorscheme tender
+colorscheme OceanicNext
+" if(strftime("%h")>=8 && strftime("%h")<=16)
+	" colorscheme typewriter
+	" set background=light
+	" let s:lightline_colorscheme = 'pencil_light'
+" else
+	" colorscheme typewriter-night
+	" set background=dark
+	" let s:lightline_colorscheme = 'pencil_dark'
+" endif
 if (has("termguicolors"))
 	set termguicolors
 endif
-let g:falcon_lightline = 1
+" let g:pencil_terminal_italics = 0
+" let g:pencil_higher_contrast_ui = 1
+" let g:monochrome_italic_comments = 1
+" colorscheme monochrome
 " Put in a background colour for gui with use of falcon theme
 if has("gui_running") && colors_name == "falcon"
-  highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
-  highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
-  highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+	let g:falcon_lightline = 1
+	highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
+	highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
+	highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 endif
-" highlight ColorColumn ctermbg=red ctermfg=white guibg=#151521
+" highlight ColorColumn ctermbg=NONE ctermfg=white guibg=red guifg=white
+highlight ColorColumn guibg=#333380 guifg=white
+call matchadd('ColorColumn', '\%82v', 100)
 "}}}2
 
 "{{{2 Maintain undo history between sessions
@@ -50,11 +69,12 @@ set undodir=$HOME/vimfiles/undodir
 "}}}
 
 "{{{2 Setup netrw 
-" let g:netrw_banner = 0
-" let g:netrw_liststyle = 3
+" let g:netrw_banner = 1
+" let g:netrw_liststyle = 1
 " let g:netrw_browse_split = 4
 " let g_netrw_altv = 1
 " let g:netrw_winsize = 25
+" let g:netrw_keepdir = 0
 "}}}
 
 "{{{2 Setup grep program 
@@ -68,11 +88,17 @@ let g:netrw_silent=1
 "}}}2
 
 "{{{2 Setup shell
-set shell=c:\Windows\System32\cmd.exe\ /k\ c:\opt\cmder\vendor\init.bat
+" set shell=c:\Windows\System32\cmd.exe\ /k\ c:\opt\cmder\vendor\init.bat
 "}}}2
 
 "{{{2 Mappings
 let mapleader=","
+nnoremap <F5> <C-l>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" nnoremap <F8> :TagbarToggle<CR>
 nnoremap <leader>l :set list!<CR>
 nnoremap <leader>h :set hlsearch!<CR>
 nnoremap <leader>ch :let @/=''<CR>
@@ -90,20 +116,13 @@ nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
 nnoremap <leader>QQ :qa!<CR>
 nnoremap <leader>y :YcmCompleter 
-nnoremap <leader>C :ColorToggle<CR>
+" nnoremap <leader>C :ColorToggle<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
-inoremap '	''<left>
-inoremap `	``<left>
-inoremap "	""<left>
-inoremap (	()<left>
-inoremap {	{}<left>
-inoremap [	[]<left>
-inoremap <C-l>	<right>
-inoremap <C-Bs>	<left>
-inoremap <C-x>	<C-o>x
-inoremap <C-Return>	<C-o>A
-inoremap <S-Return>	<CR><C-o>==<C-o>O
-imap <C-Tab> <Plug>snipMateShow
+inoremap <C-l> <right>
+inoremap <S-Return>	<C-o>A
+inoremap <C-Return> <C-o>o
+noremap <C-n> :NERDTreeToggle<CR>
+inoremap <C-BS> <Esc>diwa
 "}}}2
 
 "{{{2 Commands
@@ -124,56 +143,90 @@ if has("autocmd")
 	augroup END
 	augroup BAT
 		autocmd!
+		autocmd FileType dosbatch
+					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
+					\ number noexpandtab autoindent
+					\ textwidth=80
 		autocmd FileType dosbatch let b:comment_leader="rem "
 	augroup END
 	augroup LUA
 		autocmd!
+		autocmd FileType lua,python
+					\ setlocal number autoindent noexpandtab textwidth=80
+					\ tabstop=4 shiftwidth=4 softtabstop=4
 		autocmd FileType lua let b:comment_leader="-- "
 	augroup END
 	augroup WEB
 		autocmd!
-		autocmd FileType css,scss,sass,html
+		autocmd FileType css,scss,sass,html,json,yaml
 					\ setlocal tabstop=2 shiftwidth=2 softtabstop=2
 					\ noexpandtab number autoindent
 					\ textwidth=80
 	augroup END
-	autocmd FileType * let &colorcolumn=&textwidth+1
+	augroup MARKDOWN
+		autocmd!
+		autocmd FileType markdown setlocal textwidth=80
+	augroup END
+	augroup AUTOSYNTASTIC
+		autocmd!
+		autocmd BufWritePost *.js,*.jsx call functions#Syntastic()
+	augroup END
+	" autocmd FileType * if(&textwidth != 0)
+				" \ |		let &colorcolumn=&textwidth+1
+				" \ | endif
 	" augroup ProjectDrawer
 		" autocmd!
 		" autocmd VimEnter * :Vexplore
 	" augroup END
 endif
 "}}}2
+
+" Show syntax highlighting groups for word under cursor
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+nmap <C-x> :call <SID>SynStack()<CR>
 "}}}1
 
 "{{{1 Plugin Customization
 "{{{2 Lightline
 let g:lightline = {
-			\	'colorscheme': 'tenderplus',
+			\	'colorscheme': 'oceanicnext',
 			\	'active': {
 			\		'left': [['mode', 'paste'],
 			\			['gitbranch'],
-			\			['readonly', 'filename']]
+			\			['readonly', 'filename']],
+			\		'right': [['lineinfo'],
+			\			['percent'],
+			\			['fileformat', 'filetype'],
+			\			['syntastic_warn'],
+			\			['syntastic_err'],
+			\			['syntastic']]
 			\	},
 			\	'component': {
-			\		'percent': '%3p%%',
-			\		'lineinfo': ' %3l:%-2v'
+			\		'percent': '≡%3p%%',
+			\		'lineinfo': ' %3l:%-3v',
 			\	},
 			\	'component_expand': {
 			\		'gitbranch': 'functions#LightlineFugitive',
-			\		'readonly': 'functions#LightlineReadonly'
+			\		'readonly': 'functions#LightlineReadonly',
+			\		'syntastic': 'functions#LightlineSyntasticFirstLine',
+			\		'syntastic_err': 'functions#LightlineSyntasticErrors',
+			\		'syntastic_warn': 'functions#LightlineSyntasticWarnings'
 			\	},
 			\	'component_function': {
 			\		'filename': 'functions#LightlineFilename',
 			\		'filetype': 'functions#LightlineDevIconFiletype',
 			\		'fileformat': 'functions#LightlineDevIconFileformat'
+			\	},
+			\	'component_type': {
+			\		'syntastic_err': 'error',
+			\		'syntastic_warn': 'warning'
 			\	}
 			\ }
-"}}}2
-
-"{{{2 Tagbar
-" let g:tagbar_iconchars = ['▶', '◢']
-" let g:tagbar_autofocus = 1
 "}}}2
 
 "{{{2 Emmet
@@ -182,11 +235,15 @@ let g:user_emmet_leader_key = '<c-z>'
 
 "{{{2 YouCompleteMe
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_key_list_previous_completion = ['<c-k>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<c-j>', '<Down>']
-let g:ycm_key_list_select_completion = ['<c-u>', '<Right>']
-let g:ycm_use_ultisnips_completer = 0 
-let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_key_list_previous_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Down>']
+let g:ycm_key_list_select_completion = ['<Right>']
+let g:ycm_key_list_stop_completion = ['<C-y']
+" let g:ycm_use_ultisnips_completer = 0 
+" let g:ycm_enable_diagnostic_signs = 0
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_add_preview_to_completeopt = 0
+set completeopt-=preview
 "}}}2
 
 "{{{2 SnipMate
@@ -194,8 +251,33 @@ let g:snipMate = {}
 let g:snipMate.description_in_completion = 1
 "}}}2
 
+"{{{2 Tagbar
+" let g:tagbar_iconchars = ['', '']
+" let g:tagbar_autofocus = 1
+"}}}2
+
 "{{{2 CtrlP 
 let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
+"}}}2
+
+"{{{2 NERDTree
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+let NERDTreeQuitOnOpen = 1 
+"}}}2
+
+"{{{2 Syntastic
+let g:syntastic_javascript_checkers = ["eslint"]
+let g:syntastic_javascript_eslint_exe = "eslint"
+let g:syntastic_javascript_arg = " "
+let g:syntastic_check_on_open = 0
+let g:syntasitc_check_on_wq = 0
+let g:syntastic_map_mode = { "mode": "passive" }
+let g:syntastic_stl_format = "%F;%e;%w"
+"}}}2
+
+"{{{2 vim-jsx-pretty
+"let g:vim_jsx_pretty_colorful_config = 1
 "}}}2
 "}}}1
 

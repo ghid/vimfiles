@@ -31,6 +31,12 @@ if !exists("*MyDiff")
 	endfunction
 endif
 
+function! functions#SetupCanvas()
+	set lines=99
+	set columns=999
+	winpos 0 5
+endfunction
+
 " Copy only the text that matches search hits into a given register.
 " @example: :CopyMatches +	" Copy currently selected text to the +
 " register
@@ -89,8 +95,12 @@ function! functions#LightlineDevIconFileformat()
 				\. ' ' . ff_symbol) : ''
 endfunction
 
+function! functions#LightlineFileEncoding()
+	return winwidth(0) > 70 ? (&fileencoding !=# '' ? &fileencoding . ' ' : 'no enc') : ''
+endfunction
+
 function! functions#LightlineReadonly()
-	return &readonly ? '' : ''
+	return &readonly ? '' : ''
 endfunction
 
 function! functions#LightlineFilename()
@@ -107,6 +117,29 @@ function! functions#LightlineFugitive()
 	return ''
 endfunction
 
+function! functions#LightlineALEOk()
+	if ale#linter#Get(&filetype) != [] && ale#statusline#Count(bufnr("%"))["total"] == 0
+		return "" 
+	endif
+	return ""
+endfunction
+
+function! functions#LightlineALEErrors()
+	let ale_errors = ale#statusline#Count(bufnr("%"))["0"]
+	if ale_errors > 0
+		return " " . ale_errors
+	endif
+	return ""
+endfunction
+
+function! functions#LightlineALEWarnings()
+	let ale_warnings = ale#statusline#Count(bufnr("%"))["1"]
+	if ale_warnings > 0
+		return " " . ale_warnings
+	endif
+	return ""
+endfunction
+
 function! functions#LightlineSyntasticFirstLine()
 	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
 	return ' ' . syntastic_flag[0]
@@ -121,10 +154,4 @@ function! functions#LightlineSyntasticWarnings()
 	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
 	return ' ' . syntastic_flag[2]
 endfunction
-
-function! functions#Syntastic()
-	SyntasticCheck
-	call lightline#update()
-endfunction
-
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

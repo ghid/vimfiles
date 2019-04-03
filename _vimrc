@@ -11,9 +11,11 @@ set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-" set guifont=FantasqueSansMono_NF:h13:cANSI:qDEFAULT
-set guifont=Monoid_NF:h11:cANSI:qDRAFT
-" set guifont=Mplus_NF:h12.5:cDEFAULT:qDEFAULT
+set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
+" set guifont=FantasqueSansMono_NF:h14:cANSI:qDEFAULT
+" set guifont=Monoid_NF:h11:cANSI:qDEFAULT
+set guifont=FuraCode_NF:h14:cANSI:qDRAFT
+" set guifont=Mplus_NF:h13:cDEFAULT:qCLEARTYPE
 " set guifont=Iosevka_NF:h13:cDEFAULT:qDEFAULT
 set guioptions=-TMrL
 set guioptions=c
@@ -25,9 +27,9 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
-set nocursorline
+set cursorline
 set formatoptions-=t
-set listchars=tab:\|\ ,eol:¬
+set listchars=tab:\⡇\ ,eol:¬
 set showbreak=…\ 
 set wildignore+=NTUSER.DAT*,.git/*
 " set scrolloff=999
@@ -107,7 +109,7 @@ vnoremap <leader>c "+y
 vnoremap <leader>x "+x
 noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
-noremap <leader>sv :source $MYVIMRC<CR>:simalt ~x<CR>
+noremap <leader>sv :source $MYVIMRC<CR>:call functions#SetupCanvas()<CR>
 noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/autoload/functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/packages.vim<CR>
 noremap <expr> <leader>es ":vsplit $HOME/vimfiles/snippets/" . &filetype . "<CR>"
@@ -115,7 +117,7 @@ noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
 nnoremap <leader>QQ :qa!<CR>
-nnoremap <leader>y :YcmCompleter 
+" nnoremap <leader>y :YcmCompleter 
 " nnoremap <leader>C :ColorToggle<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-l> <right>
@@ -123,6 +125,8 @@ inoremap <S-Return>	<C-o>A
 inoremap <C-Return> <C-o>o
 noremap <C-n> :NERDTreeToggle<CR>
 inoremap <C-BS> <Esc>diwa
+nnoremap <leader>an :ALENext<CR>
+nnoremap <leader>ap :ALEPrevious<CR>
 "}}}2
 
 "{{{2 Commands
@@ -131,7 +135,7 @@ command! -register CopyMatches call functions#CopyMatches(<q-reg>)
 
 "{{{2 Auto Commands
 if has("autocmd")
-	autocmd GUIEnter * simalt ~x
+	autocmd GUIEnter * call functions#SetupCanvas()
 	filetype on
 	filetype plugin indent on
 	augroup VIM
@@ -151,7 +155,7 @@ if has("autocmd")
 	augroup END
 	augroup LUA
 		autocmd!
-		autocmd FileType lua,python
+		autocmd FileType lua
 					\ setlocal number autoindent noexpandtab textwidth=80
 					\ tabstop=4 shiftwidth=4 softtabstop=4
 		autocmd FileType lua let b:comment_leader="-- "
@@ -167,9 +171,13 @@ if has("autocmd")
 		autocmd!
 		autocmd FileType markdown setlocal textwidth=80
 	augroup END
-	augroup AUTOSYNTASTIC
+	augroup PY
 		autocmd!
-		autocmd BufWritePost *.js,*.jsx call functions#Syntastic()
+		autocmd FileType python
+					\ setlocal number autoindent expandtab textwidth=80
+					\ tabstop=4 shiftwidth=4 softtabstop=0 smarttab
+		autocmd FileType python let b:comment_leader="#"
+		autocmd FileType python let b:ale_fixers = ["black", "mypy"]
 	augroup END
 	" autocmd FileType * if(&textwidth != 0)
 				" \ |		let &colorcolumn=&textwidth+1
@@ -195,36 +203,34 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "{{{2 Lightline
 let g:lightline = {
 			\	'colorscheme': 'oceanicnext',
+			\	'component': {
+			\		'percent': '≡%3p%%',
+			\		'lineinfo': ' %3l:%-3v'
+			\	},
+			\   'component_type': {
+			\       'lint_errors': 'error',
+			\       'lint_warnings': 'warning'
+			\   },
+			\	'component_expand': {
+			\		'gitbranch': 'functions#LightlineFugitive',
+			\		'readonly': 'functions#LightlineReadonly'
+			\	},
+			\	'component_function': {
+			\		'filename': 'functions#LightlineFilename',
+			\		'filetype': 'functions#LightlineDevIconFiletype',
+			\		'fileformat': 'functions#LightlineDevIconFileformat',
+			\       'fileencoding': 'functions#LightlineFileEncoding',
+			\       'lint_ok': 'functions#LightlineALEOk',
+			\       'lint_errors': 'functions#LightlineALEErrors',
+			\       'lint_warnings': 'functions#LightlineALEWarnings'
+			\	},
 			\	'active': {
 			\		'left': [['mode', 'paste'],
 			\			['gitbranch'],
 			\			['readonly', 'filename']],
 			\		'right': [['lineinfo'],
 			\			['percent'],
-			\			['fileformat', 'filetype'],
-			\			['syntastic_warn'],
-			\			['syntastic_err'],
-			\			['syntastic']]
-			\	},
-			\	'component': {
-			\		'percent': '≡%3p%%',
-			\		'lineinfo': ' %3l:%-3v',
-			\	},
-			\	'component_expand': {
-			\		'gitbranch': 'functions#LightlineFugitive',
-			\		'readonly': 'functions#LightlineReadonly',
-			\		'syntastic': 'functions#LightlineSyntasticFirstLine',
-			\		'syntastic_err': 'functions#LightlineSyntasticErrors',
-			\		'syntastic_warn': 'functions#LightlineSyntasticWarnings'
-			\	},
-			\	'component_function': {
-			\		'filename': 'functions#LightlineFilename',
-			\		'filetype': 'functions#LightlineDevIconFiletype',
-			\		'fileformat': 'functions#LightlineDevIconFileformat'
-			\	},
-			\	'component_type': {
-			\		'syntastic_err': 'error',
-			\		'syntastic_warn': 'warning'
+			\			['lint_ok', 'lint_warnings', 'lint_errors', 'fileformat', 'filetype', 'fileencoding']]
 			\	}
 			\ }
 "}}}2
@@ -234,16 +240,16 @@ let g:user_emmet_leader_key = '<c-z>'
 "}}}2
 
 "{{{2 YouCompleteMe
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_key_list_previous_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Down>']
-let g:ycm_key_list_select_completion = ['<Right>']
-let g:ycm_key_list_stop_completion = ['<C-y']
-" let g:ycm_use_ultisnips_completer = 0 
-" let g:ycm_enable_diagnostic_signs = 0
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_add_preview_to_completeopt = 0
-set completeopt-=preview
+" let g:ycm_seed_identifiers_with_syntax = 1
+" let g:ycm_key_list_previous_completion = ['<Down>']
+" let g:ycm_key_list_previous_completion = ['<Down>']
+" let g:ycm_key_list_select_completion = ['<Right>']
+" let g:ycm_key_list_stop_completion = ['<C-y']
+" " let g:ycm_use_ultisnips_completer = 0 
+" " let g:ycm_enable_diagnostic_signs = 0
+" " let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_add_preview_to_completeopt = 0
+" set completeopt-=preview
 "}}}2
 
 "{{{2 SnipMate
@@ -267,13 +273,21 @@ let NERDTreeQuitOnOpen = 1
 "}}}2
 
 "{{{2 Syntastic
-let g:syntastic_javascript_checkers = ["eslint"]
-let g:syntastic_javascript_eslint_exe = "eslint"
-let g:syntastic_javascript_arg = " "
-let g:syntastic_check_on_open = 0
-let g:syntasitc_check_on_wq = 0
-let g:syntastic_map_mode = { "mode": "passive" }
-let g:syntastic_stl_format = "%F;%e;%w"
+" let g:syntastic_javascript_checkers = ["eslint"]
+" let g:syntastic_javascript_eslint_exe = "eslint"
+" let g:syntastic_javascript_arg = " "
+" let g:syntastic_check_on_open = 0
+" let g:syntasitc_check_on_wq = 0
+" let g:syntastic_map_mode = { "mode": "passive" }
+" let g:syntastic_stl_format = "%F;%e;%w"
+"}}}2
+
+"{{{2 Ale
+let g:ale_completion_enabled = 1
+let g:ale_lint_on_text_changed = "never"
+let g:ale_lint_on_enter = 0
+let g:ale_open_list = 1
+let g:ale_jq_executable = "C:/opt/bin/jq.exe"
 "}}}2
 
 "{{{2 vim-jsx-pretty

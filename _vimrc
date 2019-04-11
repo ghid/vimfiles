@@ -11,12 +11,9 @@ set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
-" set guifont=FantasqueSansMono_NF:h14:cANSI:qDEFAULT
-" set guifont=Monoid_NF:h11:cANSI:qDEFAULT
-set guifont=FuraCode_NF:h14:cANSI:qDRAFT
-" set guifont=Mplus_NF:h13:cDEFAULT:qCLEARTYPE
-" set guifont=Iosevka_NF:h13:cDEFAULT:qDEFAULT
+set renderoptions=type:directx,renmode:5,taamode:1,gamma:20,contrast:1,geom:1
+" https://github.com/tonsky/FiraCode/releases
+set guifont=Fira_Code_Retina:h14:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M
@@ -30,8 +27,8 @@ set visualbell
 set cursorline
 set formatoptions-=t
 set listchars=tab:\⡇\ ,eol:¬
-set showbreak=…\ 
-set wildignore+=NTUSER.DAT*,.git/*
+set showbreak=…
+set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
 " set scrolloff=999
 "}}}2
 
@@ -54,14 +51,15 @@ endif
 " let g:monochrome_italic_comments = 1
 " colorscheme monochrome
 " Put in a background colour for gui with use of falcon theme
-if has("gui_running") && colors_name == "falcon"
+if has("gui_running") && has("colors_name") && colors_name == "falcon"
 	let g:falcon_lightline = 1
 	highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
 	highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
 	highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
+	ljasldjj
 endif
 " highlight ColorColumn ctermbg=NONE ctermfg=white guibg=red guifg=white
-highlight ColorColumn guibg=#333380 guifg=white
+" highlight ColorColumn guibg=#343D46 guifg=white
 call matchadd('ColorColumn', '\%82v', 100)
 "}}}2
 
@@ -125,8 +123,11 @@ inoremap <S-Return>	<C-o>A
 inoremap <C-Return> <C-o>o
 noremap <C-n> :NERDTreeToggle<CR>
 inoremap <C-BS> <Esc>diwa
+nnoremap <leader>al :ALELint<CR>
 nnoremap <leader>an :ALENext<CR>
 nnoremap <leader>ap :ALEPrevious<CR>
+nnoremap <leader>c :HexokinaseRefresh<CR>
+nnoremap <leader>H :HexokinaseToggle<CR>
 "}}}2
 
 "{{{2 Commands
@@ -141,8 +142,8 @@ if has("autocmd")
 	augroup VIM
 		autocmd!
 		autocmd FileType vim 
-					\ setlocal tabstop=4 shiftwidth=2 softtabstop=2
-					\ number noexpandtab autoindent
+					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
+					\ number expandtab autoindent
 		autocmd FileType vim let b:comment_leader="\" "
 	augroup END
 	augroup BAT
@@ -267,8 +268,10 @@ let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
 "}}}2
 
 "{{{2 NERDTree
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
+" let g:NERDTreeDirArrowExpandable = ''
+" let g:NERDTreeDirArrowCollapsible = ''
+let g:NERDTreeDirArrowExpandable = '▶'
+let g:NERDTreeDirArrowCollapsible = '▼'
 let NERDTreeQuitOnOpen = 1 
 "}}}2
 
@@ -291,8 +294,13 @@ let g:ale_jq_executable = "C:/opt/bin/jq.exe"
 "}}}2
 
 "{{{2 vim-jsx-pretty
-"let g:vim_jsx_pretty_colorful_config = 1
+let g:vim_jsx_pretty_colorful_config = 1
 "}}}2
+"
+"{{{2 Hexokinase
+let g:Hexokinase_ftAutoload = ["css", "xml", "html", "scss", "sass"]
+" let g:Hexokinase_patterns = { "\\c\\<\\(" . join(keys(functions#HexokinaseColorNamesGet()), "\\|") . "\\)\\>": function("functions#HexokinaseHtmlColorNames")}
+"}}}
 "}}}1
 
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

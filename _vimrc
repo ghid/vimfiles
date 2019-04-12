@@ -12,7 +12,10 @@ set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
 " set guifont=FantasqueSansMono_NF:h13:cANSI:qDEFAULT
-set guifont=Iosevka_NF:h13:cANSI:qDEFAULT
+" set guifont=Iosevka_NF:h13:cANSI:qDEFAULT
+" set guifont=Monoid_NF:h11:cANSI:qDEFAULT
+set renderoptions=type:directx,renmode:5,taamode:2,gamma:10
+set guifont=Fira_Code_Retina:h14:cANSI:qDEFAULT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M
@@ -30,7 +33,7 @@ set showbreak=…\
 "}}}2
 
 "{{{2 Customize Colorscheme
-colorscheme tender
+colorscheme OceanicNext
 if (has("termguicolors"))
 	set termguicolors
 endif
@@ -149,7 +152,7 @@ endif
 "{{{1 Plugin Customization
 "{{{2 Lightline
 let g:lightline = {
-			\	'colorscheme': 'tenderplus',
+			\	'colorscheme': 'oceanicnext',
 			\	'active': {
 			\		'left': [['mode', 'paste'],
 			\			['gitbranch'],
@@ -181,12 +184,12 @@ let g:user_emmet_leader_key = '<c-z>'
 "}}}2
 
 "{{{2 YouCompleteMe
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_key_list_previous_completion = ['<c-k>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<c-j>', '<Down>']
-let g:ycm_key_list_select_completion = ['<c-u>', '<Right>']
-let g:ycm_use_ultisnips_completer = 0 
-let g:ycm_enable_diagnostic_signs = 0
+" let g:ycm_seed_identifiers_with_syntax = 1
+" let g:ycm_key_list_previous_completion = ['<c-k>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<c-j>', '<Down>']
+" let g:ycm_key_list_select_completion = ['<c-u>', '<Right>']
+" let g:ycm_use_ultisnips_completer = 0 
+" let g:ycm_enable_diagnostic_signs = 0
 "}}}2
 
 "{{{2 SnipMate

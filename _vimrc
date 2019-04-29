@@ -13,7 +13,7 @@ set diffopt=vertical
 set encoding=utf-8
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:20,contrast:1,geom:1
 " https://github.com/tonsky/FiraCode/releases
-set guifont=Fira_Code_Retina:h14:cANSI:qDRAFT
+set guifont=Fira_Code:h14:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M
@@ -139,6 +139,7 @@ if has("autocmd")
 	autocmd GUIEnter * call functions#SetupCanvas()
 	filetype on
 	filetype plugin indent on
+	set omnifunc=syntaxcomplete#Complete
 	augroup VIM
 		autocmd!
 		autocmd FileType vim 
@@ -180,6 +181,14 @@ if has("autocmd")
 		autocmd FileType python let b:comment_leader="#"
 		autocmd FileType python let b:ale_fixers = ["black", "mypy"]
 	augroup END
+	augroup HASKELL
+		autocmd!
+		autocmd FileType haskell,lhaskell
+					\ setlocal number autoindent expandtab textwidth=80
+					\ tabstop=4 shiftwidth=4 softtabstop=0 smarttab
+					\ nocindent
+		autocmd FileType haskell let b:comment_leader="-- "
+	augroup END
 	" autocmd FileType * if(&textwidth != 0)
 				" \ |		let &colorcolumn=&textwidth+1
 				" \ | endif
@@ -189,6 +198,7 @@ if has("autocmd")
 	" augroup END
 endif
 "}}}2
+
 
 " Show syntax highlighting groups for word under cursor
 function! <SID>SynStack()
@@ -290,6 +300,7 @@ let g:ale_completion_enabled = 1
 let g:ale_lint_on_text_changed = "never"
 let g:ale_lint_on_enter = 0
 let g:ale_open_list = 1
+" let g:ale_sign_error = "⌦"
 let g:ale_jq_executable = "C:/opt/bin/jq.exe"
 "}}}2
 
@@ -298,9 +309,15 @@ let g:vim_jsx_pretty_colorful_config = 1
 "}}}2
 "
 "{{{2 Hexokinase
+packadd vim-hexokinase
 let g:Hexokinase_ftAutoload = ["css", "xml", "html", "scss", "sass"]
 " let g:Hexokinase_patterns = { "\\c\\<\\(" . join(keys(functions#HexokinaseColorNamesGet()), "\\|") . "\\)\\>": function("functions#HexokinaseHtmlColorNames")}
-"}}}
+let g:Hexokinase_patterns[hexokinase#patterns#colour_names#get_pattern()] = function('hexokinase#patterns#colour_names#process')
+"}}}2
+
+"{{{2 haskell-vim
+let g:haskell_classic_highlighting = 1
+"}}}2
 "}}}1
 
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

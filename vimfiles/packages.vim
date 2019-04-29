@@ -15,6 +15,7 @@ call minpac#add("roosta/vim-srcery")
 call minpac#add("fenetikm/falcon")
 call minpac#add("patstockwell/vim-monokai-tasty")
 call minpac#add("cocopon/iceberg.vim")
+call minpac#add("NLKNguyen/papercolor-theme")
 call minpac#add("mhartington/oceanic-next")
 
 " Add plugins
@@ -45,3 +46,8 @@ call minpac#add("tpope/vim-fugitive")
 call minpac#add("tpope/vim-vinegar")
 call minpac#add("vim-scripts/Align", {"type": "opt"})
 call minpac#add("w0rp/ale")
+
+" Haskell support
+" call minpac#add("eagletmt/ghcmod-vim")
+call minpac#add("neovimhaskell/haskell-vim")
+

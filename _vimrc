@@ -13,7 +13,7 @@ set diffopt=vertical
 set encoding=utf-8
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:20,contrast:1,geom:1
 " https://github.com/tonsky/FiraCode/releases
-set guifont=Fira_Code:h14:cANSI:qDRAFT
+set guifont=Fira_Code_Retina:h14:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M

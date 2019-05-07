@@ -226,24 +226,27 @@ let g:lightline = {
 			\		'gitbranch': 'functions#LightlineFugitive',
 			\		'readonly': 'functions#LightlineReadonly'
 			\	},
+			\   'separator': { 'left': '', 'right': '' },
+			\   'subseparator': { 'left': '|', 'right': '|' },
 			\	'component_function': {
 			\		'filename': 'functions#LightlineFilename',
 			\		'filetype': 'functions#LightlineDevIconFiletype',
-			\		'fileformat': 'functions#LightlineDevIconFileformat',
-			\       'fileencoding': 'functions#LightlineFileEncoding',
+			\       'fileencoding': 'functions#LightlineFileencodingAndFormat',
 			\       'lint_ok': 'functions#LightlineALEOk',
 			\       'lint_errors': 'functions#LightlineALEErrors',
 			\       'lint_warnings': 'functions#LightlineALEWarnings'
 			\	},
 			\	'active': {
 			\		'left': [['mode', 'paste'],
-			\			['gitbranch'],
-			\			['readonly', 'filename']],
+			\			['gitbranch', 'filename'],
+			\			['fileencoding', 'filetype', 'readonly']],
 			\		'right': [['lineinfo'],
 			\			['percent'],
-			\			['lint_ok', 'lint_warnings', 'lint_errors', 'fileformat', 'filetype', 'fileencoding']]
+			\			['lint_ok', 'lint_warnings', 'lint_errors']]
 			\	}
 			\ }
+			" \   'separator': { 'left': '', 'right': '' },
+			" \   'subseparator': { 'left': '', 'right': '' },
 "}}}2
 
 "{{{2 Emmet

@@ -82,7 +82,7 @@ function! functions#LightlineDevIconFiletype()
 		let ft_symbol = ''
 	endif
 	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype 
-				\ . ' ' . ft_symbol : 'no ft') : ''
+				\ . '' . ft_symbol : 'no ft') : ''
 endfunction
 
 function! functions#LightlineDevIconFileformat()
@@ -92,7 +92,7 @@ function! functions#LightlineDevIconFileformat()
 		let ff_symbol = ''
 	endif
 	return winwidth(0) > 70 ? (&fileformat
-				\. ' ' . ff_symbol) : ''
+				\. '' . ff_symbol) : ''
 endfunction
 
 function! functions#LightlineFileEncoding()
@@ -103,6 +103,10 @@ function! functions#LightlineFileEncoding()
 	endif
 	return winwidth(0) > 70 ? (&fileencoding !=# ''
 				\	? &fileencoding . fe_symbol : 'no enc') : ''
+endfunction
+
+function! functions#LightlineFileencodingAndFormat()
+	return &fileencoding . '[' . &fileformat . ']'
 endfunction
 
 function! functions#LightlineReadonly()
@@ -117,7 +121,7 @@ function! functions#LightlineFilename()
 	if exists("*WebDevIconsGetFileTypeSymbol")
 		let modified = &modified ? '  ' : '   '
 	else
-		let modified = &modified ? ' ●' : '   '
+		let modified = &modified ? ' ●' : ''
 	endif
 	return filename . modified
 endfunction

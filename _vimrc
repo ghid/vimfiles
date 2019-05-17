@@ -24,16 +24,21 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
-set cursorline
+set nocursorline
 set formatoptions-=t
 set listchars=tab:\⡇\ ,eol:¬
 set showbreak=…
 set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
+set directory=$HOME/vimfiles/swapdir
 " set scrolloff=999
 "}}}2
 
 "{{{2 Customize Colorscheme
-colorscheme OceanicNext
+if (has("termguicolors"))
+	set termguicolors
+endif
+colorscheme base16-materia
+highlight link xmlTagN xmlEndTag
 " if(strftime("%h")>=8 && strftime("%h")<=16)
 	" colorscheme typewriter
 	" set background=light
@@ -43,9 +48,6 @@ colorscheme OceanicNext
 	" set background=dark
 	" let s:lightline_colorscheme = 'pencil_dark'
 " endif
-if (has("termguicolors"))
-	set termguicolors
-endif
 " let g:pencil_terminal_italics = 0
 " let g:pencil_higher_contrast_ui = 1
 " let g:monochrome_italic_comments = 1
@@ -56,7 +58,6 @@ if has("gui_running") && has("colors_name") && colors_name == "falcon"
 	highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
 	highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
 	highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
-	ljasldjj
 endif
 " highlight ColorColumn ctermbg=NONE ctermfg=white guibg=red guifg=white
 " highlight ColorColumn guibg=#343D46 guifg=white
@@ -75,16 +76,13 @@ set undodir=$HOME/vimfiles/undodir
 " let g_netrw_altv = 1
 " let g:netrw_winsize = 25
 " let g:netrw_keepdir = 0
+let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
+let g:netrw_silent=1
 "}}}
 
 "{{{2 Setup grep program 
 set grepprg=mack\ --nogroup\ --column\ -k\ --nocolor\ --filename\ $*
 set grepformat=%f:%l:%c:%m
-"}}}2
-
-"{{{2 Setup scp
-let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
-let g:netrw_silent=1
 "}}}2
 
 "{{{2 Setup shell
@@ -213,7 +211,7 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "{{{1 Plugin Customization
 "{{{2 Lightline
 let g:lightline = {
-			\	'colorscheme': 'oceanicnext',
+			\	'colorscheme': 'base16_materia',
 			\	'component': {
 			\		'percent': '≡%3p%%',
 			\		'lineinfo': ' %3l:%-3v'
@@ -299,7 +297,7 @@ let NERDTreeQuitOnOpen = 1
 "}}}2
 
 "{{{2 Ale
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_lint_on_text_changed = "never"
 let g:ale_lint_on_enter = 0
 let g:ale_open_list = 1
@@ -322,6 +320,6 @@ let g:Hexokinase_patterns[hexokinase#patterns#colour_names#get_pattern()] = func
 let g:haskell_classic_highlighting = 1
 "}}}2
 "}}}1
-
+"
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb
 " vim:fdm=marker:fdl=1

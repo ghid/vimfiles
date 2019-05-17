@@ -34,7 +34,7 @@ endif
 function! functions#SetupCanvas()
 	set lines=99
 	set columns=999
-	winpos 1 1
+	winpos 1 42 
 endfunction
 
 " Copy only the text that matches search hits into a given register.
@@ -102,11 +102,11 @@ function! functions#LightlineFileEncoding()
 		let fe_symbol = ''
 	endif
 	return winwidth(0) > 70 ? (&fileencoding !=# ''
-				\	? &fileencoding . fe_symbol : 'no enc') : ''
+				\	? &fileencoding . bomb_symbol . fe_symbol : 'no enc') : ''
 endfunction
 
 function! functions#LightlineFileencodingAndFormat()
-	return &fileencoding . '[' . &fileformat . ']'
+	return &fileencoding . (&bomb ? ':bomb' : '') . '[' . &fileformat . ']'
 endfunction
 
 function! functions#LightlineReadonly()

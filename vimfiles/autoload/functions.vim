@@ -34,7 +34,7 @@ endif
 function! functions#SetupCanvas()
 	set lines=99
 	set columns=999
-	winpos 0 5
+	winpos 1 42 
 endfunction
 
 " Copy only the text that matches search hits into a given register.
@@ -82,7 +82,7 @@ function! functions#LightlineDevIconFiletype()
 		let ft_symbol = ''
 	endif
 	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype 
-				\ . ' ' . ft_symbol : 'no ft') : ''
+				\ . '' . ft_symbol : 'no ft') : ''
 endfunction
 
 function! functions#LightlineDevIconFileformat()
@@ -92,34 +92,55 @@ function! functions#LightlineDevIconFileformat()
 		let ff_symbol = ''
 	endif
 	return winwidth(0) > 70 ? (&fileformat
-				\. ' ' . ff_symbol) : ''
+				\. '' . ff_symbol) : ''
 endfunction
 
 function! functions#LightlineFileEncoding()
-	return winwidth(0) > 70 ? (&fileencoding !=# '' ? &fileencoding . ' ' : 'no enc') : ''
+	if exists("*WebDevIconsGetFileTypeSymbol")
+		let fe_symbol = ' '
+	else
+		let fe_symbol = ''
+	endif
+	return winwidth(0) > 70 ? (&fileencoding !=# ''
+				\	? &fileencoding . bomb_symbol . fe_symbol : 'no enc') : ''
+endfunction
+
+function! functions#LightlineFileencodingAndFormat()
+	return &fileencoding . (&bomb ? ':bomb' : '') . '[' . &fileformat . ']'
 endfunction
 
 function! functions#LightlineReadonly()
-	return &readonly ? '' : ''
+	if exists("*WebDevIconsGetFileTypeSymbol")
+		return &readonly ? '' : ''
+	endif
+	return &readonly ? '' : ''
 endfunction
 
 function! functions#LightlineFilename()
 	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-	let modified = &modified ? '  ' : '   '
+	if exists("*WebDevIconsGetFileTypeSymbol")
+		let modified = &modified ? '  ' : '   '
+	else
+		let modified = &modified ? ' ●' : ''
+	endif
 	return filename . modified
 endfunction
 
 function! functions#LightlineFugitive()
 	if exists('*fugitive#head')
+		if exists("*WebDevIconsGetFileTypeSymbol")
+			let br_symbol = ''
+		else
+			let br_symbol = ''
 		let branch = fugitive#head()
-		return branch !=# '' ? ' '.branch : ''
+		return branch !=# '' ? br_symbol.' '.branch : ''
 	endif
 	return ''
 endfunction
 
 function! functions#LightlineALEOk()
 	if ale#linter#Get(&filetype) != [] && ale#statusline#Count(bufnr("%"))["total"] == 0
-		return "" 
+		return (exists("*WebDevIconsGetFileTypeSymbol") ? " " : "✓ ")
 	endif
 	return ""
 endfunction
@@ -127,7 +148,7 @@ endfunction
 function! functions#LightlineALEErrors()
 	let ale_errors = ale#statusline#Count(bufnr("%"))["0"]
 	if ale_errors > 0
-		return " " . ale_errors
+		return (exists("*WebDevIconsGetFileTypeSymbol") ? " " : "✗ ") . ale_errors
 	endif
 	return ""
 endfunction
@@ -135,7 +156,7 @@ endfunction
 function! functions#LightlineALEWarnings()
 	let ale_warnings = ale#statusline#Count(bufnr("%"))["1"]
 	if ale_warnings > 0
-		return " " . ale_warnings
+		return (exists("*WebDevIconsGetFileTypeSymbol") ? " " : "▲ ") . ale_warnings
 	endif
 	return ""
 endfunction

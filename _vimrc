@@ -11,12 +11,9 @@ set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
-" set guifont=FantasqueSansMono_NF:h14:cANSI:qDEFAULT
-" set guifont=Monoid_NF:h11:cANSI:qDEFAULT
-set guifont=FuraCode_NF:h14:cANSI:qDRAFT
-" set guifont=Mplus_NF:h13:cDEFAULT:qCLEARTYPE
-" set guifont=Iosevka_NF:h13:cDEFAULT:qDEFAULT
+set renderoptions=type:directx,renmode:5,taamode:1,gamma:20,contrast:1,geom:1
+" https://github.com/tonsky/FiraCode/releases
+set guifont=Fira_Code_Retina:h14:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set guitablabel=%N\ %t\ %M
@@ -27,16 +24,21 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
-set cursorline
+set nocursorline
 set formatoptions-=t
 set listchars=tab:\⡇\ ,eol:¬
-set showbreak=…\ 
-set wildignore+=NTUSER.DAT*,.git/*
+set showbreak=…
+set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
+set directory=$HOME/vimfiles/swapdir
 " set scrolloff=999
 "}}}2
 
 "{{{2 Customize Colorscheme
-colorscheme OceanicNext
+if (has("termguicolors"))
+	set termguicolors
+endif
+colorscheme base16-materia
+highlight link xmlTagN xmlEndTag
 " if(strftime("%h")>=8 && strftime("%h")<=16)
 	" colorscheme typewriter
 	" set background=light
@@ -46,22 +48,19 @@ colorscheme OceanicNext
 	" set background=dark
 	" let s:lightline_colorscheme = 'pencil_dark'
 " endif
-if (has("termguicolors"))
-	set termguicolors
-endif
 " let g:pencil_terminal_italics = 0
 " let g:pencil_higher_contrast_ui = 1
 " let g:monochrome_italic_comments = 1
 " colorscheme monochrome
 " Put in a background colour for gui with use of falcon theme
-if has("gui_running") && colors_name == "falcon"
+if has("gui_running") && has("colors_name") && colors_name == "falcon"
 	let g:falcon_lightline = 1
 	highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
 	highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
 	highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
 endif
 " highlight ColorColumn ctermbg=NONE ctermfg=white guibg=red guifg=white
-highlight ColorColumn guibg=#333380 guifg=white
+" highlight ColorColumn guibg=#343D46 guifg=white
 call matchadd('ColorColumn', '\%82v', 100)
 "}}}2
 
@@ -77,16 +76,13 @@ set undodir=$HOME/vimfiles/undodir
 " let g_netrw_altv = 1
 " let g:netrw_winsize = 25
 " let g:netrw_keepdir = 0
+let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
+let g:netrw_silent=1
 "}}}
 
 "{{{2 Setup grep program 
 set grepprg=mack\ --nogroup\ --column\ -k\ --nocolor\ --filename\ $*
 set grepformat=%f:%l:%c:%m
-"}}}2
-
-"{{{2 Setup scp
-let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
-let g:netrw_silent=1
 "}}}2
 
 "{{{2 Setup shell
@@ -123,10 +119,13 @@ nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-l> <right>
 inoremap <S-Return>	<C-o>A
 inoremap <C-Return> <C-o>o
-noremap <C-n> :NERDTreeToggle<CR>
+" noremap <C-n> :NERDTreeToggle<CR>
 inoremap <C-BS> <Esc>diwa
+nnoremap <leader>al :ALELint<CR>
 nnoremap <leader>an :ALENext<CR>
 nnoremap <leader>ap :ALEPrevious<CR>
+nnoremap <leader>c :HexokinaseRefresh<CR>
+nnoremap <leader>H :HexokinaseToggle<CR>
 "}}}2
 
 "{{{2 Commands
@@ -138,11 +137,12 @@ if has("autocmd")
 	autocmd GUIEnter * call functions#SetupCanvas()
 	filetype on
 	filetype plugin indent on
+	set omnifunc=syntaxcomplete#Complete
 	augroup VIM
 		autocmd!
 		autocmd FileType vim 
-					\ setlocal tabstop=4 shiftwidth=2 softtabstop=2
-					\ number noexpandtab autoindent
+					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
+					\ number expandtab autoindent
 		autocmd FileType vim let b:comment_leader="\" "
 	augroup END
 	augroup BAT
@@ -179,6 +179,14 @@ if has("autocmd")
 		autocmd FileType python let b:comment_leader="#"
 		autocmd FileType python let b:ale_fixers = ["black", "mypy"]
 	augroup END
+	augroup HASKELL
+		autocmd!
+		autocmd FileType haskell,lhaskell
+					\ setlocal number autoindent expandtab textwidth=80
+					\ tabstop=4 shiftwidth=4 softtabstop=0 smarttab
+					\ nocindent
+		autocmd FileType haskell let b:comment_leader="-- "
+	augroup END
 	" autocmd FileType * if(&textwidth != 0)
 				" \ |		let &colorcolumn=&textwidth+1
 				" \ | endif
@@ -188,6 +196,7 @@ if has("autocmd")
 	" augroup END
 endif
 "}}}2
+
 
 " Show syntax highlighting groups for word under cursor
 function! <SID>SynStack()
@@ -202,7 +211,7 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "{{{1 Plugin Customization
 "{{{2 Lightline
 let g:lightline = {
-			\	'colorscheme': 'oceanicnext',
+			\	'colorscheme': 'base16_materia',
 			\	'component': {
 			\		'percent': '≡%3p%%',
 			\		'lineinfo': ' %3l:%-3v'
@@ -215,24 +224,27 @@ let g:lightline = {
 			\		'gitbranch': 'functions#LightlineFugitive',
 			\		'readonly': 'functions#LightlineReadonly'
 			\	},
+			\   'separator': { 'left': '', 'right': '' },
+			\   'subseparator': { 'left': '|', 'right': '|' },
 			\	'component_function': {
 			\		'filename': 'functions#LightlineFilename',
 			\		'filetype': 'functions#LightlineDevIconFiletype',
-			\		'fileformat': 'functions#LightlineDevIconFileformat',
-			\       'fileencoding': 'functions#LightlineFileEncoding',
+			\       'fileencoding': 'functions#LightlineFileencodingAndFormat',
 			\       'lint_ok': 'functions#LightlineALEOk',
 			\       'lint_errors': 'functions#LightlineALEErrors',
 			\       'lint_warnings': 'functions#LightlineALEWarnings'
 			\	},
 			\	'active': {
 			\		'left': [['mode', 'paste'],
-			\			['gitbranch'],
-			\			['readonly', 'filename']],
+			\			['gitbranch', 'filename'],
+			\			['fileencoding', 'filetype', 'readonly']],
 			\		'right': [['lineinfo'],
 			\			['percent'],
-			\			['lint_ok', 'lint_warnings', 'lint_errors', 'fileformat', 'filetype', 'fileencoding']]
+			\			['lint_ok', 'lint_warnings', 'lint_errors']]
 			\	}
 			\ }
+			" \   'separator': { 'left': '', 'right': '' },
+			" \   'subseparator': { 'left': '', 'right': '' },
 "}}}2
 
 "{{{2 Emmet
@@ -267,9 +279,11 @@ let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
 "}}}2
 
 "{{{2 NERDTree
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
-let NERDTreeQuitOnOpen = 1 
+" let g:NERDTreeDirArrowExpandable = ''
+" let g:NERDTreeDirArrowCollapsible = ''
+" let g:NERDTreeDirArrowExpandable = '▶'
+" let g:NERDTreeDirArrowCollapsible = '▼'
+" let NERDTreeQuitOnOpen = 1 
 "}}}2
 
 "{{{2 Syntastic
@@ -283,17 +297,29 @@ let NERDTreeQuitOnOpen = 1
 "}}}2
 
 "{{{2 Ale
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_lint_on_text_changed = "never"
 let g:ale_lint_on_enter = 0
 let g:ale_open_list = 1
+" let g:ale_sign_error = "⌦"
 let g:ale_jq_executable = "C:/opt/bin/jq.exe"
 "}}}2
 
 "{{{2 vim-jsx-pretty
-"let g:vim_jsx_pretty_colorful_config = 1
+let g:vim_jsx_pretty_colorful_config = 1
+"}}}2
+"
+"{{{2 Hexokinase
+packadd vim-hexokinase
+let g:Hexokinase_ftAutoload = ["css", "xml", "html", "scss", "sass"]
+" let g:Hexokinase_patterns = { "\\c\\<\\(" . join(keys(functions#HexokinaseColorNamesGet()), "\\|") . "\\)\\>": function("functions#HexokinaseHtmlColorNames")}
+let g:Hexokinase_patterns[hexokinase#patterns#colour_names#get_pattern()] = function('hexokinase#patterns#colour_names#process')
+"}}}2
+
+"{{{2 haskell-vim
+let g:haskell_classic_highlighting = 1
 "}}}2
 "}}}1
-
+"
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb
 " vim:fdm=marker:fdl=1

@@ -119,7 +119,7 @@ nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-l> <right>
 inoremap <S-Return>	<C-o>A
 inoremap <C-Return> <C-o>o
-noremap <C-n> :NERDTreeToggle<CR>
+" noremap <C-n> :NERDTreeToggle<CR>
 inoremap <C-BS> <Esc>diwa
 nnoremap <leader>al :ALELint<CR>
 nnoremap <leader>an :ALENext<CR>
@@ -281,9 +281,9 @@ let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
 "{{{2 NERDTree
 " let g:NERDTreeDirArrowExpandable = ''
 " let g:NERDTreeDirArrowCollapsible = ''
-let g:NERDTreeDirArrowExpandable = '▶'
-let g:NERDTreeDirArrowCollapsible = '▼'
-let NERDTreeQuitOnOpen = 1 
+" let g:NERDTreeDirArrowExpandable = '▶'
+" let g:NERDTreeDirArrowCollapsible = '▼'
+" let NERDTreeQuitOnOpen = 1 
 "}}}2
 
 "{{{2 Syntastic

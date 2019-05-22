@@ -113,7 +113,7 @@ function! functions#LightlineReadonly()
 	if exists("*WebDevIconsGetFileTypeSymbol")
 		return &readonly ? '' : ''
 	endif
-	return &readonly ? '' : ''
+	return &readonly ? ' ' : ''
 endfunction
 
 function! functions#LightlineFilename()
@@ -132,6 +132,7 @@ function! functions#LightlineFugitive()
 			let br_symbol = ''
 		else
 			let br_symbol = ''
+		endif
 		let branch = fugitive#head()
 		return branch !=# '' ? br_symbol.' '.branch : ''
 	endif
@@ -151,6 +152,22 @@ function! functions#LightlineALEErrors()
 		return (exists("*WebDevIconsGetFileTypeSymbol") ? " " : "✗ ") . ale_errors
 	endif
 	return ""
+endfunction
+
+function! functions#ALEOk()
+	return "✓ "
+endfunction
+
+function! functions#ALEWarnings()
+	return ale#statusline#Count(bufnr("%"))["1"] . "▲ "
+endfunction
+
+function! functions#ALECount()
+	return ale#statusline#Count(bufnr("%"))["0"] + ale#statusline#Count(bufnr("%"))["1"]
+endfunction
+
+function! functions#ALEErrors()
+	return ale#statusline#Count(bufnr("%"))["0"]. "✗ "
 endfunction
 
 function! functions#LightlineALEWarnings()

@@ -84,32 +84,40 @@ function! functions#StatusLine(current, width)
   return (a:current ? crystalline#mode() . '%#Crystalline#' : '%#CrystallineInactive#')
         \ . ' %{functions#Filename()}%h%w '
         \ . (a:current ? '%#CrystallineFill#%{functions#GitBranch()} ' : '')
-        \ . '%=' . (a:current && functions#ALECount() ? '%#CrystallineWarn# %{functions#ALEWarnings()}' : '%#CrystallineOk# %{functions#ALEOk()}')
-        \ . (a:current && functions#ALECount() ? '%#CrystallineError# %{functions#ALEErrors()}' : '')
+        \ . '%=' . (a:current && functions#ALECount()
+		\		? '%#CrystallineWarn# %{functions#ALEWarnings()}'
+		\		: '%#CrystallineOk# %{functions#ALEOk()}')
+        \ . (a:current && functions#ALECount()
+		\		? '%#CrystallineError# %{functions#ALEErrors()}'
+		\		: '')
 		\ . (a:current ? '%#CrystallineEmphasize#%{functions#SpellCheck()}' : '')
-        \ . (a:width > 80 ? '%#Crystalline# %{&ff} | %{&enc} | %{functions#Filetype()} ' . crystalline#mode_color() . '  %3l:%-3v ≡%3p%% ' : '')
+        \ . (a:width > 80
+		\		? '%#Crystalline# %{&ff} | %{&enc} | %{functions#Filetype()} '
+		\			. crystalline#mode_color()
+		\			. ' %4l:%-3v ≡%3p%% '
+		\		: '')
 endfunction
 
 function! functions#Filename()
-	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No name]'
+	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
 	return filename . (&readonly ? ' ' :'') . (&modified ? ' ●' : '')
 endfunction
 
 function! functions#Filetype()
-	return &ft !=# '' ? &ft : 'no ft'
+	return &ft !=# '' ? &ft : 'No Type'
 endfunction
 
 function! functions#GitBranch()
 	if exists('*fugitive#head')
 		let br_symbol = ''
 		let branch = fugitive#head()
-		return branch !=# '' ? ' '.br_symbol.' '.branch : ''
+		return branch !=# '' ? '  ' . branch : ''
 	endif
 	return ''
 endfunction
 
 function! functions#SpellCheck()
-	return &spell ? '  '.&spelllang.'🗸 ' : ''
+	return &spell ? '  ' . &spelllang . '🗸 ' : ''
 endfunction
 
 function! functions#ALEOk()

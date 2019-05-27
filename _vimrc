@@ -19,6 +19,7 @@ set guioptions=c
 set guitablabel=%N\ %t\ %M
 set langmenu=en_US.UTF-8
 set laststatus=2
+set showtabline=2
 set nocompatible
 set noerrorbells
 set noshowmode
@@ -209,42 +210,10 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "}}}1
 
 "{{{1 Plugin Customization
-"{{{2 Lightline
-let g:lightline = {
-			\	'colorscheme': 'base16_materia',
-			\	'component': {
-			\		'percent': '≡%3p%%',
-			\		'lineinfo': ' %3l:%-3v'
-			\	},
-			\   'component_type': {
-			\       'lint_errors': 'error',
-			\       'lint_warnings': 'warning'
-			\   },
-			\	'component_expand': {
-			\		'gitbranch': 'functions#LightlineFugitive',
-			\		'readonly': 'functions#LightlineReadonly'
-			\	},
-			\   'separator': { 'left': '', 'right': '' },
-			\   'subseparator': { 'left': '|', 'right': '|' },
-			\	'component_function': {
-			\		'filename': 'functions#LightlineFilename',
-			\		'filetype': 'functions#LightlineDevIconFiletype',
-			\       'fileencoding': 'functions#LightlineFileencodingAndFormat',
-			\       'lint_ok': 'functions#LightlineALEOk',
-			\       'lint_errors': 'functions#LightlineALEErrors',
-			\       'lint_warnings': 'functions#LightlineALEWarnings'
-			\	},
-			\	'active': {
-			\		'left': [['mode', 'paste'],
-			\			['gitbranch', 'filename'],
-			\			['fileencoding', 'filetype', 'readonly']],
-			\		'right': [['lineinfo'],
-			\			['percent'],
-			\			['lint_ok', 'lint_warnings', 'lint_errors']]
-			\	}
-			\ }
-			" \   'separator': { 'left': '', 'right': '' },
-			" \   'subseparator': { 'left': '', 'right': '' },
+"{{{2 Crystalline
+let g:crystalline_statusline_fn = 'functions#StatusLine'
+let g:crystalline_tabline_fn = 'functions#TabLine'
+let g:crystalline_theme = 'materia'
 "}}}2
 
 "{{{2 Emmet

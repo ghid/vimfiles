@@ -75,104 +75,68 @@ function! functions#ToggleComment()
 	endif
 endfunction
 
-function! functions#LightlineDevIconFiletype()
-	if exists("*WebDevIconsGetFileTypeSymbol")
-		let ft_symbol = WebDevIconsGetFileTypeSymbol()
-	else
-		let ft_symbol = ''
-	endif
-	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype 
-				\ . '' . ft_symbol : 'no ft') : ''
+function! functions#TabLine()
+  let l:vimlabel = has("nvim") ?  " NVIM " : ""
+  return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab#' . l:vimlabel
 endfunction
 
-function! functions#LightlineDevIconFileformat()
-	if exists("*WebDevIconsGetFileFormatSymbol")
-		let ff_symbol = WebDevIconsGetFileFormatSymbol()
-	else
-		let ff_symbol = ''
-	endif
-	return winwidth(0) > 70 ? (&fileformat
-				\. '' . ff_symbol) : ''
+function! functions#StatusLine(current, width)
+  return (a:current ? crystalline#mode() . '%#Crystalline#' : '%#CrystallineInactive#')
+        \ . ' %{functions#Filename()}%h%w '
+        \ . (a:current ? '%#CrystallineFill#%{functions#GitBranch()} ' : '')
+        \ . '%=' . (a:current && functions#ALECount()
+		\		? '%#CrystallineWarn# %{functions#ALEWarnings()}'
+		\		: '%#CrystallineOk# %{functions#ALEOk()}')
+        \ . (a:current && functions#ALECount()
+		\		? '%#CrystallineError# %{functions#ALEErrors()}'
+		\		: '')
+		\ . (a:current ? '%#CrystallineEmphasize#%{functions#SpellCheck()}' : '')
+        \ . (a:width > 80
+		\		? '%#Crystalline# %{&ff} | %{&enc} | %{functions#Filetype()} '
+		\			. crystalline#mode_color()
+		\			. ' %4l:%-3v ≡%3p%% '
+		\		: '')
 endfunction
 
-function! functions#LightlineFileEncoding()
-	if exists("*WebDevIconsGetFileTypeSymbol")
-		let fe_symbol = ' '
-	else
-		let fe_symbol = ''
-	endif
-	return winwidth(0) > 70 ? (&fileencoding !=# ''
-				\	? &fileencoding . bomb_symbol . fe_symbol : 'no enc') : ''
-endfunction
-
-function! functions#LightlineFileencodingAndFormat()
-	return &fileencoding . (&bomb ? ':bomb' : '') . '[' . &fileformat . ']'
-endfunction
-
-function! functions#LightlineReadonly()
-	if exists("*WebDevIconsGetFileTypeSymbol")
-		return &readonly ? '' : ''
-	endif
-	return &readonly ? '' : ''
-endfunction
-
-function! functions#LightlineFilename()
+function! functions#Filename()
 	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-	if exists("*WebDevIconsGetFileTypeSymbol")
-		let modified = &modified ? '  ' : '   '
-	else
-		let modified = &modified ? ' ●' : ''
-	endif
-	return filename . modified
+	return filename . (&readonly ? ' ' :'') . (&modified ? ' ●' : '')
 endfunction
 
-function! functions#LightlineFugitive()
+function! functions#Filetype()
+	return &ft !=# '' ? &ft : 'No Type'
+endfunction
+
+function! functions#GitBranch()
 	if exists('*fugitive#head')
-		if exists("*WebDevIconsGetFileTypeSymbol")
-			let br_symbol = ''
-		else
-			let br_symbol = ''
+		let br_symbol = ''
 		let branch = fugitive#head()
-		return branch !=# '' ? br_symbol.' '.branch : ''
+		return branch !=# '' ? '  ' . branch : ''
 	endif
 	return ''
 endfunction
 
-function! functions#LightlineALEOk()
-	if ale#linter#Get(&filetype) != [] && ale#statusline#Count(bufnr("%"))["total"] == 0
-		return (exists("*WebDevIconsGetFileTypeSymbol") ? " " : "✓ ")
+function! functions#SpellCheck()
+	return &spell ? '  ' . &spelllang . '🗸 ' : ''
+endfunction
+
+function! functions#ALEOk()
+	if len(ale#linter#Get(&filetype)) > 0
+		return "🗸 " . ale#statusline#Count(bufnr("%"))["total"] . " "
+	else
+		return ''
 	endif
-	return ""
 endfunction
 
-function! functions#LightlineALEErrors()
-	let ale_errors = ale#statusline#Count(bufnr("%"))["0"]
-	if ale_errors > 0
-		return (exists("*WebDevIconsGetFileTypeSymbol") ? " " : "✗ ") . ale_errors
-	endif
-	return ""
+function! functions#ALEWarnings()
+	return "▲ " . ale#statusline#Count(bufnr("%"))["warning"] . " "
 endfunction
 
-function! functions#LightlineALEWarnings()
-	let ale_warnings = ale#statusline#Count(bufnr("%"))["1"]
-	if ale_warnings > 0
-		return (exists("*WebDevIconsGetFileTypeSymbol") ? " " : "▲ ") . ale_warnings
-	endif
-	return ""
+function! functions#ALECount()
+	return ale#statusline#Count(bufnr("%"))["warning"] + ale#statusline#Count(bufnr("%"))["error"]
 endfunction
 
-function! functions#LightlineSyntasticFirstLine()
-	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
-	return ' ' . syntastic_flag[0]
-endfunction
-
-function! functions#LightlineSyntasticErrors()
-	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
-	return ' ' . syntastic_flag[1]
-endfunction
-
-function! functions#LightlineSyntasticWarnings()
-	let syntastic_flag = split(SyntasticStatuslineFlag(), ";")
-	return ' ' . syntastic_flag[2]
+function! functions#ALEErrors()
+	return "✗ " . ale#statusline#Count(bufnr("%"))["error"] . " "
 endfunction
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

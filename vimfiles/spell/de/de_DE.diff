@@ -1,0 +1,60 @@
+14c14,37
+< TRY esijanrtolcdugmphbyfvkwqxzäüößáéêàâñESIJANRTOLCDUGMPHBYFVKWQXZÄÜÖÉ-.
+---
+> #TRY esijanrtolcdugmphbyfvkwqxzäüößáéêàâñESIJANRTOLCDUGMPHBYFVKWQXZÄÜÖÉ-.
+> FOL  àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþßÿ
+> LOW  àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþßÿ
+> UPP  ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßÿ
+> 
+> MIDWORD '
+> 
+> MAP 9
+> MAP aàáâãäå
+> MAP eèéêë
+> MAP iìíîï
+> MAP oòóôõö
+> MAP uùúûü
+> MAP nñ
+> MAP cç
+> MAP yÿý
+> MAP sß
+> 
+> 
+> # suffixes are allowed at the end of compounds by default:
+> # (prefix)?(root)+(affix)?
+> # Affixes with COMPOUNDPERMITFLAG may be inside of compounds.
+> COMPOUNDPERMITFLAG c
+> 
+537c560
+< CHECKSHARPS
+---
+> #CHECKSHARPS
+539,542c562,565
+< 
+< COMPOUNDBEGIN x
+< COMPOUNDMIDDLE y
+< COMPOUNDEND z
+---
+> COMPOUNDRULE S*N*P*
+> #COMPOUNDBEGIN x
+> #COMPOUNDMIDDLE y
+> #COMPOUNDEND z
+545,550d567
+< # Prefixes are allowed at the beginning of compounds,
+< # suffixes are allowed at the end of compounds by default:
+< # (prefix)?(root)+(affix)?
+< # Affixes with COMPOUNDPERMITFLAG may be inside of compounds.
+< COMPOUNDPERMITFLAG c
+< 
+572c589
+< WORDCHARS ß-.
+---
+> #WORDCHARS ß-.
+726,728c743,745
+< BREAK 2
+< BREAK -
+< BREAK .
+---
+> #BREAK 2
+> #BREAK -
+> #BREAK .

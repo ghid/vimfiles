@@ -122,14 +122,14 @@ endfunction
 
 function! functions#ALEOk()
 	if len(ale#linter#Get(&filetype)) > 0
-		return ale#statusline#Count(bufnr("%"))["total"] . "🗸 "
+		return "🗸 " . ale#statusline#Count(bufnr("%"))["total"] . " "
 	else
 		return ''
 	endif
 endfunction
 
 function! functions#ALEWarnings()
-	return ale#statusline#Count(bufnr("%"))["warning"] . "▲ "
+	return "▲ " . ale#statusline#Count(bufnr("%"))["warning"] . " "
 endfunction
 
 function! functions#ALECount()
@@ -137,6 +137,6 @@ function! functions#ALECount()
 endfunction
 
 function! functions#ALEErrors()
-	return ale#statusline#Count(bufnr("%"))["error"]. "✗ "
+	return "✗ " . ale#statusline#Count(bufnr("%"))["error"] . " "
 endfunction
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

@@ -8,12 +8,12 @@ function! crystalline#theme#materia#set_theme() abort
   hi CrystallineFill                             ctermfg=15  ctermbg=236          guibg=#263238 guifg=#cdd3de
   hi CrystallineEmphasize                        ctermfg=15  ctermbg=236          guibg=#707880 guifg=#cdd3de
   hi CrystallineTab                              ctermfg=15  ctermbg=61           guibg=#707880 guifg=#263238
-  hi CrystallineTabType                          ctermfg=15  ctermbg=61           guibg=#37474f guifg=#707880
+  hi CrystallineTabType                          ctermfg=15  ctermbg=61           guibg=#37474f guifg=#c9ccd3
   hi CrystallineTabSel      term=bold cterm=bold ctermfg=16  ctermbg=141 gui=bold guibg=#82aaff guifg=#282a36 
   hi CrystallineTabFill                          ctermfg=15  ctermbg=236          guibg=#263238 guifg=#f8f8f2 
-  hi CrystallineOk                                                                              guifg=#8bd649
-  hi CrystallineWarn                                                                            guifg=#ffcc00
-  hi CrystallineError                                                                           guifg=#ec5f67
+  hi CrystallineOk                                                                guibg=#8bd649 guifg=#263238
+  hi CrystallineWarn                                                              guibg=#ffcc00 guifg=#263238
+  hi CrystallineError                                                             guibg=#ec5f67 guifg=#263238
 endfunction
 
 " base00: "#263238" 

@@ -86,7 +86,7 @@ function! functions#StatusLine(current, width)
         \ . (a:current ? '%#CrystallineFill#%{functions#GitBranch()} ' : '')
         \ . '%=' . (a:current && functions#ALECount()
 		\		? '%#CrystallineWarn# %{functions#ALEWarnings()}'
-		\		: '%#CrystallineOk# %{functions#ALEOk()}')
+		\		: '%#CrystallineOk#%{functions#ALEOk()}')
         \ . (a:current && functions#ALECount()
 		\		? '%#CrystallineError# %{functions#ALEErrors()}'
 		\		: '')
@@ -122,7 +122,7 @@ endfunction
 
 function! functions#ALEOk()
 	if len(ale#linter#Get(&filetype)) > 0
-		return "🗸 " . ale#statusline#Count(bufnr("%"))["total"] . " "
+		return " 🗸 " . ale#statusline#Count(bufnr("%"))["total"] . " "
 	else
 		return ''
 	endif

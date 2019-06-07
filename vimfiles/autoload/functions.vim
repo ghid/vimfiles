@@ -34,7 +34,7 @@ endif
 function! functions#SetupCanvas()
 	set lines=99
 	set columns=999
-	winpos 1 42 
+	call SetMyWinPos()
 endfunction
 
 " Copy only the text that matches search hits into a given register.

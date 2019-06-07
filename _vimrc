@@ -31,6 +31,7 @@ set listchars=tab:\⡇\ ,eol:¬
 set showbreak=…
 set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
 set directory=$HOME/vimfiles/swapdir
+source $HOME/vimfiles/$MYVIMPROFILE
 " set scrolloff=999
 "}}}2
 

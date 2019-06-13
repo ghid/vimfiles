@@ -1,0 +1,189 @@
+snippet cdm React: componentDidMount: fn() { ... }
+	componentDidMount: function() {
+		${0}
+	},
+
+snippet cdup React: componentDidUpdate: fn(pp, ps) { ... }
+	componentDidUpdate: function(prevProps, prevState) {
+		${0}
+	},
+
+snippet cwm React: componentWillMount: fn() { ... }
+	componentWillMount: function() {
+		${0}
+	},
+
+snippet cwr React: componentWillReceiveProps: fn(np) { ... }
+	componentWillReceiveProps: function(nextProps) {
+		${0}
+	}
+
+snippet cwun React: componentWillUnmount: fn() { ... }
+	componentWillUnmount: function() {
+		${0}
+	}
+
+snippet cwu React: componentWillUpdate: fn(np, ns) { ... }
+	componentWillUpdate: function(nextProps, nextState) {
+		${0}
+	}
+
+snippet cx React: cx({ ... })
+	cx({
+		${1:id}: ${2:value}
+	});
+
+snippet fup React: forceUpdate(...)
+	forceUpdate(${1:callback});
+
+snippet gdp React: getDefaultProps: fn() { return { ... } }
+	getDefaultProps() {
+		return {
+			${0}
+		};
+	},
+
+snippet gis React: getInitialState: fn() { return { ... } }
+	getInitialState() {
+		return {
+			${1:id}: ${2:value}
+		};
+	},
+
+snippet ism React: isMounted()
+	isMounted()${0}
+
+snippet pt React: propTypes{ ... }
+	propTypes: {
+		${1:id}: React.PropTypes.${2:string}
+	},
+
+snippet rcc6 React: component skeleton
+	import React from 'react';
+
+	const ${1:name} = React.createClass({
+		render() {
+			return (
+				${0}
+			)
+		}
+	})
+
+	export default $1;
+
+snippet ren React: render: fn() { return ... }
+	render: function() {
+		return (
+			${1:<div />}
+		);
+	}
+
+snippet sst6 React: setState({ ... })
+	this.setState({
+		${1:id}: ${2:value}
+	});
+
+snippet scu React: shouldComponentUpdate: fn(np, ns) { ... }
+	shouldComponentUpdate: function(nextProps, nextState) {
+		${0}
+	}
+
+snippet props React: this.props.
+	this.props.${1:id}
+
+snippet state React: this.state.
+	this.state.${1:id}
+
+snippet rrc React: render(component, container, [callback])
+	React.render(${1:<${2} />}, ${3:document.body}${4:, ${5:callback}});
+
+snippet cdm6 React: componentDidMount() { ... }
+	componentDidMount() {
+		${0}
+	}
+
+snippet cdup6 React: componentDidUpdate(pp, ps) { ... }
+	componentDidUpdate(prevProps, prevState) {
+		${0}
+	}
+
+snippet cwm6 React: componentWillMount() { ... }
+	componentWillMount() {
+		${0}
+	}
+
+snippet cwr6 React: componentWillReceiveProps(np) { ... }
+	componentWillReceiveProps(nextProps) {
+		${0}
+	}
+
+snippet cwun6 React: componentWillUnmount() { ... }
+	componentWillUnmount() {
+		${0}
+	}
+
+snippet cwu6 React: componentWillUpdate(np, ns) { ... }
+	componentWillUpdate(nextProps, nextState) {
+		${0}
+	}
+
+snippet cwun6 React: componentWillUnmount() { ... }
+	componentWillUnmount() {
+		${0}
+	}
+
+snippet cwu6 React: componentWillUpdate(np, ns) { ... }
+	componentWillUpdate(nextProps, nextState) {
+		${0}
+	}
+
+snippet dp React: defaultProps = { ... }
+	static defaultProps = {
+		${0}
+	}
+
+snippet is React: this.state = { ... }
+	this.state = {
+		${1:id}: ${2:value}
+	}
+
+snippet pt6 React: propTypes = { ... }
+	static propTypes = {
+		${1:id}: React.PropTypes.${2:string}
+	},
+
+snippet rcd React: component definition
+	import React from 'react'
+
+	class ${1:name} extends React.Component {
+		render () {
+			${0}
+		}
+	}
+
+	export default $1;
+
+snippet ren6 React: render() { return ... }
+	render() {
+		return (
+			${1:<div />}
+		);
+	}
+
+snippet scu6 React: shouldComponentUpdate(np, ns) { ... }
+	shouldComponentUpdate(nextProps, nextState) {
+		${0}
+	},
+
+snippet props6 React: const { props: { ... } } = this
+	const { props: { ${1} } } = this
+
+snippet rdr React: ReactDOM.render( ... )
+	ReactDOM.render(
+		<${1:Component} />,
+		document.getElementById(${2:'root'})
+	);
+
+snippet bnd React: this... = this...bind(this)
+	this.${1:name} = this.$1.bind(this)
+

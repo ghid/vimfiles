@@ -31,6 +31,12 @@ if !exists("*MyDiff")
 	endfunction
 endif
 
+function! functions#SetupCanvas()
+	call SetMyWinPos()
+	set lines=99
+	set columns=999
+endfunction
+
 " Copy only the text that matches search hits into a given register.
 " @example: :CopyMatches +	" Copy currently selected text to the +
 " register
@@ -42,7 +48,7 @@ function! functions#CopyMatches(reg)
 endfunction
 
 " Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX 
 " files.
 function! functions#AppendModeline()
 	let l:modeline = printf(' vim:tw=%d:ts=%d:sts=%d:sw=%d:%set:ft=%s:%sbomb',
@@ -61,37 +67,76 @@ function! functions#ToggleComment()
 	let line = matchlist(currentline, '^\(\s*\)\('
 		\ . b:comment_leader . '\)\?\(\s*\)\(.*\)$')
 	if line[2] == b:comment_leader
-		call setline(line("."), line[1] . line[3] . line[4])
+		call setline(line(".")
+					\ , line[1] . line[3] . line[4])
 	else
-		call setline(line("."), line[1] . b:comment_leader . line[3] . line[4])
+		call setline(line(".")
+					\ , line[1] . b:comment_leader . line[3] . line[4])
 	endif
 endfunction
 
-function! functions#LightlineDevIconFiletype()
-	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype 
-				\ . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+function! functions#TabLine()
+  let l:vimlabel = has("nvim") ?  " NVIM " : ""
+  return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab#' . l:vimlabel
 endfunction
 
-function! functions#LightlineDevIconFileformat()
-	return winwidth(0) > 70 ? (&fileformat
-				\. ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+function! functions#StatusLine(current, width)
+  return (a:current ? crystalline#mode() . '%#Crystalline#' : '%#CrystallineInactive#')
+        \ . ' %{functions#Filename()}%h%w '
+        \ . (a:current ? '%#CrystallineFill#%{functions#GitBranch()} ' : '')
+        \ . '%=' . (a:current && functions#ALECount()
+		\		? '%#CrystallineWarn# %{functions#ALEWarnings()}'
+		\		: '%#CrystallineOk#%{functions#ALEOk()}')
+        \ . (a:current && functions#ALECount()
+		\		? '%#CrystallineError# %{functions#ALEErrors()}'
+		\		: '')
+		\ . (a:current ? '%#CrystallineEmphasize#%{functions#SpellCheck()}' : '')
+        \ . (a:width > 80
+		\		? '%#Crystalline# %{&ff} | %{&enc} | %{functions#Filetype()} '
+		\			. crystalline#mode_color()
+		\			. ' %4l:%-3v ≡%3p%% '
+		\		: '')
 endfunction
 
-function! functions#LightlineReadonly()
-	return &readonly ? '' : ''
-endfunction
-
-function! functions#LightlineFilename()
+function! functions#Filename()
 	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-	let modified = &modified ? ' ●' : ''
-	return filename . modified
+	return filename . (&readonly ? ' ' :'') . (&modified ? ' ●' : '')
 endfunction
 
-function! functions#LightlineFugitive()
+function! functions#Filetype()
+	return &ft !=# '' ? &ft : 'No Type'
+endfunction
+
+function! functions#GitBranch()
 	if exists('*fugitive#head')
+		let br_symbol = ''
 		let branch = fugitive#head()
-		return branch !=# '' ? ' '.branch : ''
+		return branch !=# '' ? '  ' . branch : ''
 	endif
 	return ''
+endfunction
+
+function! functions#SpellCheck()
+	return &spell ? '  ' . &spelllang . '🗸 ' : ''
+endfunction
+
+function! functions#ALEOk()
+	if len(ale#linter#Get(&filetype)) > 0
+		return " 🗸 " . ale#statusline#Count(bufnr("%"))["total"] . " "
+	else
+		return ''
+	endif
+endfunction
+
+function! functions#ALEWarnings()
+	return "▲ " . ale#statusline#Count(bufnr("%"))["warning"] . " "
+endfunction
+
+function! functions#ALECount()
+	return ale#statusline#Count(bufnr("%"))["warning"] + ale#statusline#Count(bufnr("%"))["error"]
+endfunction
+
+function! functions#ALEErrors()
+	return "✗ " . ale#statusline#Count(bufnr("%"))["error"] . " "
 endfunction
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

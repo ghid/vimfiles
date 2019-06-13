@@ -1,1 +1,0 @@
-pwd:	Set a new user password

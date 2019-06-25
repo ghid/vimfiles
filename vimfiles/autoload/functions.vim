@@ -92,7 +92,7 @@ function! functions#StatusLine(current, width)
 		\		: '')
 		\ . (a:current ? '%#CrystallineEmphasize#%{functions#SpellCheck()}' : '')
         \ . (a:width > 80
-		\		? '%#Crystalline# %{&ff} | %{&enc} | %{functions#Filetype()} '
+		\		? '%#Crystalline# %{&ff} %{&enc} %{functions#Filetype()} '
 		\			. crystalline#mode_color()
 		\			. ' %4l:%-3v ≡%3p%% '
 		\		: '')
@@ -100,7 +100,7 @@ endfunction
 
 function! functions#Filename()
 	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-	return filename . (&readonly ? ' ' :'') . (&modified ? ' ●' : '')
+	return filename . (&readonly ? ' ' :'') . (&modified ? ' ●' : '  ')
 endfunction
 
 function! functions#Filetype()

@@ -1,3 +1,3 @@
 function! SetMyWinPos()
-    winpos 1 42
+    winpos -1 34
 endfunction

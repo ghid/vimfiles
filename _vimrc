@@ -12,7 +12,6 @@ set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:20,contrast:1,geom:1
-" https://github.com/tonsky/FiraCode/releases
 set guifont=Fira_Code_Retina:h14:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
@@ -223,7 +222,6 @@ let g:user_emmet_leader_key = '<c-z>'
 
 "{{{2 YouCompleteMe
 " let g:ycm_seed_identifiers_with_syntax = 1
-" let g:ycm_key_list_previous_completion = ['<Down>']
 " let g:ycm_key_list_previous_completion = ['<Down>']
 " let g:ycm_key_list_select_completion = ['<Right>']
 " let g:ycm_key_list_stop_completion = ['<C-y']

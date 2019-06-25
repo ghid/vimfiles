@@ -32,9 +32,9 @@ if !exists("*MyDiff")
 endif
 
 function! functions#SetupCanvas()
+	call SetMyWinPos()
 	set lines=99
 	set columns=999
-	call SetMyWinPos()
 endfunction
 
 " Copy only the text that matches search hits into a given register.

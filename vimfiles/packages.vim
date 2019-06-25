@@ -40,9 +40,9 @@ call minpac#add("davidoc/taskpaper.vim", {"type": "opt"})
 call minpac#add("dhruvasagar/vim-table-mode")
 call minpac#add("elzr/vim-json")
 
-call minpac#add("tomtom/tlib_vim")
-call minpac#add("marcweber/vim-addon-mw-utils")
-call minpac#add("garbas/vim-snipmate")
+" call minpac#add("tomtom/tlib_vim")
+" call minpac#add("marcweber/vim-addon-mw-utils")
+" call minpac#add("garbas/vim-snipmate")
 
 " call minpac#add("ghid/vim-autohotkey")
 call minpac#add("ghid/vim-hexokinase")

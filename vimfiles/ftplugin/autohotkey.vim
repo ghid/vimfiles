@@ -13,7 +13,7 @@ let g:tagbar_type_autohotkey = {
 \ }
 
 setlocal tabstop=4 shiftwidth=4 softtabstop=4 noexpandtab number autoindent
-	  \ textwidth=100
+	  \ textwidth=80
 let b:comment_leader="; "
 setlocal commentstring=;%s
 

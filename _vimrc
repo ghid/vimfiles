@@ -2,8 +2,10 @@ source $VIMRUNTIME/vimrc_example.vim
 
 "{{{1 General Customization
 "{{{2 Setup minpac
-source $HOME/vimfiles/packages.vim
+" source $HOME/vimfiles/packages.vim
 "}}}
+
+source $HOME/vimfiles/plugged.vim
 
 "{{{2 Customize VIM 
 language messages en
@@ -12,10 +14,10 @@ set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:20,contrast:1,geom:1
-set guifont=Fira_Code_Retina:h14:cANSI:qDRAFT
+set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
 set guioptions=-TMrL
 set guioptions=c
-set guitablabel=%N\ %t\ %M
+" set guitablabel=%N\ %t\ %m
 set langmenu=en_US.UTF-8
 set laststatus=2
 set showtabline=2
@@ -38,8 +40,15 @@ source $HOME/vimfiles/$MYVIMPROFILE
 if (has("termguicolors"))
 	set termguicolors
 endif
-colorscheme base16-materia
+" colorscheme base16-materia
+" let ayucolor="light"
+" colorscheme ayu
+set background=light
+colorscheme space_vim_theme
 highlight link xmlTagN xmlEndTag
+highlight qferror guifg=#EC5F67 guibg=NONE gui=NONE
+highlight ColorColumn guibg=#d9d8d7
+" highlight ExtraWhitespace guibg=#f07178
 " if(strftime("%h")>=8 && strftime("%h")<=16)
 	" colorscheme typewriter
 	" set background=light
@@ -108,7 +117,7 @@ noremap <leader>p "+p
 noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:call functions#SetupCanvas()<CR>
 noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/autoload/functions.vim<CR>
-noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/packages.vim<CR>
+noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/plugged.vim<CR>
 noremap <expr> <leader>es ":vsplit $HOME/vimfiles/snippets/" . &filetype . "<CR>"
 noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
@@ -127,6 +136,8 @@ nnoremap <leader>an :ALENext<CR>
 nnoremap <leader>ap :ALEPrevious<CR>
 nnoremap <leader>c :HexokinaseRefresh<CR>
 nnoremap <leader>H :HexokinaseToggle<CR>
+inoremap ;; <esc>/{$[^$]*$}<cr>v/$}<cr><right>c
+" inoremap ;; <esc>:call search('\$\{[^%]*}', 'zW')<cr><right>c%
 "}}}2
 
 "{{{2 Commands
@@ -188,6 +199,14 @@ if has("autocmd")
 					\ nocindent
 		autocmd FileType haskell let b:comment_leader="-- "
 	augroup END
+	augroup autohotkey
+		autocmd!
+		autocmd FileType autohotkey noreabbrev fnc {$<funcName>$}({$<params>$}) {<cr><tab>{$<funcBody>$}<cr><bs>}
+	augroup END
+	augroup LDIF
+		autocmd!
+		autocmd FileType ldif noreabbrev newpwd dn: CN={$<userId>$},OU=Mitarbeiter,DC=Viessmann,DC=Net<cr>changetype: modify<cr>replace: userPassword<cr>userPassword: {$<pwd>$}<cr><bs>
+	augroup END
 	" autocmd FileType * if(&textwidth != 0)
 				" \ |		let &colorcolumn=&textwidth+1
 				" \ | endif
@@ -213,7 +232,8 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "{{{2 Crystalline
 let g:crystalline_statusline_fn = 'functions#StatusLine'
 let g:crystalline_tabline_fn = 'functions#TabLine'
-let g:crystalline_theme = 'materia'
+let g:crystalline_theme = 'vim_space_theme' 
+let g:crystalline_tab_mod = " * "
 "}}}2
 
 "{{{2 Emmet
@@ -266,28 +286,32 @@ let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
 
 "{{{2 Ale
 let g:ale_completion_enabled = 0
-let g:ale_lint_on_text_changed = "never"
+let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 0
-let g:ale_open_list = 1
-" let g:ale_sign_error = "⌦"
+let g:ale_open_list = 0
 let g:ale_jq_executable = "C:/opt/bin/jq.exe"
+let g:ale_xml_xmllint_executable = "C:/opt/bin/xmllint.exe"
+let g:ale_xml_xmlstarlet_executable = "C:/opt/bin/xml.exe"
+let g:ale_autohotkey_ahklint_executable = "C:/opt/bin/ahklint.exe"
 "}}}2
 
 "{{{2 vim-jsx-pretty
 let g:vim_jsx_pretty_colorful_config = 1
 "}}}2
-"
+
 "{{{2 Hexokinase
-packadd vim-hexokinase
 let g:Hexokinase_ftAutoload = ["css", "xml", "html", "scss", "sass"]
-" let g:Hexokinase_patterns = { "\\c\\<\\(" . join(keys(functions#HexokinaseColorNamesGet()), "\\|") . "\\)\\>": function("functions#HexokinaseHtmlColorNames")}
-let g:Hexokinase_patterns[hexokinase#patterns#colour_names#get_pattern()] = function('hexokinase#patterns#colour_names#process')
+" let g:Hexokinase_patterns[hexokinase#patterns#colour_names#get_pattern()] = function('hexokinase#patterns#colour_names#process')
 "}}}2
 
 "{{{2 haskell-vim
 let g:haskell_classic_highlighting = 1
 "}}}2
+
+"{{{2 Rainbow
+let g:rainbow_active = 0
+"}}}2
 "}}}1
 "
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb
-" vim:fdm=marker:fdl=1
+" vim:fdm=marker

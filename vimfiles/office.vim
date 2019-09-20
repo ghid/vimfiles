@@ -1,3 +1,5 @@
 function! SetMyWinPos()
-    winpos -1 34
+    set lines=40
+    set columns=150
+    winpos 1 39
 endfunction

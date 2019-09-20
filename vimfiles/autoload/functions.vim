@@ -33,8 +33,6 @@ endif
 
 function! functions#SetupCanvas()
 	call SetMyWinPos()
-	set lines=99
-	set columns=999
 endfunction
 
 " Copy only the text that matches search hits into a given register.
@@ -58,7 +56,6 @@ function! functions#AppendModeline()
 	call append(line("$"), l:modeline)
 endfunction
 
-" Toggles a line comment if b:comment_leader is set for the current filetype
 function! functions#ToggleComment()
 	if exists("b:comment_leader") == 0
 		return
@@ -81,26 +78,52 @@ function! functions#TabLine()
 endfunction
 
 function! functions#StatusLine(current, width)
-  return (a:current ? crystalline#mode() . '%#Crystalline#' : '%#CrystallineInactive#')
-        \ . ' %{functions#Filename()}%h%w '
-        \ . (a:current ? '%#CrystallineFill#%{functions#GitBranch()} ' : '')
-        \ . '%=' . (a:current && functions#ALECount()
-		\		? '%#CrystallineWarn# %{functions#ALEWarnings()}'
-		\		: '%#CrystallineOk#%{functions#ALEOk()}')
-        \ . (a:current && functions#ALECount()
-		\		? '%#CrystallineError# %{functions#ALEErrors()}'
+  return  functions#BufferNumber(a:current)
+		\ . (a:current
+		\		? crystalline#mode() . '%#Crystalline#'
+        \       . ' %{functions#DirtyFlag()} %{functions#FileSize()} %#CrystallineEmphasize#%{functions#Filename()}%h%w'
+		\		. ' %#CrystallineTab# %{functions#Filetype()} '
+        \		. '%#CrystallineFill#%{functions#GitBranch()} '
+		\		: '%#CrystallineInactive#'
+        \       . ' %{functions#DirtyFlag()} %{functions#FileSize()} %#CrystallineEmphasize##%{functions#Filename()}%h%w'
+		\		. ' %#Crystalline# %{functions#Filetype()} %#CrystallineFill#')
+        \ . '%=' . (a:current ? functions#ALEState() : '%#CrystallineFill#')
+		\		. (a:current ? '%#CrystallineEmphasize#%{functions#SpellCheck()}' : '')
+        \		. (a:width > 80
+		\		? '%#CrystallineTab# %{&ff} %{&enc} | %4l:%2v '
+		\		. '%#Crystalline# %3p%% '
 		\		: '')
-		\ . (a:current ? '%#CrystallineEmphasize#%{functions#SpellCheck()}' : '')
-        \ . (a:width > 80
-		\		? '%#Crystalline# %{&ff} %{&enc} %{functions#Filetype()} '
-		\			. crystalline#mode_color()
-		\			. ' %4l:%-3v ≡%3p%% '
-		\		: '')
+endfunction
+
+function! functions#BufferNumber(current)
+	if (a:current)
+		return "%#CrystallineBufferNoActive# %n "
+	else
+		return "%#CrystallineBufferNoInactive# %n "
+	endif
+endfunction
+
+function! functions#DirtyFlag()
+	return (&modified ? "*" : "-")
+endfunction
+
+function! functions#FileSize()
+	let fileSize = getfsize(expand("%"))
+	if fileSize < 0
+		return "-"
+	endif
+	let dimensions = ["", "k", "m", "g"]
+	let n = 0
+	while n < len(dimensions) && floor(fileSize / 1024.0) > 0
+		let fileSize /= 1024.0
+		let n = n + 1
+	endwhile
+	return printf("%.*f%s", n, fileSize, dimensions[n])
 endfunction
 
 function! functions#Filename()
 	let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-	return filename . (&readonly ? ' ' :'') . (&modified ? ' ●' : '  ')
+	return filename . (&readonly ? ' ' :'')
 endfunction
 
 function! functions#Filetype()
@@ -118,6 +141,24 @@ endfunction
 
 function! functions#SpellCheck()
 	return &spell ? '  ' . &spelllang . '🗸 ' : ''
+endfunction
+
+function! functions#ALEState()
+	let aleState = ''
+	if len(ale#linter#Get(&filetype)) > 0
+		if ale#statusline#Count(bufnr("%"))["total"] > 0
+			let aleState .= '%#CrystallineError#•' . ale#statusline#Count(bufnr("%"))["error"]
+			let aleState .= ' '
+			let aleState .= '%#CrystallineWarn#•' . ale#statusline#Count(bufnr("%"))["warning"]
+			let aleState .= ' '
+			let aleState .= '%#CrystallineInfo#•' . ale#statusline#Count(bufnr("%"))["info"]
+			let aleState .= ' '
+		else
+			let aleState .= '%#CrystallineOk#•' . ale#statusline#Count(bufnr("%"))["total"]
+			let aleState .= ' '
+		endif
+	endif
+	return aleState
 endfunction
 
 function! functions#ALEOk()

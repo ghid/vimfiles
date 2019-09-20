@@ -7,4 +7,5 @@
 .netrwhist
 **/tags
 vimfiles/pack/minpac/**
+vimfiles/pack/plugged/**
 vimfiles/undodir/**

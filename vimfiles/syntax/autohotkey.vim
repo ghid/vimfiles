@@ -42,7 +42,7 @@ syn match autohotkeyVariable
 
 syn keyword autohotkeyBuiltinVariable
       \ A_Space A_Tab
-      \ A_WorkingDir A_ScriptDir A_ScriptName A_ScriptFullPath A_ScriptHwnd A_LineNumber
+      \ A_Args A_WorkingDir A_ScriptDir A_ScriptName A_ScriptFullPath A_ScriptHwnd A_LineNumber
       \ A_LineFile A_ThisFunc A_ThisLabel A_AhkVersion A_AhkPath A_IsUnicode A_IsCompiled A_ExitReason
       \ A_YYYY A_MM A_DD A_MMMM A_MMM A_DDDD A_DDD A_WDay A_YDay A_YWeek A_Hour A_Min
       \ A_Mon A_Year A_MDay A_NumBatchLines
@@ -131,7 +131,7 @@ syn keyword autohotkeyFunction
 
 syn keyword autohotkeyStatement
       \ Break Continue Exit ExitApp Gosub Goto OnExit Pause Return
-      \ Suspend Reload new class extends
+      \ Suspend Reload new class extends default
 
 syn keyword autohotkeyRepeat
       \ Loop
@@ -140,7 +140,7 @@ syn keyword autohotkeyConditional
       \ IfExist IfNotExist If IfEqual IfLess IfGreater Else
       \ IfWinExist IfWinNotExist IfWinActive IfWinNotActive
       \ IfNotEqual IfLessOrEqual IfGreaterOrEqual
-      \ while until for in try catch finally
+      \ while until for in try catch finally switch case
 
 syn match   autohotkeyPreProcStart
       \ nextgroup=

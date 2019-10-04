@@ -32,7 +32,13 @@ function! ale_linters#autohotkey#ahklint#Handle(buffer, lines) abort
         if !empty(l:match_message)
             let l:line = l:match_message[1] + 0
             let l:col = l:match_message[2] + 0
-            let l:type = l:match_message[3] =~? 'warning' ? 'W' : 'E'
+            if l:match_message[3] =~? 'warning'
+                let l:type = 'W'
+            elseif l:match_message[3] =~ 'info'
+                let l:type = 'I'
+            else
+                let l:type = 'E'
+            endif
             let l:text = l:match_message[4]
 
             call add(l:output, {

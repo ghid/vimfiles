@@ -85,19 +85,19 @@ function! functions#StatusLine(current, width)
 		\		. ' %#CrystallineTab# %{functions#Filetype()} '
         \		. '%#CrystallineFill#%{functions#GitBranch()} '
 		\		: '%#CrystallineInactive#'
-        \       . ' %{functions#DirtyFlag()} %{functions#FileSize()} %#CrystallineEmphasize##%{functions#Filename()}%h%w'
+        \       . ' %{functions#DirtyFlag()} %{functions#FileSize()} %#CrystallineEmphasize#%{functions#Filename()}%h%w'
 		\		. ' %#Crystalline# %{functions#Filetype()} %#CrystallineFill#')
         \ . '%=' . (a:current ? functions#ALEState() : '%#CrystallineFill#')
 		\		. (a:current ? '%#CrystallineEmphasize#%{functions#SpellCheck()}' : '')
         \		. (a:width > 80
-		\		? '%#CrystallineTab# %{&ff} %{&enc} | %4l:%2v '
+		\		? '%#CrystallineTab# %{&ff} %{&enc} |%4l:%2v '
 		\		. '%#Crystalline# %3p%% '
 		\		: '')
 endfunction
 
 function! functions#BufferNumber(current)
 	if (a:current)
-		return "%#CrystallineBufferNoActive# %n "
+		return crystalline#mode_color() . " %n "
 	else
 		return "%#CrystallineBufferNoInactive# %n "
 	endif
@@ -146,15 +146,25 @@ endfunction
 function! functions#ALEState()
 	let aleState = ''
 	if len(ale#linter#Get(&filetype)) > 0
+		let aleErrors = ale#statusline#Count(bufnr("%"))["error"]
+		let aleWarnings = ale#statusline#Count(bufnr("%"))["warning"]
+		let aleInfos = ale#statusline#Count(bufnr("%"))["info"]
+		let aleTotal = ale#statusline#Count(bufnr("%"))["total"]
 		if ale#statusline#Count(bufnr("%"))["total"] > 0
-			let aleState .= '%#CrystallineError#•' . ale#statusline#Count(bufnr("%"))["error"]
-			let aleState .= ' '
-			let aleState .= '%#CrystallineWarn#•' . ale#statusline#Count(bufnr("%"))["warning"]
-			let aleState .= ' '
-			let aleState .= '%#CrystallineInfo#•' . ale#statusline#Count(bufnr("%"))["info"]
-			let aleState .= ' '
+			if aleErrors > 0
+				let aleState .= '%#CrystallineError#•' . aleErrors
+				let aleState .= ' '
+			endif
+			if aleWarnings > 0
+				let aleState .= '%#CrystallineWarn#•' . aleWarnings
+				let aleState .= ' '
+			endif
+			if aleInfos > 0
+				let aleState .= '%#CrystallineInfo#•' . aleInfos
+				let aleState .= ' '
+			endif
 		else
-			let aleState .= '%#CrystallineOk#•' . ale#statusline#Count(bufnr("%"))["total"]
+			let aleState .= '%#CrystallineOk#•' . aleTotal
 			let aleState .= ' '
 		endif
 	endif

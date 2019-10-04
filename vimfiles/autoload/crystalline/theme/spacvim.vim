@@ -1,9 +1,9 @@
-function! crystalline#theme#vim_space_theme#set_theme() abort
+function! crystalline#theme#spacvim#set_theme() abort
   if (&background ==? 'light')
-    hi CrystallineNormalMode        guibg=#3a81c3 guifg=#f3f3f3
-    hi CrystallineInsertMode        guibg=#67b11d guifg=#f3f3f3
-    hi CrystallineVisualMode        guibg=#b1951d guifg=#f3f3f3
-    hi CrystallineReplaceMode       guibg=#f2241f guifg=#f3f3f3
+    hi CrystallineNormalMode        guibg=#eead0e guifg=#212026
+    hi CrystallineInsertMode        guibg=#86dc2f guifg=#212026
+    hi CrystallineVisualMode        guibg=#b2b2b2 guifg=#212026
+    hi CrystallineReplaceMode       guibg=#ff82b1 guifg=#212026
     hi Crystalline                  guibg=#E7E5EB guifg=#655370
     hi CrystallineInactive          guibg=#f3f3f3 guifg=#828c99
     hi CrystallineFill              guibg=#f3f3f3 guifg=#828c99
@@ -19,10 +19,10 @@ function! crystalline#theme#vim_space_theme#set_theme() abort
     hi CrystallineBufferNoActive    guibg=#eead0e guifg=#e7e5eb
     hi CrystallineBufferNoInactive  guibg=#e7e5eb guifg=#828c99
   else
-    hi CrystallineNormalMode        guibg=#6981c5 guifg=#f3f3f3
-    hi CrystallineInsertMode        guibg=#288668 guifg=#f3f3f3
-    hi CrystallineVisualMode        guibg=#b89f33 guifg=#f3f3f3
-    hi CrystallineReplaceMode       guibg=#d26487 guifg=#f3f3f3
+    hi CrystallineNormalMode        guibg=#eead0e guifg=#212026
+    hi CrystallineInsertMode        guibg=#86dc2f guifg=#212026
+    hi CrystallineVisualMode        guibg=#b2b2b2 guifg=#212026
+    hi CrystallineReplaceMode       guibg=#ff82b1 guifg=#212026
     hi Crystalline                  guibg=#212026 guifg=#a094a2
     hi CrystallineInactive          guibg=#212026 guifg=#828c99
     hi CrystallineFill              guibg=#212026 guifg=#a094a2

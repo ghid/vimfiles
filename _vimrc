@@ -5,7 +5,9 @@ source $VIMRUNTIME/vimrc_example.vim
 " source $HOME/vimfiles/packages.vim
 "}}}
 
+"{{{2 Setup vim-plug
 source $HOME/vimfiles/plugged.vim
+"}}}
 
 "{{{2 Customize VIM 
 language messages en
@@ -13,8 +15,9 @@ set nobackup
 set cpoptions+=$
 set diffopt=vertical
 set encoding=utf-8
-set renderoptions=type:directx,renmode:5,taamode:1,gamma:20,contrast:1,geom:1
-set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
+set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
+" set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
+set guifont=Victor_Mono_SemiBold:W500:h14:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 " set guitablabel=%N\ %t\ %m
@@ -26,7 +29,7 @@ set noerrorbells
 set noshowmode
 set path+=**
 set visualbell
-set nocursorline
+set cursorline
 set formatoptions-=t
 set listchars=tab:\⡇\ ,eol:¬
 set showbreak=…
@@ -43,21 +46,17 @@ endif
 " colorscheme base16-materia
 " let ayucolor="light"
 " colorscheme ayu
-set background=light
-colorscheme space_vim_theme
+if(strftime("%H")>=8 && strftime("%H")<=18)
+	set background=light
+else
+	set background=dark
+endif
+" colorscheme space_vim_theme
+colorscheme spacvim
 highlight link xmlTagN xmlEndTag
 highlight qferror guifg=#EC5F67 guibg=NONE gui=NONE
 highlight ColorColumn guibg=#d9d8d7
 " highlight ExtraWhitespace guibg=#f07178
-" if(strftime("%h")>=8 && strftime("%h")<=16)
-	" colorscheme typewriter
-	" set background=light
-	" let s:lightline_colorscheme = 'pencil_light'
-" else
-	" colorscheme typewriter-night
-	" set background=dark
-	" let s:lightline_colorscheme = 'pencil_dark'
-" endif
 " let g:pencil_terminal_italics = 0
 " let g:pencil_higher_contrast_ui = 1
 " let g:monochrome_italic_comments = 1
@@ -123,21 +122,14 @@ noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
 nnoremap <leader>QQ :qa!<CR>
-" nnoremap <leader>y :YcmCompleter 
-" nnoremap <leader>C :ColorToggle<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-l> <right>
 inoremap <S-Return>	<C-o>A
 inoremap <C-Return> <C-o>o
-" noremap <C-n> :NERDTreeToggle<CR>
 inoremap <C-BS> <Esc>diwa
 nnoremap <leader>al :ALELint<CR>
 nnoremap <leader>an :ALENext<CR>
 nnoremap <leader>ap :ALEPrevious<CR>
-nnoremap <leader>c :HexokinaseRefresh<CR>
-nnoremap <leader>H :HexokinaseToggle<CR>
-inoremap ;; <esc>/{$[^$]*$}<cr>v/$}<cr><right>c
-" inoremap ;; <esc>:call search('\$\{[^%]*}', 'zW')<cr><right>c%
 "}}}2
 
 "{{{2 Commands
@@ -150,6 +142,10 @@ if has("autocmd")
 	filetype on
 	filetype plugin indent on
 	set omnifunc=syntaxcomplete#Complete
+	augroup RAINBOW
+		autocmd!
+		autocmd FileType autohotkey RainbowParentheses
+	augroup END
 	augroup VIM
 		autocmd!
 		autocmd FileType vim 
@@ -232,7 +228,7 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "{{{2 Crystalline
 let g:crystalline_statusline_fn = 'functions#StatusLine'
 let g:crystalline_tabline_fn = 'functions#TabLine'
-let g:crystalline_theme = 'vim_space_theme' 
+let g:crystalline_theme = 'spacvim' 
 let g:crystalline_tab_mod = " * "
 "}}}2
 
@@ -299,19 +295,18 @@ let g:ale_autohotkey_ahklint_executable = "C:/opt/bin/ahklint.exe"
 let g:vim_jsx_pretty_colorful_config = 1
 "}}}2
 
-"{{{2 Hexokinase
-let g:Hexokinase_ftAutoload = ["css", "xml", "html", "scss", "sass"]
-" let g:Hexokinase_patterns[hexokinase#patterns#colour_names#get_pattern()] = function('hexokinase#patterns#colour_names#process')
-"}}}2
-
 "{{{2 haskell-vim
 let g:haskell_classic_highlighting = 1
 "}}}2
 
-"{{{2 Rainbow
-let g:rainbow_active = 0
-"}}}2
+"{{{2 Colorizer
+let g:colorizer_auto_filetype='css,html,colortemplate'
+"}}}
 "}}}1
+"
+ 
+let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript', 'text', 'vim', 'colortemplate']
 "
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb
 " vim:fdm=marker

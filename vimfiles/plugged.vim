@@ -30,5 +30,8 @@ Plug 'davidoc/taskpaper.vim', { 'for': 'taskpaper' }
 Plug 'RRethy/vim-hexokinase', { 'do': 'mingw32-make hexokinase', 'on': ['HexokinaseToggle', 'HexokinaseTurnOn'] }
 Plug 'chrisbra/Colorizer'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'drmingdrmer/xptemplate'
+" Plug 'Marzipanzerfaust/vim-indent-ahk'
+" Plug 'wsdjeg/vim-todo', { 'on': 'OpenTodo' }
 
 call plug#end()

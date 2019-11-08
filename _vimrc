@@ -17,7 +17,7 @@ set diffopt=vertical
 set encoding=utf-8
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
 " set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
-set guifont=Victor_Mono_SemiBold:W500:h14:cANSI:qDRAFT
+set guifont=Victor_Mono_SemiBold:W500:h15:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 " set guitablabel=%N\ %t\ %m
@@ -55,7 +55,6 @@ endif
 colorscheme spacvim
 highlight link xmlTagN xmlEndTag
 highlight qferror guifg=#EC5F67 guibg=NONE gui=NONE
-highlight ColorColumn guibg=#d9d8d7
 " highlight ExtraWhitespace guibg=#f07178
 " let g:pencil_terminal_italics = 0
 " let g:pencil_higher_contrast_ui = 1
@@ -145,6 +144,7 @@ if has("autocmd")
 	augroup RAINBOW
 		autocmd!
 		autocmd FileType autohotkey RainbowParentheses
+					\ let b:AutoPairs = {'(':')', '[':']', '{','}', '"':'"', "'":"'"}
 	augroup END
 	augroup VIM
 		autocmd!
@@ -153,6 +153,13 @@ if has("autocmd")
 					\ number expandtab autoindent
 		autocmd FileType vim let b:comment_leader="\" "
 	augroup END
+	augroup AHK
+		autocmd!
+		autocmd FileType autohotkey
+					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
+					\ number noexpandtab autoindent textwidth=80
+					\ commentstring=;%s
+		autocmd FileType autohotkey let b:comment_leader="; "
 	augroup BAT
 		autocmd!
 		autocmd FileType dosbatch
@@ -302,11 +309,15 @@ let g:haskell_classic_highlighting = 1
 "{{{2 Colorizer
 let g:colorizer_auto_filetype='css,html,colortemplate'
 "}}}
+
+"{{{2 Rainbow Parentheses
+let g:rainbow#pairs = [['(',')'], ['[',']']]
+let g:rainbow#max_level = 16
+"}}}
 "}}}1
-"
  
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
 let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript', 'text', 'vim', 'colortemplate']
-"
+
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb
 " vim:fdm=marker

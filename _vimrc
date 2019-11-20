@@ -94,7 +94,7 @@ set grepformat=%f:%l:%c:%m
 "}}}2
 
 "{{{2 Setup shell
-" set shell=c:\Windows\System32\cmd.exe\ /k\ c:\opt\cmder\vendor\init.bat
+" set shell=c:\Windows\System32\cmd.exe\ /k\ c:\opt\cmder\1.3.12\vendor\init.bat
 "}}}2
 
 "{{{2 Mappings
@@ -141,11 +141,6 @@ if has("autocmd")
 	filetype on
 	filetype plugin indent on
 	set omnifunc=syntaxcomplete#Complete
-	augroup RAINBOW
-		autocmd!
-		autocmd FileType autohotkey RainbowParentheses
-					\ let b:AutoPairs = {'(':')', '[':']', '{','}', '"':'"', "'":"'"}
-	augroup END
 	augroup VIM
 		autocmd!
 		autocmd FileType vim 
@@ -160,6 +155,8 @@ if has("autocmd")
 					\ number noexpandtab autoindent textwidth=80
 					\ commentstring=;%s
 		autocmd FileType autohotkey let b:comment_leader="; "
+		autocmd FileType autohotkey let  b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
+		autocmd FileType autohotkey RainbowParentheses
 	augroup BAT
 		autocmd!
 		autocmd FileType dosbatch
@@ -202,13 +199,9 @@ if has("autocmd")
 					\ nocindent
 		autocmd FileType haskell let b:comment_leader="-- "
 	augroup END
-	augroup autohotkey
+	augroup XPT.VIM
 		autocmd!
-		autocmd FileType autohotkey noreabbrev fnc {$<funcName>$}({$<params>$}) {<cr><tab>{$<funcBody>$}<cr><bs>}
-	augroup END
-	augroup LDIF
-		autocmd!
-		autocmd FileType ldif noreabbrev newpwd dn: CN={$<userId>$},OU=Mitarbeiter,DC=Viessmann,DC=Net<cr>changetype: modify<cr>replace: userPassword<cr>userPassword: {$<pwd>$}<cr><bs>
+		autocmd FileType xpt.vim let  b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'", '`':'^'}
 	augroup END
 	" autocmd FileType * if(&textwidth != 0)
 				" \ |		let &colorcolumn=&textwidth+1

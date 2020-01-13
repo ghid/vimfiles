@@ -94,7 +94,7 @@ operations(aValue) {
 ; @todo Add #Directives - not testable code til exitapp...
 #NoEnv ; notest-begin
 #Include <app>
-#Include <lib2>
+#Include <cui-libs>
 
 ; @todo Implement main routine
 Main:

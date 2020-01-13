@@ -31,6 +31,7 @@ Plug 'RRethy/vim-hexokinase', { 'do': 'mingw32-make hexokinase', 'on': ['Hexokin
 Plug 'chrisbra/Colorizer'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'drmingdrmer/xptemplate'
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 " Plug 'Marzipanzerfaust/vim-indent-ahk'
 " Plug 'wsdjeg/vim-todo', { 'on': 'OpenTodo' }
 

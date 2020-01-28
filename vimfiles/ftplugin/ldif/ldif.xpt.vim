@@ -14,6 +14,5 @@ XPT genpwd " Generate a password
 dn: CN=`shortSign^,OU=Mitarbeiter,DC=Viessmann,DC=Net
 changetype: modify
 replace: userPassword
-userPassword: `password()^
-`cursor^
+userPassword: `password()^`cursor^
 

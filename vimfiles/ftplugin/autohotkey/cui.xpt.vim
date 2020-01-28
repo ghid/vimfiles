@@ -10,7 +10,10 @@ XPT cui " Command line user interface app boilerplate code
 #Warn all, StdOut
 
 ; @todo Define main project class
-class `appName^ {
+class `appName^ `extends...^{
+XSETm extends...|post
+extends `className^ 
+XSETm END
 
 	requires() {
 		return [Ansi, OptParser, String]

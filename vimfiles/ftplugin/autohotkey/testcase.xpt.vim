@@ -9,7 +9,10 @@ XPT testcase " Testcase boilerplate code
 ; ahk: console
 
 #Include <testcase-libs>
-#Include %ScriptDir%\..\\`myClass^.ahk
+#Include %ScriptDir%\..`\path...^\\`myClass^.ahk
+XSETm \\path...|post
+`path^
+XSETm END
 
 class `myClass^substitute(V(),'.','\u&',"")^Test extends TestCase {
 

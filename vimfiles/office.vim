@@ -1,5 +1,5 @@
 function! SetMyWinPos()
-    let monitorInfo=system('WhereAmI')
+    let monitorInfo=system('C:\opt\bin\WhereAmI.exe')
     " Laptop
     if monitorInfo=='1[0:38:2048:1152]'
         set lines=33

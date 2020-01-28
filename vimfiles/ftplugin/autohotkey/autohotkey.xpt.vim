@@ -33,6 +33,11 @@ requires() {
     return [`cursor^]
 }
 
+XPT version " version() \{ return ".." \}
+version() {
+    return "`1.0.0^"
+}`cursor^
+
 XPT if " if (..) \{..\}
 if (`expression^) {
     `cursor^

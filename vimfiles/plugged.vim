@@ -6,8 +6,10 @@ endif
 
 call plug#begin('$HOME/vimfiles/pack/plugged')
 
-Plug 'ayu-theme/ayu-vim'
+" Plug 'ayu-theme/ayu-vim'
 " Plug 'liuchengxu/space-vim-theme'
+" Plug 'relastle/bluewery.vim'
+Plug 'atelierbram/Base2Tone-vim'
 Plug 'ghid/spacvim'
 Plug 'dense-analysis/ale'
 Plug 'ctrlpvim/ctrlp.vim'

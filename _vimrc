@@ -17,7 +17,7 @@ set diffopt=vertical
 set encoding=utf-8
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
 " set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
-set guifont=Victor_Mono_SemiBold:W500:h15:cANSI:qDRAFT
+set guifont=Victor_Mono_SemiBold:W600:h15:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 " set guitablabel=%N\ %t\ %m
@@ -31,8 +31,8 @@ set path+=**
 set visualbell
 set cursorline
 set formatoptions-=t
-set listchars=tab:\⡇\ ,eol:¬
-set showbreak=…
+set listchars=tab:\›\ ,eol:¬
+set showbreak=●
 set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
 set directory=$HOME/vimfiles/swapdir
 source $HOME/vimfiles/$MYVIMPROFILE
@@ -116,7 +116,7 @@ noremap <leader>ev :tabnew<CR>:edit $MYVIMRC<CR>
 noremap <leader>sv :source $MYVIMRC<CR>:call functions#SetupCanvas()<CR>
 noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/autoload/functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/plugged.vim<CR>
-noremap <expr> <leader>es ":vsplit $HOME/vimfiles/snippets/" . &filetype . "<CR>"
+noremap <expr> <leader>es ":vsplit $HOME/vimfiles/ftplugin/" . &filetype . "/" . &filetype . ".xpt.vim<CR>"
 noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :!ahk %<CR><CR>
 nnoremap <leader>D :!ahkd c v %<CR><CR>
@@ -155,8 +155,17 @@ if has("autocmd")
 					\ number noexpandtab autoindent textwidth=80
 					\ commentstring=;%s
 		autocmd FileType autohotkey let b:comment_leader="; "
-		autocmd FileType autohotkey let  b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
+		autocmd FileType autohotkey let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
 		autocmd FileType autohotkey RainbowParentheses
+	augroup GROOVY
+		autocmd!
+		autocmd FileType groovy
+					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
+					\ number noexpandtab autoindent textwidth=80
+					\ commentstring=;%s
+		autocmd FileType groovy let b:comment_leader="// "
+		autocmd FileType groovy let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
+		autocmd FileType groovy RainbowParentheses
 	augroup BAT
 		autocmd!
 		autocmd FileType dosbatch
@@ -164,6 +173,12 @@ if has("autocmd")
 					\ number noexpandtab autoindent
 					\ textwidth=80
 		autocmd FileType dosbatch let b:comment_leader="rem "
+	augroup END
+	augroup LDIF
+		autocmd!
+		autocmd FileType ldif
+					\ setlocal number autoindent textwidth=76 wrap
+					\ commentstring=#%s
 	augroup END
 	augroup LUA
 		autocmd!

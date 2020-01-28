@@ -8,7 +8,7 @@ let g:ale_autohotkey_ahklint_options = get(g:, 'ale_autohotkey_ahklint_options',
 function! ale_linters#autohotkey#ahklint#GetCommand(buffer) abort
     return '%e'
     \   . ale#Pad(ale#Var(a:buffer, 'autohotkey_ahklint_options'))
-    \   . ' --tab=' . &tabstop
+    \   . ' --tab=' . &tabstop . ' --'
 endfunction
 
 function! ale_linters#autohotkey#ahklint#Handle(buffer, lines) abort

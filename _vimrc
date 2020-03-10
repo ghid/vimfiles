@@ -17,7 +17,7 @@ set diffopt=vertical
 set encoding=utf-8
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
 " set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
-set guifont=Victor_Mono_SemiBold:W600:h15:cANSI:qDRAFT
+set guifont=Victor_Mono_SemiBold:W600:h16:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 " set guitablabel=%N\ %t\ %m
@@ -43,32 +43,17 @@ source $HOME/vimfiles/$MYVIMPROFILE
 if (has("termguicolors"))
 	set termguicolors
 endif
-" colorscheme base16-materia
-" let ayucolor="light"
-" colorscheme ayu
-if(strftime("%H")>=8 && strftime("%H")<=18)
+if (strftime("%H")>=8 && strftime("%H")<=18)
+	" colorscheme onehalflight
 	set background=light
 else
+	" colorscheme onehalfdark
 	set background=dark
 endif
-" colorscheme space_vim_theme
-colorscheme spacvim
+colorscheme nightowl
 highlight link xmlTagN xmlEndTag
+highlight Comment gui=italic
 highlight qferror guifg=#EC5F67 guibg=NONE gui=NONE
-" highlight ExtraWhitespace guibg=#f07178
-" let g:pencil_terminal_italics = 0
-" let g:pencil_higher_contrast_ui = 1
-" let g:monochrome_italic_comments = 1
-" colorscheme monochrome
-" Put in a background colour for gui with use of falcon theme
-if has("gui_running") && has("colors_name") && colors_name == "falcon"
-	let g:falcon_lightline = 1
-	highlight Normal guifg=#d4d4d9 ctermfg=188 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
-	highlight NonText guifg=#3e3e40 ctermfg=237 guibg=#0b0b1a ctermbg=233 gui=NONE cterm=NONE
-	highlight FoldColumn guifg=#646466 ctermfg=242 guibg=NONE ctermbg=NONE gui=NONE cterm=NONE
-endif
-" highlight ColorColumn ctermbg=NONE ctermfg=white guibg=red guifg=white
-" highlight ColorColumn guibg=#343D46 guifg=white
 call matchadd('ColorColumn', '\%82v', 100)
 "}}}2
 
@@ -118,8 +103,7 @@ noremap <leader>ef :tabnew<CR>:edit $HOME/vimfiles/autoload/functions.vim<CR>
 noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/plugged.vim<CR>
 noremap <expr> <leader>es ":vsplit $HOME/vimfiles/ftplugin/" . &filetype . "/" . &filetype . ".xpt.vim<CR>"
 noremap <leader>/ :call functions#ToggleComment()<CR>
-nnoremap <leader>R :!ahk %<CR><CR>
-nnoremap <leader>D :!ahkd c v %<CR><CR>
+nnoremap <leader>R :QuickRun<CR>
 nnoremap <leader>QQ :qa!<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-l> <right>
@@ -128,7 +112,9 @@ inoremap <C-Return> <C-o>o
 inoremap <C-BS> <Esc>diwa
 nnoremap <leader>al :ALELint<CR>
 nnoremap <leader>an :ALENext<CR>
-nnoremap <leader>ap :ALEPrevious<CR>
+noremap <leader>ap :ALEPrevious<CR>
+vnoremap <leader>be c<c-r>=system('b64enc -e ' . &fenc, @")<cr><esc>
+vnoremap <leader>bd c<c-r>=system('b64dec -e ' . &fenc, @")<cr><esc>
 "}}}2
 
 "{{{2 Commands
@@ -153,13 +139,14 @@ if has("autocmd")
 		autocmd FileType autohotkey
 					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
 					\ number noexpandtab autoindent textwidth=80
+					\ fileencoding=utf-8 bomb
 					\ commentstring=;%s
 		autocmd FileType autohotkey let b:comment_leader="; "
 		autocmd FileType autohotkey let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
 		autocmd FileType autohotkey RainbowParentheses
 	augroup GROOVY
 		autocmd!
-		autocmd FileType groovy
+		autocmd FileType groovy,java
 					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
 					\ number noexpandtab autoindent textwidth=80
 					\ commentstring=;%s
@@ -243,7 +230,7 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "{{{2 Crystalline
 let g:crystalline_statusline_fn = 'functions#StatusLine'
 let g:crystalline_tabline_fn = 'functions#TabLine'
-let g:crystalline_theme = 'spacvim' 
+let g:crystalline_theme = 'nightowl' 
 let g:crystalline_tab_mod = " * "
 "}}}2
 
@@ -304,6 +291,7 @@ let g:ale_jq_executable = "C:/opt/bin/jq.exe"
 let g:ale_xml_xmllint_executable = "C:/opt/bin/xmllint.exe"
 let g:ale_xml_xmlstarlet_executable = "C:/opt/bin/xml.exe"
 let g:ale_autohotkey_ahklint_executable = "C:/opt/bin/ahklint.exe"
+let g:ale_ldif_ldiflint_executable = "C:/opt/bin/ldiflint.exe"
 "}}}2
 
 "{{{2 vim-jsx-pretty
@@ -314,17 +302,27 @@ let g:vim_jsx_pretty_colorful_config = 1
 let g:haskell_classic_highlighting = 1
 "}}}2
 
-"{{{2 Colorizer
-let g:colorizer_auto_filetype='css,html,colortemplate'
-"}}}
-
 "{{{2 Rainbow Parentheses
 let g:rainbow#pairs = [['(',')'], ['[',']']]
 let g:rainbow#max_level = 16
 "}}}
+
+"{{{2 Quickrun
+let g:quickrun_config = {}
+let g:quickrun_config.plantuml = {
+			\ 'command': 'plantuml',
+			\ 'exec': 'java -jar c:/var/java/lib/plantuml.jar %o %s',
+			\ 'cmdopt': '-overwrite',
+			\ 'outputter': 'browser',
+			\ 'outputter/browser/name': '%{expand("%:p:r:t").".png"}', }
+let g:quickrun_config.markdown = {
+			\ 'type': 'markdown/pandoc',
+			\ 'cmdopt': '',
+			\ 'outputter': 'browser', }
+"}}}
 "}}}1
  
-let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+let g:Hexokinase_highlighters = [ 'sign_column' ]
 let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript', 'text', 'vim', 'colortemplate']
 
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

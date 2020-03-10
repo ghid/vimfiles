@@ -74,10 +74,10 @@ endfunction
 
 function! functions#TabLine()
   let l:vimlabel = has("nvim") ?  " NVIM " : ""
-  return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab#' . l:vimlabel
+  return crystalline#bufferline(2, len(l:vimlabel), 0) . '%=%#CrystallineTab#' . l:vimlabel
 endfunction
 
-function! functions#StatusLine(current, width)
+function! functions#StatusLine_spacevim(current, width)
   return  functions#BufferNumber(a:current)
 		\ . (a:current
 		\		? crystalline#mode() . '%#Crystalline#'
@@ -93,6 +93,22 @@ function! functions#StatusLine(current, width)
 		\		? '%#CrystallineTab# %{&ff} %{&enc} |%4l:%2v '
 		\		. '%#Crystalline# %3p%% '
 		\		: '')
+endfunction
+
+function! functions#StatusLine(current, width)
+	return (a:current
+				\ ? crystalline#mode() . '%#Crystalline#'
+				\ . ' %{functions#DirtyFlag()} %{functions#FileSize()} %{functions#Filename()}%h%w'
+				\ . ' %#CrystallineTab# %{functions#Filetype()} '
+				\ . '%#CrystallineFill#%{functions#GitBranch()} '
+				\ : '%#CrystallineInactive#'
+				\ . ' %{functions#DirtyFlag()} %{functions#FileSize()} %{functions#Filename()}%h%w'
+				\ . ' %#Crystalline# %{functions#Filetype()} %#CrystallineFill#')
+				\ . '%=' . (a:current ? functions#ALEState() : '%#CrystallineFill#')
+				\ . (a:current ? '%#CrystallineFill#%{functions#SpellCheck()}' : '')
+				\ . (a:width > 80
+				\ ? '%#CrystallineInactive# %{&ff} | %{functions#Encoding()} %#CrystallineTab# %3p%% %#Crystalline#%4l:%2v '
+				\ : '')
 endfunction
 
 function! functions#BufferNumber(current)
@@ -128,6 +144,10 @@ endfunction
 
 function! functions#Filetype()
 	return &ft !=# '' ? &ft : 'No Type'
+endfunction
+
+function! functions#Encoding()
+	return &fenc !=# '' ? &fenc : &enc
 endfunction
 
 function! functions#GitBranch()

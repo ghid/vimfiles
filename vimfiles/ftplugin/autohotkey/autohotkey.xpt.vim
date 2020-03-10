@@ -5,6 +5,9 @@ let s:f = g:XPTfuncs()
 XPTinclude
       \ _common/common
 
+XPT include " #Include ..
+#Include `cursor^
+
 XPT class " class .. [extends ..]
 class `className^ `extends...{{^extends `parentClass^ `}}^{
 
@@ -40,6 +43,34 @@ version() {
 
 XPT if " if (..) \{..\}
 if (`expression^) {
+    `cursor^
+}
+
+XPT ifelse " if (..) \{..\} else \{..\}
+if (`expression^) {
+    `statements^
+} else {
+    `cursor^
+}
+
+XPT ifelseif " if (..) \{..\} else if (..) \{..\}
+if (`expression^) {
+    `statements^
+} else if (`anotherExpression^) {
+    `cursor^
+}
+
+XPT ifelseifelse " if (..) \{..\} else if (..) \{..\} else \{..\}
+if (`expression^) {
+    `statements^
+} else if (`anotherExpression^) {
+    `anotherStatements^
+} else {
+    `cursor^
+}
+
+XPT for " for <key>,<value> in <list> \{..\}"
+for `_^, `value^ in `list^ {
     `cursor^
 }
 

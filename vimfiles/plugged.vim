@@ -10,6 +10,7 @@ call plug#begin('$HOME/vimfiles/pack/plugged')
 " Plug 'liuchengxu/space-vim-theme'
 " Plug 'relastle/bluewery.vim'
 Plug 'atelierbram/Base2Tone-vim'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'ghid/spacvim'
 Plug 'dense-analysis/ale'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -29,12 +30,18 @@ Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
 Plug 'davidoc/taskpaper.vim', { 'for': 'taskpaper' }
-Plug 'RRethy/vim-hexokinase', { 'do': 'mingw32-make hexokinase', 'on': ['HexokinaseToggle', 'HexokinaseTurnOn'] }
-Plug 'chrisbra/Colorizer'
+" Plug 'RRethy/vim-hexokinase', { 'do': 'mingw32-make hexokinase', 'on': ['HexokinaseToggle', 'HexokinaseTurnOn'] }
+Plug 'RRethy/vim-hexokinase', { 'do': 'mingw32-make hexokinase' }
+" Plug 'chrisbra/Colorizer'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'drmingdrmer/xptemplate'
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 " Plug 'Marzipanzerfaust/vim-indent-ahk'
 " Plug 'wsdjeg/vim-todo', { 'on': 'OpenTodo' }
+" Plug 'itchyny/lightline.vim'
+Plug 'thinca/vim-quickrun', { 'for': ['go', 'groovy', 'java', 'markdown', 'plantuml'] }
+Plug 'tyru/open-browser.vim', { 'for': ['markdown', 'plantuml'] }
+Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
+Plug 'gko/vim-coloresque'
 
 call plug#end()

@@ -39,3 +39,9 @@ changetype: modify
 add: member
 `Include:member^
 
+XPT deleteMember " Remove a member from a group
+dn: cn=`groupCn^,`ou=groups,dc=viessmann,dc=net^
+changetype: modify
+delete: member
+`Include:member^
+

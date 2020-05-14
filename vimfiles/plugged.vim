@@ -23,6 +23,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
 Plug 'jiangmiao/auto-pairs'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'dhruvasagar/vim-dotoo'
+Plug 'jceb/vim-orgmode'
+Plug 'tpope/vim-speeddating'
+Plug 'inkarkat/vim-SyntaxRange', { 'for': 'org' }
 Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'vim-scripts/Align', { 'on': ['Align', 'AlignCtrl'] }
 Plug 'pangloss/vim-javascript'
@@ -39,7 +43,8 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 " Plug 'Marzipanzerfaust/vim-indent-ahk'
 " Plug 'wsdjeg/vim-todo', { 'on': 'OpenTodo' }
 " Plug 'itchyny/lightline.vim'
-Plug 'thinca/vim-quickrun', { 'for': ['go', 'groovy', 'java', 'markdown', 'plantuml'] }
+Plug 'thinca/vim-quickrun', { 'for': ['gradle', 'go', 'groovy', 'haskell', 'java',
+            \ 'javascript', 'kotlin', 'markdown', 'plantuml', 'scala'] }
 Plug 'tyru/open-browser.vim', { 'for': ['markdown', 'plantuml'] }
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'gko/vim-coloresque'

@@ -146,10 +146,10 @@ if has("autocmd")
 		autocmd FileType autohotkey RainbowParentheses
 	augroup GROOVY
 		autocmd!
-		autocmd FileType groovy,java
+		autocmd FileType groovy,java,scala
 					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
 					\ number noexpandtab autoindent textwidth=80
-					\ commentstring=;%s
+					\ commentstring=//%s
 		autocmd FileType groovy let b:comment_leader="// "
 		autocmd FileType groovy let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
 		autocmd FileType groovy RainbowParentheses
@@ -159,7 +159,7 @@ if has("autocmd")
 					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
 					\ number noexpandtab autoindent
 					\ textwidth=80
-		autocmd FileType dosbatch let b:comment_leader="rem "
+		autocmd FileType dosbatch let b:comment_leader=":: "
 	augroup END
 	augroup LDIF
 		autocmd!

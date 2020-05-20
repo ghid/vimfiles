@@ -8,7 +8,7 @@ call plug#begin('$HOME/vimfiles/pack/plugged')
 
 " Plug 'ayu-theme/ayu-vim'
 " Plug 'liuchengxu/space-vim-theme'
-" Plug 'relastle/bluewery.vim'
+Plug 'relastle/bluewery.vim'
 Plug 'atelierbram/Base2Tone-vim'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'ghid/spacvim'
@@ -44,7 +44,7 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 " Plug 'wsdjeg/vim-todo', { 'on': 'OpenTodo' }
 " Plug 'itchyny/lightline.vim'
 Plug 'thinca/vim-quickrun', { 'for': ['gradle', 'go', 'groovy', 'haskell', 'java',
-            \ 'javascript', 'kotlin', 'markdown', 'plantuml', 'scala'] }
+            \ 'javascript', 'kotlin', 'markdown', 'plantuml', 'scala', 'autohotkey'] }
 Plug 'tyru/open-browser.vim', { 'for': ['markdown', 'plantuml'] }
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }
 Plug 'gko/vim-coloresque'

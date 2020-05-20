@@ -98,8 +98,7 @@ endfunction
 function! functions#StatusLine(current, width)
 	return (a:current
 				\ ? crystalline#mode() . '%#Crystalline#'
-				\ . ' %{functions#DirtyFlag()} %{functions#FileSize()} %{functions#Filename()}%h%w'
-				\ . ' %#CrystallineTab# %{functions#Filetype()} '
+				\ . ' %{functions#DirtyFlag()} %{functions#FileSize()} %{functions#Filename()}%h%w '
 				\ . '%#CrystallineFill#%{functions#GitBranch()} '
 				\ : '%#CrystallineInactive#'
 				\ . ' %{functions#DirtyFlag()} %{functions#FileSize()} %{functions#Filename()}%h%w'
@@ -107,7 +106,8 @@ function! functions#StatusLine(current, width)
 				\ . '%=' . (a:current ? functions#ALEState() : '%#CrystallineFill#')
 				\ . (a:current ? '%#CrystallineFill#%{functions#SpellCheck()}' : '')
 				\ . (a:width > 80
-				\ ? '%#CrystallineInactive# %{&ff} | %{functions#Encoding()} %#CrystallineTab# %3p%% %#Crystalline#%4l:%2v '
+				\ ? '%#CrystallineTab# %{&ff} | %{functions#Encoding()} | %{functions#Filetype()} '
+				\ . '%#CrystallineInactive# %3p%% %#CrystallineTabSel#%4l:%2v '
 				\ : '')
 endfunction
 

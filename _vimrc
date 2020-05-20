@@ -46,11 +46,13 @@ endif
 if (strftime("%H")>=8 && strftime("%H")<=18)
 	" colorscheme onehalflight
 	set background=light
+	colorscheme bluewery-light
 else
 	" colorscheme onehalfdark
 	set background=dark
+	colorscheme bluewery
 endif
-colorscheme nightowl
+" colorscheme nightowl
 highlight link xmlTagN xmlEndTag
 highlight Comment gui=italic
 highlight qferror guifg=#EC5F67 guibg=NONE gui=NONE
@@ -230,7 +232,7 @@ nmap <C-x> :call <SID>SynStack()<CR>
 "{{{2 Crystalline
 let g:crystalline_statusline_fn = 'functions#StatusLine'
 let g:crystalline_tabline_fn = 'functions#TabLine'
-let g:crystalline_theme = 'nightowl' 
+let g:crystalline_theme = 'bluewery' 
 let g:crystalline_tab_mod = " * "
 "}}}2
 
@@ -319,6 +321,8 @@ let g:quickrun_config.markdown = {
 			\ 'type': 'markdown/pandoc',
 			\ 'cmdopt': '',
 			\ 'outputter': 'browser', }
+let g:quickrun_config.autohotkey = {
+			\ 'exec': 'ahk c q %{expand("%")}' }
 "}}}
 "}}}1
  

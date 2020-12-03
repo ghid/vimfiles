@@ -35,6 +35,19 @@ function! functions#SetupCanvas()
 	call SetMyWinPos()
 endfunction
 
+function! functions#TweakHighlights()
+	" highlight Cursor guifg=fg guibg=bg gui=reverse
+	highlight ColorColumn gui=undercurl
+	" highlight link xmlTagN xmlEndTag
+	highlight Underlined gui=underline
+	highlight String gui=underline
+	highlight Comment gui=italic
+	highlight Keyword gui=bold
+	highlight Statement gui=bold
+	" highlight qferror guifg=#EC5F67 guibg=NONE gui=NONE
+	call matchadd('ColorColumn', '\%82v', 100)
+endfunction
+
 " Copy only the text that matches search hits into a given register.
 " @example: :CopyMatches +	" Copy currently selected text to the +
 " register
@@ -147,20 +160,19 @@ function! functions#Filetype()
 endfunction
 
 function! functions#Encoding()
-	return &fenc !=# '' ? &fenc : &enc
+	return (&fenc !=# '' ? &fenc : &enc) . (&bomb ? '+bom' : '')
 endfunction
 
 function! functions#GitBranch()
-	if exists('*fugitive#head')
-		let br_symbol = ''
-		let branch = fugitive#head()
-		return branch !=# '' ? '  ' . branch : ''
+	if exists("*gitbranch#name")
+		let branch = gitbranch#name()
+		return branch !=# '' ? ' '.branch.'' : ''
 	endif
 	return ''
 endfunction
 
 function! functions#SpellCheck()
-	return &spell ? '  ' . &spelllang . '🗸 ' : ''
+	return &spell ? '⌕ ' . &spelllang.''  : ''
 endfunction
 
 function! functions#ALEState()
@@ -200,7 +212,9 @@ function! functions#ALEOk()
 endfunction
 
 function! functions#ALEWarnings()
-	return "▲ " . ale#statusline#Count(bufnr("%"))["warning"] . " "
+	return len(ale#linter#Get(&filetype))
+				\ ? "✓ " . ale#statusline#Count(bufnr("%"))["warning"] . " "
+				\ : ""
 endfunction
 
 function! functions#ALECount()
@@ -208,6 +222,8 @@ function! functions#ALECount()
 endfunction
 
 function! functions#ALEErrors()
-	return "✗ " . ale#statusline#Count(bufnr("%"))["error"] . " "
-endfunction
+	return len(ale#linter#Get(&filetype))
+				\ ? "✗ " . ale#statusline#Count(bufnr("%"))["error"] . " "
+				\ : ""
+endfunction️
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

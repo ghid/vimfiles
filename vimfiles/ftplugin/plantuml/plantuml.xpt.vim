@@ -2,7 +2,7 @@ XPTemplate priority=personal+
 
 XPT uml " Create an UML diagram, e.g. sequence, use case, class, activity, component, state, object, deployment, timing, wireframe, archimate, 
 @startuml
-`^
+`cursor^
 @enduml
 
 XPT gantt " Create a Gantt diagram

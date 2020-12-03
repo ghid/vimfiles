@@ -11,30 +11,31 @@ source $HOME/vimfiles/plugged.vim
 
 "{{{2 Customize VIM 
 language messages en
-set nobackup
+" set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
+" set guitablabel=%N\ %t\ 
 set cpoptions+=$
 set diffopt=vertical
+set directory=$HOME/vimfiles/swapdir
 set encoding=utf-8
-set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
-" set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
-set guifont=Victor_Mono_SemiBold:W600:h16:cANSI:qDRAFT
+set formatoptions-=t
+set guifont=Victor_Mono_Medium:h16:W500:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
-" set guitablabel=%N\ %t\ %m
+set hidden
 set langmenu=en_US.UTF-8
 set laststatus=2
-set showtabline=2
+set listchars=tab:\›\ ,eol:¬
+set nobackup
 set nocompatible
+set nocursorline
 set noerrorbells
 set noshowmode
 set path+=**
-set visualbell
-set cursorline
-set formatoptions-=t
-set listchars=tab:\›\ ,eol:¬
+set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
 set showbreak=●
+set showtabline=2
+set visualbell
 set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
-set directory=$HOME/vimfiles/swapdir
 source $HOME/vimfiles/$MYVIMPROFILE
 " set scrolloff=999
 "}}}2
@@ -43,20 +44,20 @@ source $HOME/vimfiles/$MYVIMPROFILE
 if (has("termguicolors"))
 	set termguicolors
 endif
-if (strftime("%H")>=8 && strftime("%H")<=18)
+" if (strftime("%H")>=8 && strftime("%H")<=18)
 	" colorscheme onehalflight
-	set background=light
-	colorscheme bluewery-light
-else
+	" set background=light
+	" colorscheme bluewery-light
+" else
 	" colorscheme onehalfdark
-	set background=dark
-	colorscheme bluewery
-endif
+	" set background=dark
+	" colorscheme bluewery
+" endif
 " colorscheme nightowl
-highlight link xmlTagN xmlEndTag
-highlight Comment gui=italic
-highlight qferror guifg=#EC5F67 guibg=NONE gui=NONE
-call matchadd('ColorColumn', '\%82v', 100)
+" let g:yui_comments = 'emphasize'
+colorscheme yang
+" colorscheme nofrils-acme
+" call functions#TweakHighlights()
 "}}}2
 
 "{{{2 Maintain undo history between sessions
@@ -82,6 +83,13 @@ set grepformat=%f:%l:%c:%m
 
 "{{{2 Setup shell
 " set shell=c:\Windows\System32\cmd.exe\ /k\ c:\opt\cmder\1.3.12\vendor\init.bat
+if $SHELL == ''
+	set shell=c:\Windows\System32\cmd.exe
+else
+	set shell=$SHELL
+	set shellslash
+	set shellquote=\"
+endif
 "}}}2
 
 "{{{2 Mappings
@@ -117,10 +125,82 @@ nnoremap <leader>an :ALENext<CR>
 noremap <leader>ap :ALEPrevious<CR>
 vnoremap <leader>be c<c-r>=system('b64enc -e ' . &fenc, @")<cr><esc>
 vnoremap <leader>bd c<c-r>=system('b64dec -e ' . &fenc, @")<cr><esc>
+noremap <C-Left> :bprev<CR>
+noremap <C-Right> :bnext<CR>
 "}}}2
+
+"{{{2 Setup Statusline & Tabline
+let g:currentmode={
+    \ 'n'  : 'Normal',
+    \ 'no' : 'Normal·Operator Pending',
+    \ 'v'  : 'Visual',
+    \ 'V'  : 'V·Line',
+    \ '^V' : 'V·Block',
+    \ 's'  : 'Select',
+    \ 'S'  : 'S·Line',
+    \ '^S' : 'S·Block',
+    \ 'i'  : 'Insert',
+    \ 'R'  : 'Replace',
+    \ 'Rv' : 'V·Replace',
+    \ 'c'  : 'Command',
+    \ 'cv' : 'Vim Ex',
+    \ 'ce' : 'Ex',
+    \ 'r'  : 'Prompt',
+    \ 'rm' : 'More',
+    \ 'r?' : 'Confirm',
+    \ '!'  : 'Shell',
+    \ 't'  : 'Terminal'
+    \}
+
+set statusline=
+set statusline+=%1*\ %{toupper(g:currentmode[mode()])}\  " The current mode
+set statusline+=\ %{functions#GitBranch()}\  
+set statusline+=\ %{functions#ALEErrors()}
+set statusline+=%{functions#ALEWarnings()}
+set statusline+=\ %{functions#SpellCheck()}\ 
+" set statusline+=\ %<%F%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
+set statusline+=%=                                       " Right Side
+set statusline+=\ Ln\ %l,\ Col\ %v\                   " Line, Column
+set statusline+=\ Spaces:\ %{&tabstop}\                  " Spaces
+set statusline+=\ %{''.toupper(&fenc!=''?&fenc:&enc).''}\    " Encoding
+set statusline+=\ %{(&ff==#'dos'?'CRLF':&ff==#'unix'?'LF':&ff==#'mac'?'CR':&ff)}\ 
+set statusline+=\ %Y\                                 " FileType
+set statusline+=\ %{functions#FileSize()}\ 
+set statusline+=%{(&readonly?'':'\ ')}\ 
+set statusline+=%{(&modified?'●':'\ ')}\ 
+
+" hi User1 ctermfg=007 ctermbg=239 guibg=#6D2B7B guifg=#ffffff
+" hi User1 ctermfg=007 ctermbg=239 guibg=#cfd4d9 guifg=#51575e
+hi User1 ctermfg=007 ctermbg=236 guibg=#007acc guifg=#ffffff
+" hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
+" hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
+
+" set statusline=%!Statusline()
+" set statusline=
+" set statusline+=%#DiffText#\ %{Mode_Label()}
+" set statusline+=%#PmenuSel#
+" set statusline+=\ %{functions#FileSize()} 
+" set statusline+=\ %{Git_Branch()}
+"}}}
 
 "{{{2 Commands
 command! -register CopyMatches call functions#CopyMatches(<q-reg>)
+command! DarkMode  colorscheme nofrils-dark
+			\ | let g:crystalline_theme="nofrils_dark"
+			\ | call functions#TweakHighlights()
+			\ | call crystalline#apply_current_theme() 
+command! LightMode colorscheme nofrils-acme
+			\ | let g:crystalline_theme="nofrils_acme"
+			\ | call functions#TweakHighlights()
+			\ | call crystalline#apply_current_theme() 
+command! BrightMode colorscheme nofrils-light
+			\ | let g:crystalline_theme="nofrils_light"
+			\ | call functions#TweakHighlights()
+			\ | call crystalline#apply_current_theme() 
+command! SepiaMode colorscheme nofrils-sepia
+			\ | let g:crystalline_theme="nofrils_sepia"
+			\ | call functions#TweakHighlights()
+			\ | call crystalline#apply_current_theme() 
 "}}}2
 
 "{{{2 Auto Commands
@@ -141,11 +221,11 @@ if has("autocmd")
 		autocmd FileType autohotkey
 					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
 					\ number noexpandtab autoindent textwidth=80
-					\ fileencoding=utf-8 bomb
+					\ fileencoding=utf-8
 					\ commentstring=;%s
 		autocmd FileType autohotkey let b:comment_leader="; "
 		autocmd FileType autohotkey let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
-		autocmd FileType autohotkey RainbowParentheses
+		" autocmd FileType autohotkey RainbowParentheses
 	augroup GROOVY
 		autocmd!
 		autocmd FileType groovy,java,scala
@@ -154,7 +234,7 @@ if has("autocmd")
 					\ commentstring=//%s
 		autocmd FileType groovy let b:comment_leader="// "
 		autocmd FileType groovy let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
-		autocmd FileType groovy RainbowParentheses
+		" autocmd FileType groovy RainbowParentheses
 	augroup BAT
 		autocmd!
 		autocmd FileType dosbatch
@@ -186,6 +266,14 @@ if has("autocmd")
 	augroup MARKDOWN
 		autocmd!
 		autocmd FileType markdown setlocal textwidth=80
+	augroup END
+	augroup PLANTUML
+		autocmd!
+		autocmd FileType puml,plantuml
+					\ setlocal tabstop=2 shiftwidth=2 softtabstop=2
+					\ noexpandtab number autoindent
+		autocmd FileType puml,plantuml let b:comment_leader="' "
+		autocmd FileType puml,plantuml let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"'}
 	augroup END
 	augroup PY
 		autocmd!
@@ -230,10 +318,10 @@ nmap <C-x> :call <SID>SynStack()<CR>
 
 "{{{1 Plugin Customization
 "{{{2 Crystalline
-let g:crystalline_statusline_fn = 'functions#StatusLine'
-let g:crystalline_tabline_fn = 'functions#TabLine'
-let g:crystalline_theme = 'bluewery' 
-let g:crystalline_tab_mod = " * "
+" let g:crystalline_statusline_fn = 'functions#StatusLine'
+" let g:crystalline_tabline_fn = 'functions#TabLine'
+" let g:crystalline_theme = substitute(colors_name, "-", "_", "")
+" let g:crystalline_tab_mod = " * "
 "}}}2
 
 "{{{2 Emmet
@@ -263,7 +351,10 @@ let g:snipMate.description_in_completion = 1
 "}}}2
 
 "{{{2 CtrlP 
-let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
+let g:ctrlp_custom_ignore = {
+			\ 'dir': '\v[\/]node_modules|\v[\/]\.(git|hg|svn)$',
+			\ 'file': '\v\.(exe|dll|class)$'
+			\ }
 "}}}2
 
 "{{{2 NERDTree
@@ -288,6 +379,7 @@ let g:ctrlp_custom_ignore = '\v[\/]node_modules|\v[\/]\.(git|svn|hg)$'
 let g:ale_completion_enabled = 0
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_enter = 0
+let g:ale_lint_on_insert_leave = 0
 let g:ale_open_list = 0
 let g:ale_jq_executable = "C:/opt/bin/jq.exe"
 let g:ale_xml_xmllint_executable = "C:/opt/bin/xmllint.exe"
@@ -305,8 +397,8 @@ let g:haskell_classic_highlighting = 1
 "}}}2
 
 "{{{2 Rainbow Parentheses
-let g:rainbow#pairs = [['(',')'], ['[',']']]
-let g:rainbow#max_level = 16
+" let g:rainbow#pairs = [['(',')'], ['[',']']]
+" let g:rainbow#max_level = 16
 "}}}
 
 "{{{2 Quickrun

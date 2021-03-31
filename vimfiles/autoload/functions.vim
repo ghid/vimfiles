@@ -85,6 +85,55 @@ function! functions#ToggleComment()
 	endif
 endfunction
 
+
+function! functions#Statusline()
+	let g:currentmode={
+		\ 'n'  : "Normal",
+		\ 'no' : 'Normal·Operator Pending',
+		\ 'v'  : 'Visual',
+		\ 'V'  : 'V·Line',
+		\ '^V' : 'V·Block',
+		\ 's'  : 'Select',
+		\ 'S'  : 'S·Line',
+		\ '^S' : 'S·Block',
+		\ 'i'  : 'Insert',
+		\ 'R'  : 'Replace',
+		\ 'Rv' : 'V·Replace',
+		\ 'c'  : 'Command',
+		\ 'cv' : 'Vim Ex',
+		\ 'ce' : 'Ex',
+		\ 'r'  : 'Prompt',
+		\ 'rm' : 'More',
+		\ 'r?' : 'Confirm',
+		\ '!'  : 'Shell',
+		\ 't'  : 'Terminal'
+		\}
+
+	set statusline=
+	set statusline+=\ %{toupper(g:currentmode[mode()])}\  " The current mode
+	set statusline+=%1*\ %{functions#GitBranch()}\  
+	set statusline+=\ %{functions#ALEErrors()}
+	set statusline+=%{functions#ALEWarnings()}
+	set statusline+=%{functions#ALEInfos()}
+	set statusline+=\ %{functions#SpellCheck()}\ 
+	set statusline+=%=                                       " Right Side
+	set statusline+=\ Ln\ %l,\ Col\ %v\                   " Line, Column
+	set statusline+=\ Spaces:\ %{&tabstop}\                  " Spaces
+	set statusline+=\ %{''.toupper(&fenc!=''?&fenc:&enc).''}\    " Encoding
+	set statusline+=\ %{(&ff==#'dos'?'CRLF':&ff==#'unix'?'LF':&ff==#'mac'?'CR':&ff)}\ 
+	set statusline+=\ %Y\                                 " FileType
+	set statusline+=\ %{functions#FileSize()}\ 
+	set statusline+=%{(&readonly?'':'\ ')}\ 
+	set statusline+=%{(&modified?'●\ ':'\ ')}\ 
+
+	highlight link User1 Statusline
+	" if &background ==? 'light'
+		" hi User1 ctermfg=007 ctermbg=239 guibg=#6D2B7B guifg=#ffffff
+	" else
+		" hi User1 ctermfg=007 ctermbg=236 guibg=#007acc guifg=#ffffff
+	" endif
+endfunction
+
 function! functions#TabLine()
   let l:vimlabel = has("nvim") ?  " NVIM " : ""
   return crystalline#bufferline(2, len(l:vimlabel), 0) . '%=%#CrystallineTab#' . l:vimlabel
@@ -137,7 +186,7 @@ function! functions#DirtyFlag()
 endfunction
 
 function! functions#FileSize()
-	let fileSize = getfsize(expand("%"))
+	let fileSize = line2byte('$') + len(getline('$'))
 	if fileSize < 0
 		return "-"
 	endif
@@ -145,7 +194,7 @@ function! functions#FileSize()
 	let n = 0
 	while n < len(dimensions) && floor(fileSize / 1024.0) > 0
 		let fileSize /= 1024.0
-		let n = n + 1
+		let n += 1
 	endwhile
 	return printf("%.*f%s", n, fileSize, dimensions[n])
 endfunction
@@ -164,11 +213,15 @@ function! functions#Encoding()
 endfunction
 
 function! functions#GitBranch()
+	if exists("b:gitbranch")
+		return b:gitbranch
+	endif
+	let b:gitbranch = ''
 	if exists("*gitbranch#name")
 		let branch = gitbranch#name()
-		return branch !=# '' ? ' '.branch.'' : ''
+		let b:gitbranch = (branch !=# '' ? ' '.branch.'' : '')
 	endif
-	return ''
+	return b:gitbranch
 endfunction
 
 function! functions#SpellCheck()
@@ -211,9 +264,15 @@ function! functions#ALEOk()
 	endif
 endfunction
 
+function! functions#ALEInfos()
+	return len(ale#linter#Get(&filetype))
+				\ ? "(i): " . ale#statusline#Count(bufnr("%"))["info"] . " "
+				\ : ""
+endfunction
+
 function! functions#ALEWarnings()
 	return len(ale#linter#Get(&filetype))
-				\ ? "✓ " . ale#statusline#Count(bufnr("%"))["warning"] . " "
+				\ ? "(!): " . ale#statusline#Count(bufnr("%"))["warning"] . " "
 				\ : ""
 endfunction
 
@@ -223,7 +282,7 @@ endfunction
 
 function! functions#ALEErrors()
 	return len(ale#linter#Get(&filetype))
-				\ ? "✗ " . ale#statusline#Count(bufnr("%"))["error"] . " "
+				\ ? "(×): " . ale#statusline#Count(bufnr("%"))["error"] . " "
 				\ : ""
 endfunction️
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

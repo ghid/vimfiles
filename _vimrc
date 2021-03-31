@@ -11,56 +11,74 @@ source $HOME/vimfiles/plugged.vim
 
 "{{{2 Customize VIM 
 language messages en
-" set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE
+" set guifont=Fira_Code_Medium:h14:W500:cANSI:qCLEARTYPE{{{}}}
 " set guitablabel=%N\ %t\ 
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set smartindent
+set colorcolumn=80
+set signcolumn=yes
+set nocursorline
 set cpoptions+=$
 set diffopt=vertical
 set directory=$HOME/vimfiles/swapdir
 set encoding=utf-8
-set formatoptions-=t
-set guifont=Victor_Mono_Medium:h16:W500:cANSI:qDRAFT
+set formatoptions-=o
+" set guifont=Victor_Mono_Medium:h16:W500:cANSI:qDRAFT
+" set guifont=VictorMono_Nerd_Font_Mono:h16:W600:cANSI:qDRAFT
+set guicursor=i:block
+" set guifont=CaskaydiaCove_Nerd_Font_Mono:h14:cANSI:qDRAFT
+set guifont=Cascadia_Code_iCursive_Cg:h15:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set hidden
+set nohlsearch
+set incsearch
 set langmenu=en_US.UTF-8
 set laststatus=2
 set listchars=tab:\›\ ,eol:¬
-set nobackup
 set nocompatible
-set nocursorline
+set relativenumber
+set number
+set cursorline
 set noerrorbells
+set belloff=all
 set noshowmode
 set path+=**
+set pythonthreedll=python39.dll
 set renderoptions=type:directx,renmode:5,taamode:1,gamma:10,contrast:1,geom:1
+set scrolloff=8
 set showbreak=●
 set showtabline=2
-set visualbell
+set smartindent
 set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
 source $HOME/vimfiles/$MYVIMPROFILE
-" set scrolloff=999
 "}}}2
 
 "{{{2 Customize Colorscheme
 if (has("termguicolors"))
 	set termguicolors
 endif
-" if (strftime("%H")>=8 && strftime("%H")<=18)
-	" colorscheme onehalflight
-	" set background=light
-	" colorscheme bluewery-light
-" else
-	" colorscheme onehalfdark
-	" set background=dark
-	" colorscheme bluewery
-" endif
-" colorscheme nightowl
-" let g:yui_comments = 'emphasize'
-colorscheme yang
+if (strftime("%H")>=8 && strftime("%H")<=18)
+	" colorscheme yang
+	set background=light
+else
+	" colorscheme yin
+	set background=dark
+endif
+set background=dark
+colorscheme gruvbox-material
+" colorscheme yui
 " colorscheme nofrils-acme
 " call functions#TweakHighlights()
+" highlight CursorLine guibg=NONE guifg=NONE gui=underline
 "}}}2
 
 "{{{2 Maintain undo history between sessions
+set noswapfile
+set nobackup
 set undofile
 set undodir=$HOME/vimfiles/undodir
 "}}}
@@ -83,27 +101,20 @@ set grepformat=%f:%l:%c:%m
 
 "{{{2 Setup shell
 " set shell=c:\Windows\System32\cmd.exe\ /k\ c:\opt\cmder\1.3.12\vendor\init.bat
-if $SHELL == ''
-	set shell=c:\Windows\System32\cmd.exe
-else
-	set shell=$SHELL
-	set shellslash
-	set shellquote=\"
-endif
+set shell=c:\Windows\System32\cmd.exe
+" set shell=c:/msys64/usr/bin/bash
 "}}}2
 
 "{{{2 Mappings
-let mapleader=","
-nnoremap <F5> <C-l>
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-" nnoremap <F8> :TagbarToggle<CR>
-nnoremap <leader>l :set list!<CR>
-nnoremap <leader>h :set hlsearch!<CR>
+let mapleader = " "
+nnoremap <F5> :redraw!
+nnoremap <leader>h <C-w>h
+nnoremap <leader>j <C-w>j
+nnoremap <leader>k <C-w>k
+nnoremap <leader>l <C-w>l
+nnoremap <leader>C <C-w>c
+nnoremap <leader>L :set list!<CR>
 nnoremap <leader>ch :let @/=''<CR>
-nnoremap <leader>r :set relativenumber!<CR>
 vnoremap <leader>c "+y
 vnoremap <leader>x "+x
 noremap <leader>p "+p
@@ -114,73 +125,31 @@ noremap <leader>ep :tabnew<CR>:edit $HOME/vimfiles/plugged.vim<CR>
 noremap <expr> <leader>es ":vsplit $HOME/vimfiles/ftplugin/" . &filetype . "/" . &filetype . ".xpt.vim<CR>"
 noremap <leader>/ :call functions#ToggleComment()<CR>
 nnoremap <leader>R :QuickRun<CR>
+vnoremap <leader>R :QuickRun<CR>
 nnoremap <leader>QQ :qa!<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-l> <right>
 inoremap <S-Return>	<C-o>A
 inoremap <C-Return> <C-o>o
 inoremap <C-BS> <Esc>diwa
-nnoremap <leader>al :ALELint<CR>
-nnoremap <leader>an :ALENext<CR>
-noremap <leader>ap :ALEPrevious<CR>
+nnoremap <leader>al :ALELint<CR><C-l>
+nnoremap <leader>an :ALENext<CR><C-l>
+noremap <leader>ap :ALEPrevious<CR><C-l>
 vnoremap <leader>be c<c-r>=system('b64enc -e ' . &fenc, @")<cr><esc>
 vnoremap <leader>bd c<c-r>=system('b64dec -e ' . &fenc, @")<cr><esc>
 noremap <C-Left> :bprev<CR>
 noremap <C-Right> :bnext<CR>
+nnoremap - :Fern . -toggle -drawer<CR>
+inoremap <silent><expr> <tab> pumvisible() ? coc#_select_confirm()
+			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nmap <leader>gd <Plug>(coc-definitions)
+nmap <leader>gr <Plug>(coc-references)
+nnoremap <C-p> :Files<CR>
+nmap <leader>ob <Plug>(openbrowser-open)
 "}}}2
 
 "{{{2 Setup Statusline & Tabline
-let g:currentmode={
-    \ 'n'  : 'Normal',
-    \ 'no' : 'Normal·Operator Pending',
-    \ 'v'  : 'Visual',
-    \ 'V'  : 'V·Line',
-    \ '^V' : 'V·Block',
-    \ 's'  : 'Select',
-    \ 'S'  : 'S·Line',
-    \ '^S' : 'S·Block',
-    \ 'i'  : 'Insert',
-    \ 'R'  : 'Replace',
-    \ 'Rv' : 'V·Replace',
-    \ 'c'  : 'Command',
-    \ 'cv' : 'Vim Ex',
-    \ 'ce' : 'Ex',
-    \ 'r'  : 'Prompt',
-    \ 'rm' : 'More',
-    \ 'r?' : 'Confirm',
-    \ '!'  : 'Shell',
-    \ 't'  : 'Terminal'
-    \}
-
-set statusline=
-set statusline+=%1*\ %{toupper(g:currentmode[mode()])}\  " The current mode
-set statusline+=\ %{functions#GitBranch()}\  
-set statusline+=\ %{functions#ALEErrors()}
-set statusline+=%{functions#ALEWarnings()}
-set statusline+=\ %{functions#SpellCheck()}\ 
-" set statusline+=\ %<%F%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
-set statusline+=%=                                       " Right Side
-set statusline+=\ Ln\ %l,\ Col\ %v\                   " Line, Column
-set statusline+=\ Spaces:\ %{&tabstop}\                  " Spaces
-set statusline+=\ %{''.toupper(&fenc!=''?&fenc:&enc).''}\    " Encoding
-set statusline+=\ %{(&ff==#'dos'?'CRLF':&ff==#'unix'?'LF':&ff==#'mac'?'CR':&ff)}\ 
-set statusline+=\ %Y\                                 " FileType
-set statusline+=\ %{functions#FileSize()}\ 
-set statusline+=%{(&readonly?'':'\ ')}\ 
-set statusline+=%{(&modified?'●':'\ ')}\ 
-
-" hi User1 ctermfg=007 ctermbg=239 guibg=#6D2B7B guifg=#ffffff
-" hi User1 ctermfg=007 ctermbg=239 guibg=#cfd4d9 guifg=#51575e
-hi User1 ctermfg=007 ctermbg=236 guibg=#007acc guifg=#ffffff
-" hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
-" hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
-
-" set statusline=%!Statusline()
-" set statusline=
-" set statusline+=%#DiffText#\ %{Mode_Label()}
-" set statusline+=%#PmenuSel#
-" set statusline+=\ %{functions#FileSize()} 
-" set statusline+=\ %{Git_Branch()}
+call functions#Statusline()
 "}}}
 
 "{{{2 Commands
@@ -206,62 +175,42 @@ command! SepiaMode colorscheme nofrils-sepia
 "{{{2 Auto Commands
 if has("autocmd")
 	autocmd GUIEnter * call functions#SetupCanvas()
+	autocmd ColorScheme * call functions#Statusline()
 	filetype on
 	filetype plugin indent on
-	set omnifunc=syntaxcomplete#Complete
+	" set omnifunc=syntaxcomplete#Complete
 	augroup VIM
 		autocmd!
-		autocmd FileType vim 
-					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
-					\ number expandtab autoindent
 		autocmd FileType vim let b:comment_leader="\" "
 	augroup END
 	augroup AHK
 		autocmd!
-		autocmd FileType autohotkey
-					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
-					\ number noexpandtab autoindent textwidth=80
-					\ fileencoding=utf-8
-					\ commentstring=;%s
+		autocmd FileType autohotkey setlocal fileencoding=utf-8 commentstring=;%s
 		autocmd FileType autohotkey let b:comment_leader="; "
 		autocmd FileType autohotkey let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
 		" autocmd FileType autohotkey RainbowParentheses
-	augroup GROOVY
+	augroup JVM
 		autocmd!
-		autocmd FileType groovy,java,scala
-					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
-					\ number noexpandtab autoindent textwidth=80
-					\ commentstring=//%s
-		autocmd FileType groovy let b:comment_leader="// "
-		autocmd FileType groovy let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
+		autocmd FileType groovy,java,scala,kotlin setlocal commentstring=//%s
+		autocmd FileType groovy,java,scals,kotlin let b:comment_leader="// "
+		autocmd FileType groovy,java let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'"}
 		" autocmd FileType groovy RainbowParentheses
 	augroup BAT
 		autocmd!
-		autocmd FileType dosbatch
-					\ setlocal tabstop=4 shiftwidth=4 softtabstop=4
-					\ number noexpandtab autoindent
-					\ textwidth=80
 		autocmd FileType dosbatch let b:comment_leader=":: "
 	augroup END
 	augroup LDIF
 		autocmd!
-		autocmd FileType ldif
-					\ setlocal number autoindent textwidth=76 wrap
-					\ commentstring=#%s
+		autocmd FileType ldif setlocal textwidth=76 wrap commentstring=#%s
 	augroup END
 	augroup LUA
 		autocmd!
-		autocmd FileType lua
-					\ setlocal number autoindent noexpandtab textwidth=80
-					\ tabstop=4 shiftwidth=4 softtabstop=4
 		autocmd FileType lua let b:comment_leader="-- "
 	augroup END
 	augroup WEB
 		autocmd!
-		autocmd FileType css,scss,sass,html,json,yaml
+		autocmd FileType css,scss,sass,html,json,jsp,yaml
 					\ setlocal tabstop=2 shiftwidth=2 softtabstop=2
-					\ noexpandtab number autoindent
-					\ textwidth=80
 	augroup END
 	augroup MARKDOWN
 		autocmd!
@@ -271,7 +220,6 @@ if has("autocmd")
 		autocmd!
 		autocmd FileType puml,plantuml
 					\ setlocal tabstop=2 shiftwidth=2 softtabstop=2
-					\ noexpandtab number autoindent
 		autocmd FileType puml,plantuml let b:comment_leader="' "
 		autocmd FileType puml,plantuml let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"'}
 	augroup END
@@ -286,25 +234,26 @@ if has("autocmd")
 	augroup HASKELL
 		autocmd!
 		autocmd FileType haskell,lhaskell
-					\ setlocal number autoindent expandtab textwidth=80
-					\ tabstop=4 shiftwidth=4 softtabstop=0 smarttab
-					\ nocindent
+					\ setlocal textwidth=80 softtabstop=0 smarttab nocindent
 		autocmd FileType haskell let b:comment_leader="-- "
+	augroup END
+	augroup YAML
+		autocmd!
+		autocmd FileType yaml
+					\ setlocal tabstop=2 shiftwidth=2	
+		autocmd FileType yaml let b:comment_leader="# "
 	augroup END
 	augroup XPT.VIM
 		autocmd!
-		autocmd FileType xpt.vim let  b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'", '`':'^'}
+		autocmd FileType xpt.vim let b:AutoPairs = {'(':')', '[':']', '{':'}', '"':'"', "'":"'", '`':'^'}
 	augroup END
-	" autocmd FileType * if(&textwidth != 0)
-				" \ |		let &colorcolumn=&textwidth+1
-				" \ | endif
-	" augroup ProjectDrawer
-		" autocmd!
-		" autocmd VimEnter * :Vexplore
-	" augroup END
+	augroup my-glyph-palette
+	  autocmd! *
+	  autocmd FileType fern call glyph_palette#apply()
+	  " autocmd FileType nerdtree,startify call glyph_palette#apply()
+	augroup END
 endif
 "}}}2
-
 
 " Show syntax highlighting groups for word under cursor
 function! <SID>SynStack()
@@ -386,6 +335,7 @@ let g:ale_xml_xmllint_executable = "C:/opt/bin/xmllint.exe"
 let g:ale_xml_xmlstarlet_executable = "C:/opt/bin/xml.exe"
 let g:ale_autohotkey_ahklint_executable = "C:/opt/bin/ahklint.exe"
 let g:ale_ldif_ldiflint_executable = "C:/opt/bin/ldiflint.exe"
+let g:ale_yaml_yamllint_executable = "C:/Users/srp/AppData/Roaming/Python/Python39/Scripts/yamllint.exe"
 "}}}2
 
 "{{{2 vim-jsx-pretty
@@ -415,11 +365,28 @@ let g:quickrun_config.markdown = {
 			\ 'outputter': 'browser', }
 let g:quickrun_config.autohotkey = {
 			\ 'exec': 'ahk c q %{expand("%")}' }
+let g:quickrun_config.groovy = {
+			\ 'command' : 'groovy'
+			\, 'cmdopt' : '' }
 "}}}
-"}}}1
+
+"{{{2 Fern
+let g:fern#renderer = "nerdfont"
+"}}}
+
+"{{{2 vim-lsc
+" let g:lsc_server_commands = {'java': 'c:/var/lsp/java-language-server/dist/lang_server_windows.cmd'}
+"}}}
  
+"{{{2 Hexokinase
 let g:Hexokinase_highlighters = [ 'sign_column' ]
 let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript', 'text', 'vim', 'colortemplate']
+"}}}
+
+"{{{2
+let g:fzf_preview_window = []
+"}}}
+"}}}1
 
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb
 " vim:fdm=marker

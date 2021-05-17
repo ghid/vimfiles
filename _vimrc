@@ -28,9 +28,10 @@ set encoding=utf-8
 set formatoptions-=o
 " set guifont=Victor_Mono_Medium:h16:W500:cANSI:qDRAFT
 " set guifont=VictorMono_Nerd_Font_Mono:h16:W600:cANSI:qDRAFT
-set guicursor=i:block
+set guicursor=i-v-n:block-blinkon0
 " set guifont=CaskaydiaCove_Nerd_Font_Mono:h14:cANSI:qDRAFT
 set guifont=Cascadia_Code_iCursive_Cg:h15:cANSI:qDRAFT
+" set guifont=Fira_Code_iCursive_S12:h15:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set hidden
@@ -90,7 +91,8 @@ set undodir=$HOME/vimfiles/undodir
 " let g_netrw_altv = 1
 " let g:netrw_winsize = 25
 " let g:netrw_keepdir = 0
-let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
+" let g:netrw_scp_cmd='C:\"Program Files"\PuTTY\pscp.exe -q'
+let g:netrw_scp_cmd='C:/msys64/mingw64/bin/pscp.exe -q'
 let g:netrw_silent=1
 "}}}
 
@@ -144,7 +146,7 @@ inoremap <silent><expr> <tab> pumvisible() ? coc#_select_confirm()
 			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <leader>gd <Plug>(coc-definitions)
 nmap <leader>gr <Plug>(coc-references)
-nnoremap <C-p> :Files<CR>
+nnoremap <C-p> :Files!<CR>
 nmap <leader>ob <Plug>(openbrowser-open)
 "}}}2
 
@@ -368,6 +370,8 @@ let g:quickrun_config.autohotkey = {
 let g:quickrun_config.groovy = {
 			\ 'command' : 'groovy'
 			\, 'cmdopt' : '' }
+let g:quickrun_config.ballerina = {
+			\ 'exec' : 'c:/opt/ballerina/bin/bal.bat run %{expand("%")}' }
 "}}}
 
 "{{{2 Fern
@@ -383,8 +387,13 @@ let g:Hexokinase_highlighters = [ 'sign_column' ]
 let g:Hexokinase_ftEnabled = ['css', 'html', 'javascript', 'text', 'vim', 'colortemplate']
 "}}}
 
-"{{{2
+"{{{2 FZF
 let g:fzf_preview_window = []
+"}}}
+
+"{{{2 Python-Syntax
+let g:python_highlight_string_formatting=1
+let g:python_highlight_string_format=1
 "}}}
 "}}}1
 

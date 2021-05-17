@@ -10,6 +10,7 @@ Plug 'cideM/yui'
 Plug 'pgdouyon/vim-yin-yang'
 " Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
+Plug 'cseelus/vim-colors-tone'
 
 Plug 'dense-analysis/ale'
 " Plug 'ctrlpvim/ctrlp.vim'
@@ -25,6 +26,9 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'jceb/vim-orgmode'
 Plug 'inkarkat/vim-SyntaxRange', { 'for': 'org' }
 Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'lankavitharana/ballerina-vim'
+Plug 'vim-python/python-syntax'
+Plug 'neoclide/jsonc.vim', { 'for': 'jsonc' }
 Plug 'vim-scripts/Align', { 'on': ['Align', 'AlignCtrl'] }
 " Plug 'pangloss/vim-javascript'
 " Plug 'mxw/vim-jsx'
@@ -38,8 +42,8 @@ Plug 'junegunn/goyo.vim'
 Plug 'drmingdrmer/xptemplate'
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 " Plug 'Marzipanzerfaust/vim-indent-ahk'
-Plug 'thinca/vim-quickrun', { 'for': ['gradle', 'go', 'groovy', 'haskell', 'java', 
-            \ 'javascript', 'kotlin', 'markdown', 'plantuml', 'scala',
+Plug 'thinca/vim-quickrun', { 'for': ['ballerina', 'gradle', 'go', 'groovy', 'haskell', 'java', 
+            \ 'javascript', 'kotlin', 'markdown', 'plantuml', 'ps1', 'scala',
             \ 'autohotkey', 'python', 'vim'] }
 Plug 'tyru/open-browser.vim', { 'for': ['json', 'markdown', 'plantuml', 'org', 'groovy'] }
 Plug 'aklt/plantuml-syntax', { 'for': 'plantuml' }

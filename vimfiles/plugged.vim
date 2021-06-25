@@ -13,7 +13,7 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'cseelus/vim-colors-tone'
 
 Plug 'dense-analysis/ale'
-" Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'mattn/emmet-vim'
 Plug 'lifepillar/vim-colortemplate'
@@ -57,8 +57,8 @@ Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'sainnhe/artify.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'dbeniamine/cheat.sh-vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
 
 " Plug 'mattn/vim-metarw-webdav'
 " Plug 'kana/vim-metarw'

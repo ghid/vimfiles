@@ -30,12 +30,11 @@ set formatoptions-=o
 " set guifont=VictorMono_Nerd_Font_Mono:h16:W600:cANSI:qDRAFT
 set guicursor=i-v-n:block-blinkon0
 " set guifont=CaskaydiaCove_Nerd_Font_Mono:h14:cANSI:qDRAFT
-set guifont=Cascadia_Code_iCursive_Cg:h15:cANSI:qDRAFT
+set guifont=Cascadia_Code_iCursive_Cg:h14:cANSI:qDRAFT
 " set guifont=Fira_Code_iCursive_S12:h15:cANSI:qDRAFT
 set guioptions=-TMrL
 set guioptions=c
 set hidden
-set nohlsearch
 set incsearch
 set langmenu=en_US.UTF-8
 set laststatus=2
@@ -132,6 +131,7 @@ nnoremap <leader>QQ :qa!<CR>
 nnoremap <silent> <leader>ml :call functions#AppendModeline()<CR>
 inoremap <C-l> <right>
 inoremap <S-Return>	<C-o>A
+nnoremap <S-Return> A
 inoremap <C-Return> <C-o>o
 inoremap <C-BS> <Esc>diwa
 nnoremap <leader>al :ALELint<CR><C-l>
@@ -366,7 +366,8 @@ let g:quickrun_config.markdown = {
 			\ 'cmdopt': '',
 			\ 'outputter': 'browser', }
 let g:quickrun_config.autohotkey = {
-			\ 'exec': 'ahk c q %{expand("%")}' }
+			\ 'exec': 'ahk c q -a %{expand("%")}',
+			\ 'outputter/buffer/opener': 'new' }
 let g:quickrun_config.groovy = {
 			\ 'command' : 'groovy'
 			\, 'cmdopt' : '' }

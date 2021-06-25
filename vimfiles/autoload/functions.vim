@@ -112,9 +112,7 @@ function! functions#Statusline()
 	set statusline=
 	set statusline+=\ %{toupper(g:currentmode[mode()])}\  " The current mode
 	set statusline+=%1*\ %{functions#GitBranch()}\  
-	set statusline+=\ %{functions#ALEErrors()}
-	set statusline+=%{functions#ALEWarnings()}
-	set statusline+=%{functions#ALEInfos()}
+	set statusline+=\ %{functions#DiagnosticStatus()}
 	set statusline+=\ %{functions#SpellCheck()}\ 
 	set statusline+=%=                                       " Right Side
 	set statusline+=\ Ln\ %l,\ Col\ %v\                   " Line, Column
@@ -228,61 +226,30 @@ function! functions#SpellCheck()
 	return &spell ? '⌕ ' . &spelllang.''  : ''
 endfunction
 
-function! functions#ALEState()
-	let aleState = ''
-	if len(ale#linter#Get(&filetype)) > 0
-		let aleErrors = ale#statusline#Count(bufnr("%"))["error"]
-		let aleWarnings = ale#statusline#Count(bufnr("%"))["warning"]
-		let aleInfos = ale#statusline#Count(bufnr("%"))["info"]
-		let aleTotal = ale#statusline#Count(bufnr("%"))["total"]
-		if ale#statusline#Count(bufnr("%"))["total"] > 0
-			if aleErrors > 0
-				let aleState .= '%#CrystallineError#•' . aleErrors
-				let aleState .= ' '
-			endif
-			if aleWarnings > 0
-				let aleState .= '%#CrystallineWarn#•' . aleWarnings
-				let aleState .= ' '
-			endif
-			if aleInfos > 0
-				let aleState .= '%#CrystallineInfo#•' . aleInfos
-				let aleState .= ' '
-			endif
-		else
-			let aleState .= '%#CrystallineOk#•' . aleTotal
-			let aleState .= ' '
-		endif
+function! functions#DiagnosticStatus() abort
+	let errors = 0
+	let warnings = 0
+	let infos = 0
+	let hints = 0
+	let info = get(b:, 'coc_diagnostic_info', {})
+	if empty(info) | return '' | endif
+	if !empty(info)
+		let errors += info['error']
+		let warnings += info['warning']
+		let infos += info['information']
+		let hints += info['hint']
 	endif
-	return aleState
-endfunction
-
-function! functions#ALEOk()
-	if len(ale#linter#Get(&filetype)) > 0
-		return " 🗸 " . ale#statusline#Count(bufnr("%"))["total"] . " "
-	else
-		return ''
+	if exists("*ale#linter#Get")
+		let errors += ale#statusline#Count(bufnr("%"))["error"]
+		let warnings += ale#statusline#Count(bufnr("%"))["warning"]
+		let infos += ale#statusline#Count(bufnr("%"))["info"]
 	endif
+	let msgs = []
+	if errors > 0 | call add(msgs, 'E: ' . errors) | endif
+	if warnings > 0 | call add(msgs, 'W: ' . warnings) | endif
+	if infos > 0 | call add(msgs, 'I: ' . infos) | endif
+	if hints > 0 | call add(msgs, 'H: ' . hints) | endif
+	return join(msgs, ' ')
 endfunction
 
-function! functions#ALEInfos()
-	return len(ale#linter#Get(&filetype))
-				\ ? "(i): " . ale#statusline#Count(bufnr("%"))["info"] . " "
-				\ : ""
-endfunction
-
-function! functions#ALEWarnings()
-	return len(ale#linter#Get(&filetype))
-				\ ? "(!): " . ale#statusline#Count(bufnr("%"))["warning"] . " "
-				\ : ""
-endfunction
-
-function! functions#ALECount()
-	return ale#statusline#Count(bufnr("%"))["warning"] + ale#statusline#Count(bufnr("%"))["error"]
-endfunction
-
-function! functions#ALEErrors()
-	return len(ale#linter#Get(&filetype))
-				\ ? "(×): " . ale#statusline#Count(bufnr("%"))["error"] . " "
-				\ : ""
-endfunction️
 " vim:tw=78:ts=4:sts=4:sw=4:noet:ft=vim:nobomb

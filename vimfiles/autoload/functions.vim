@@ -232,7 +232,6 @@ function! functions#DiagnosticStatus() abort
 	let infos = 0
 	let hints = 0
 	let info = get(b:, 'coc_diagnostic_info', {})
-	if empty(info) | return '' | endif
 	if !empty(info)
 		let errors += info['error']
 		let warnings += info['warning']

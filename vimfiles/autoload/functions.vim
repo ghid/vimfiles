@@ -32,7 +32,7 @@ if !exists("*MyDiff")
 endif
 
 function! functions#SetupCanvas()
-	call SetMyWinPos()
+	if exists("*SetMyWinPos") | call SetMyWinPos() | endif
 endfunction
 
 function! functions#TweakHighlights()

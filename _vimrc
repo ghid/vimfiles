@@ -54,7 +54,7 @@ set showbreak=●
 set showtabline=2
 set smartindent
 set wildignore+=NTUSER.DAT*,.git/**,node_modules/**
-source $HOME/vimfiles/$MYVIMPROFILE
+if filereadable($HOME . "/vimfiles/" . $MYVIMPROFILE) | source $HOME/vimfiles/$MYVIMPROFILE | endif
 "}}}2
 
 "{{{2 Customize Colorscheme
